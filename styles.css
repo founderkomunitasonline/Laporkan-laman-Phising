@@ -569,3 +569,24 @@ body {
 .app-shell {
   z-index: 2 !important;
 }
+/* =========================================================
+   BASMI PHISING — REPORT CENTER
+   ========================================================= */
+.page-nav{display:flex;justify-content:center;align-items:center;gap:8px;margin:0 0 12px;padding:8px;border:1px solid #17334b;border-radius:12px;background:#071321cc;position:relative;z-index:3}
+.page-nav a{text-decoration:none;color:#8fa9bd;padding:9px 16px;border-radius:8px;font-size:10px;font-weight:900;letter-spacing:1px;transition:.18s}
+.page-nav a:hover,.page-nav a.active{color:#eaffff;background:#0b3850;box-shadow:0 0 16px #00cfff22}
+.report-tabs{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:12px}
+.report-tab{border:1px solid #174a6b;background:#071321;color:#8fa9bd}
+.report-tab.active{background:linear-gradient(90deg,#0aaee8,#26d8ff);color:#02111a}
+.report-panel{display:none}.report-panel.active{display:block}
+.report-preview{width:100%;min-height:430px;resize:vertical;border:1px solid #174a6b;border-radius:9px;background:#020b15;color:#e7f7ff;padding:14px;font:11px/1.7 Consolas,monospace;outline:none}
+.report-preview:focus{border-color:#00bfe8;box-shadow:0 0 0 2px #00bfe822}
+.report-info{display:flex;justify-content:space-between;gap:10px;margin:0 2px 8px;color:#70869a;font-size:9px}
+.report-actions{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-top:10px}
+.report-list{display:grid;gap:7px;margin-top:10px}
+.report-url-row{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:9px 10px;border:1px solid #163b57;border-radius:8px;background:#061321}
+.report-url-row code{color:#9db2c5;font:10px Consolas,monospace;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.report-count{color:#63efbd;font-size:9px;font-weight:800;white-space:nowrap}
+.report-empty{padding:24px 12px;border:1px dashed #21465f;border-radius:10px;color:#6f879b;text-align:center;font-size:10px}
+.notice{margin-top:10px;padding:10px;border-left:3px solid #00cfff;color:#7893a8;background:#08131f;font-size:8px;line-height:1.7}
+@media(max-width:700px){.page-nav a{flex:1;text-align:center;padding:9px 8px}.report-tabs,.report-actions{grid-template-columns:1fr}.report-url-row{align-items:flex-start;flex-direction:column}.report-url-row code{white-space:normal;word-break:break-all}}
