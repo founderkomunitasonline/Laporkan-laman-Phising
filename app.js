@@ -1,129 +1,177 @@
-const REPORT_BASE = "https://safebrowsing.google.com/safebrowsing/report_phish/?hl=id&url=";
+/*
+  BASMI PHISING — app-detail.js
+  Fungsi tambahan untuk menampilkan detail laporan.
+*/
 
-const $ = (id) => document.getElementById(id);
-const urlInput = $("urlInput");
-const detailInput = $("detailInput");
-const queue = $("queue");
+(function () {
+  "use strict";
 
-let reports = [];
+  const detailInput = document.getElementById("detailInput");
+  const processBtn = document.getElementById("processBtn");
+  const queue = document.getElementById("queue");
 
-function cleanUrls(text){
-  const lines = text.split(/\r?\n/).map(v => v.trim()).filter(Boolean);
-  const unique = [...new Set(lines)];
-  return unique.slice(0,100);
-}
-
-function validUrl(value){
-  try{
-    const u = new URL(value);
-    return u.protocol === "http:" || u.protocol === "https:";
-  }catch{
-    return false;
+  if (!detailInput || !processBtn || !queue) {
+    console.warn("app-detail.js: elemen dashboard tidak ditemukan.");
+    return;
   }
-}
 
-function reportUrl(url){
-  return REPORT_BASE + encodeURIComponent(url);
-}
+  function getDetail() {
+    return detailInput.value.trim();
+  }
 
-function updateStats(){
-  $("totalUrl").textContent = reports.length;
-  $("validUrl").textContent = reports.filter(x => x.valid).length;
-  $("invalidUrl").textContent = reports.filter(x => !x.valid).length;
-  $("openedUrl").textContent = reports.filter(x => x.opened).length;
-  $("allCount").textContent = `${reports.length} URL`;
-}
+  function makeDetailLine(text) {
+    const line = document.createElement("div");
 
-function render(){
-  queue.innerHTML = "";
+    line.className = "detail-line app-detail-extra";
+    line.textContent = "Detail: " + (text || "-");
 
-  reports.forEach((item,index)=>{
-    const row = document.createElement("div");
-    row.className = "item";
+    return line;
+  }
 
-    const num = document.createElement("div");
-    num.className = "num";
-    num.textContent = index + 1;
+  function makeCopyButton(text) {
+    const button = document.createElement("button");
 
-    const info = document.createElement("div");
-    const url = document.createElement("div");
-    url.className = "url";
-    url.textContent = item.url;
-    const detail = document.createElement("div");
-    detail.className = "detail-line";
-    detail.textContent = `Detail: ${item.detail || "-"}`;
-    info.append(url,detail);
+    button.type = "button";
+    button.className = "copy app-detail-copy";
+    button.textContent = "SALIN DETAIL";
 
-    const actions = document.createElement("div");
-    actions.className = "item-actions";
+    button.addEventListener("click", async function (event) {
+      event.stopPropagation();
 
-    const copy = document.createElement("button");
-    copy.className = "copy";
-    copy.textContent = "SALIN DETAIL";
-    copy.onclick = async () => {
-      await navigator.clipboard.writeText(item.detail || "");
-      copy.textContent = "TERSALIN";
-      setTimeout(()=>copy.textContent="SALIN DETAIL",1200);
-    };
+      try {
+        await navigator.clipboard.writeText(text || "");
 
-    const open = document.createElement("button");
-    open.className = item.opened ? "opened" : "open";
-    open.textContent = item.opened ? "✓ SUDAH DIBUKA" : "BUKA LAPORAN";
-    open.onclick = () => {
-      window.open(reportUrl(item.url), "_blank", "noopener,noreferrer");
-      item.opened = true;
-      render();
-      updateStats();
-    };
+        button.textContent = "TERSALIN ✓";
 
-    actions.append(copy,open);
-    row.append(num,info,actions);
-    queue.appendChild(row);
-  });
+        setTimeout(function () {
+          button.textContent = "SALIN DETAIL";
+        }, 1200);
 
-  $("openAllBtn").disabled = reports.length === 0;
-  $("openAllBtn").textContent = reports.length ? "↗ BUKA SEMUA" : "↗ BUKA SEMUA";
-  updateStats();
-}
+      } catch (error) {
+        const area = document.createElement("textarea");
 
-$("processBtn").onclick = () => {
-  const urls = cleanUrls(urlInput.value);
-  const detail = detailInput.value.trim();
+        area.value = text || "";
+        document.body.appendChild(area);
 
-  reports = urls.map(url => ({
-    url,
-    detail,
-    valid: validUrl(url),
-    opened:false
-  }));
+        area.select();
+        document.execCommand("copy");
 
-  render();
-};
+        area.remove();
 
-$("clearBtn").onclick = () => {
-  urlInput.value = "";
-  detailInput.value = "";
-  reports = [];
-  $("detailCount").textContent = "0";
-  render();
-};
+        button.textContent = "TERSALIN ✓";
 
-detailInput.addEventListener("input",()=>{
-  $("detailCount").textContent = detailInput.value.length;
-});
-
-$("openAllBtn").onclick = () => {
-  // Browser dapat memblokir sebagian popup jika terlalu banyak tab dibuka.
-  // Tombol satu-per-satu tetap tersedia sebagai cara yang paling stabil.
-  reports.forEach((item,index)=>{
-    setTimeout(()=>{
-      const win = window.open(reportUrl(item.url), "_blank");
-      if(win) item.opened = true;
-      if(index === reports.length - 1){
-        render();
+        setTimeout(function () {
+          button.textContent = "SALIN DETAIL";
+        }, 1200);
       }
-    }, index * 180);
-  });
-};
+    });
 
-render();
+    return button;
+  }
+
+  function updateRows() {
+    const detail = getDetail();
+    const rows = queue.querySelectorAll(".item");
+
+    rows.forEach(function (row) {
+
+      const info = row.children[1];
+      const actions = row.querySelector(".item-actions");
+
+      if (!info) return;
+
+      /*
+       * Hapus detail lama supaya tidak menggandakan
+       * ketika daftar URL diperbarui.
+       */
+
+      const oldDetail = info.querySelector(".app-detail-extra");
+
+      if (oldDetail) {
+        oldDetail.remove();
+      }
+
+      /*
+       * Tambahkan detail laporan.
+       */
+
+      info.appendChild(
+        makeDetailLine(detail)
+      );
+
+      /*
+       * Tambahkan tombol salin detail
+       * jika bagian tombol tersedia.
+       */
+
+      if (actions) {
+
+        const oldCopy =
+          actions.querySelector(".app-detail-copy");
+
+        if (oldCopy) {
+          oldCopy.remove();
+        }
+
+        actions.insertBefore(
+          makeCopyButton(detail),
+          actions.firstChild
+        );
+      }
+    });
+  }
+
+  /*
+   * Setelah tombol PROSES URL ditekan,
+   * tunggu app.js selesai membuat daftar URL.
+   */
+
+  processBtn.addEventListener("click", function () {
+
+    setTimeout(function () {
+      updateRows();
+    }, 100);
+
+    setTimeout(function () {
+      updateRows();
+    }, 500);
+
+  });
+
+  /*
+   * Pantau perubahan daftar URL.
+   * Ini membuat detail tetap muncul walaupun
+   * app.js menggambar ulang daftar.
+   */
+
+  const observer = new MutationObserver(function () {
+
+    if (queue.children.length > 0) {
+
+      setTimeout(function () {
+        updateRows();
+      }, 0);
+
+    }
+
+  });
+
+  observer.observe(queue, {
+    childList: true,
+    subtree: true
+  });
+
+  /*
+   * Kalau detail laporan diubah,
+   * semua item ikut diperbarui.
+   */
+
+  detailInput.addEventListener("input", function () {
+
+    setTimeout(function () {
+      updateRows();
+    }, 0);
+
+  });
+
+})();
