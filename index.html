@@ -368,6 +368,30 @@ button{
   box-shadow:0 0 18px rgba(20,123,234,.4);
 }
 
+.item-actions{
+  display:flex;
+  gap:8px;
+  flex-shrink:0;
+}
+
+.copy-detail{
+  min-width:125px;
+  height:36px;
+  background:#1d2a3b;
+  color:#d9e7f5;
+  border:1px solid rgba(120,160,200,.25);
+}
+
+.copy-detail:hover{
+  background:#263a52;
+  border-color:rgba(120,190,255,.45);
+}
+
+.copy-detail.copied{
+  background:linear-gradient(90deg,#16875a,#26c985);
+  color:#fff;
+}
+
 .open.opened{
   background:linear-gradient(90deg,#16875a,#26c985);
   box-shadow:0 0 18px rgba(38,201,133,.25);
@@ -431,6 +455,8 @@ button{
     white-space:normal;
     overflow-wrap:anywhere;
   }
+  .item-actions{width:100%}
+  .item-actions button{flex:1;min-width:0}
   .open{min-width:105px}
   .open-all{min-width:105px}
 }
@@ -575,7 +601,7 @@ function getUniqueUrls(){
   const uniqueUrls = [];
 
   const rawUrls = textarea.value
-    .split(/\\r?\\n/)
+    .split(/\r?\n/)
     .map(x => x.trim())
     .filter(x => x !== "");
 
@@ -737,6 +763,17 @@ document.getElementById("process").addEventListener(
       */
       const allUrls = urls.join("\n");
 
+      /*
+        Detail yang sama digunakan untuk seluruh laporan.
+        Salin terlebih dahulu agar bisa langsung ditempel
+        ke kolom Detail tambahan pada Google.
+      */
+      try{
+        navigator.clipboard.writeText(detail);
+      }catch{
+        /* Tidak menghentikan proses bila clipboard diblokir browser. */
+      }
+
       const reportUrl =
         "https://safebrowsing.google.com/safebrowsing/report_phish/?hl=id&url="
         + encodeURIComponent(allUrls);
@@ -802,6 +839,50 @@ document.getElementById("process").addEventListener(
       open.textContent = "BUKA LAPORAN";
       individualButtons.push(open);
 
+      const copy = document.createElement("button");
+      copy.className = "copy-detail";
+      copy.textContent = "SALIN DETAIL";
+
+      async function copyReportDetail(){
+        try{
+          await navigator.clipboard.writeText(detail);
+          copy.classList.add("copied");
+          copy.textContent = "✓ TERSALIN";
+
+          setTimeout(function(){
+            copy.classList.remove("copied");
+            copy.textContent = "SALIN DETAIL";
+          }, 1800);
+
+        }catch{
+          /* Fallback untuk browser yang tidak memberi akses Clipboard API */
+          const helper = document.createElement("textarea");
+          helper.value = detail;
+          helper.style.position = "fixed";
+          helper.style.opacity = "0";
+          document.body.appendChild(helper);
+          helper.focus();
+          helper.select();
+
+          try{
+            document.execCommand("copy");
+            copy.classList.add("copied");
+            copy.textContent = "✓ TERSALIN";
+          }catch{
+            alert("Detail tidak dapat disalin otomatis. Silakan salin manual: " + detail);
+          }
+
+          document.body.removeChild(helper);
+
+          setTimeout(function(){
+            copy.classList.remove("copied");
+            copy.textContent = "SALIN DETAIL";
+          }, 1800);
+        }
+      }
+
+      copy.addEventListener("click", copyReportDetail);
+
       open.addEventListener("click",function(){
 
         if(!isValidUrl(url)){
@@ -816,10 +897,12 @@ document.getElementById("process").addEventListener(
         }
 
         /*
-          Parameter resmi yang digunakan di sini adalah URL
-          halaman yang akan dilaporkan. Detail laporan tetap
-          tersedia di dashboard sebagai referensi pengguna.
+          Membuka laporan untuk URL ini saja.
+          Detail laporan disalin agar bisa langsung ditempel
+          ke kolom "Detail tambahan" di Google Safe Browsing.
         */
+        copyReportDetail();
+
         const reportUrl =
           "https://safebrowsing.google.com/safebrowsing/report_phish/?hl=id&url="
           + encodeURIComponent(url);
@@ -848,9 +931,14 @@ document.getElementById("process").addEventListener(
       content.appendChild(urlText);
       content.appendChild(detailText);
 
+      const itemActions = document.createElement("div");
+      itemActions.className = "item-actions";
+      itemActions.appendChild(copy);
+      itemActions.appendChild(open);
+
       item.appendChild(number);
       item.appendChild(content);
-      item.appendChild(open);
+      item.appendChild(itemActions);
 
       queue.appendChild(item);
 
