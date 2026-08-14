@@ -1,39 +1,6 @@
 const REPORT_BASE = "https://safebrowsing.google.com/safebrowsing/report_phish/?hl=id&url=";
 
 const $ = (id) => document.getElementById(id);
-// ===============================
-// MEMORI DETAIL LAPORAN
-// ===============================
-const DETAIL_MEMORY_KEY = "basmi_phising_detail";
-
-const DEFAULT_DETAIL =
-  "URL ini diduga terkait aktivitas phishing yang berpotensi menipu pengguna atau mengumpulkan informasi sensitif secara tidak sah. Mohon dilakukan pemeriksaan lebih lanjut.";
-
-// Ambil detail yang tersimpan
-try {
-  const savedDetail = localStorage.getItem(DETAIL_MEMORY_KEY);
-
-  if (savedDetail && savedDetail.trim()) {
-    detailTextarea.value = savedDetail;
-  } else {
-    detailTextarea.value = DEFAULT_DETAIL;
-    localStorage.setItem(DETAIL_MEMORY_KEY, DEFAULT_DETAIL);
-  }
-} catch (e) {
-  detailTextarea.value = DEFAULT_DETAIL;
-}
-
-// Simpan otomatis setiap kali detail diubah
-detailTextarea.addEventListener("input", function () {
-  try {
-    localStorage.setItem(
-      DETAIL_MEMORY_KEY,
-      detailTextarea.value
-    );
-  } catch (e) {
-    // Abaikan jika browser tidak mengizinkan localStorage
-  }
-});
 const urlInput = $("urlInput");
 const detailInput = $("detailInput");
 const queue = $("queue");
