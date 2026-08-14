@@ -373,109 +373,69 @@ section:hover,
    BASMI PHISING — BINARY RAIN
    ========================================= */
 
-body::after {
-  content:
-    "010101101001010011010110100101"
-    "101001101010010110101001011010"
-    "011010010110101001011010010110"
-    "100101101001011010100101101001"
-    "010110100101101001010110101001"
-    "101001011010010110100101101010"
-    "011010100101101001011010010101"
-    "100101101010010110100101101001";
-
+#binary-rain {
   position: fixed;
-  inset: -100px 0 0;
-  z-index: -1;
+  inset: 0;
+  z-index: 0;
   pointer-events: none;
+  overflow: hidden;
+}
 
-  width: 100%;
-  height: 120%;
+.binary-stream {
+  position: absolute;
+  top: -350px;
 
-  font-family: monospace;
+  font-family: "Courier New", monospace;
   font-size: 13px;
-  line-height: 22px;
-  letter-spacing: 10px;
-  word-break: break-all;
+  font-weight: 700;
+  line-height: 1.5;
 
-  color: rgba(0, 255, 150, 0.16);
+  white-space: pre;
+
+  color: rgba(0, 255, 150, 0.45);
+
   text-shadow:
-    0 0 5px rgba(0, 255, 150, 0.18),
-    0 0 10px rgba(0, 150, 255, 0.12);
+    0 0 5px rgba(0, 255, 150, 0.5),
+    0 0 12px rgba(0, 180, 255, 0.25);
 
-  opacity: 0.65;
-
-  white-space: pre-wrap;
-
-  animation: binaryRainFast 9s linear infinite;
+  animation-name: binaryFall;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
 }
 
-/* Lapisan kedua supaya gerakannya tidak seragam */
-body::before {
-  content:
-    "101010010110101001011010010110"
-    "010110100101101001011010100101"
-    "110010010110100101101001011010"
-    "001101010010110101001011010101"
-    "101001011010010110100101101001"
-    "010110100101101010010110100101";
+/* Biru pada sebagian aliran */
+.binary-stream:nth-child(3n) {
+  color: rgba(0, 190, 255, 0.4);
 
-  position: fixed;
-  inset: -150px 0 0;
-  z-index: -1;
-  pointer-events: none;
-
-  width: 100%;
-  height: 125%;
-
-  font-family: monospace;
-  font-size: 11px;
-  line-height: 25px;
-  letter-spacing: 14px;
-  word-break: break-all;
-
-  color: rgba(0, 170, 255, 0.13);
   text-shadow:
-    0 0 5px rgba(0, 170, 255, 0.18);
-
-  opacity: 0.55;
-
-  white-space: pre-wrap;
-
-  animation: binaryRainFast2 13s linear infinite;
+    0 0 5px rgba(0, 190, 255, 0.5),
+    0 0 12px rgba(0, 220, 255, 0.25);
 }
 
-@keyframes binaryRainFast {
-  0% {
-    transform: translateY(-18%);
-  }
-
-  100% {
-    transform: translateY(18%);
-  }
+/* Hijau lebih terang pada sebagian aliran */
+.binary-stream:nth-child(5n) {
+  color: rgba(0, 255, 120, 0.5);
 }
 
-@keyframes binaryRainFast2 {
-  0% {
-    transform: translateY(-22%);
+/* Gerakan cukup cepat */
+@keyframes binaryFall {
+  from {
+    transform: translateY(0);
   }
 
-  100% {
-    transform: translateY(22%);
+  to {
+    transform: translateY(calc(100vh + 500px));
   }
 }
 
-/* Jangan mengganggu layar kecil */
+/* Pastikan isi website tetap di depan */
+body > *:not(#binary-rain) {
+  position: relative;
+  z-index: 1;
+}
+
 @media (max-width: 700px) {
-  body::after {
+  .binary-stream {
     font-size: 10px;
-    letter-spacing: 7px;
-    opacity: 0.45;
-  }
-
-  body::before {
-    font-size: 9px;
-    letter-spacing: 9px;
-    opacity: 0.35;
   }
 }
