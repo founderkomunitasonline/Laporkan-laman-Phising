@@ -510,3 +510,62 @@ main > section:first-child {
   z-index: 0 !important;
   pointer-events: none !important;
 }
+/* =========================================
+   FINAL LAYOUT FIX
+   Dashboard langsung mulai dari atas
+   Binary rain hanya background
+   ========================================= */
+
+html,
+body {
+  margin: 0 !important;
+  padding: 0 !important;
+  min-height: 100% !important;
+}
+
+body {
+  overflow-x: hidden !important;
+}
+
+/* Dashboard utama */
+.app-shell {
+  width: min(1100px, 94%) !important;
+  margin: 8px auto 50px !important;
+  position: relative !important;
+  z-index: 2 !important;
+}
+
+/* Hero tidak boleh terdorong ke bawah */
+.hero {
+  margin-top: 0 !important;
+}
+
+/* Background ambience tetap fixed */
+.ambient {
+  position: fixed !important;
+  pointer-events: none !important;
+  z-index: 0 !important;
+}
+
+/* Binary rain selalu di belakang dashboard */
+#binary-rain {
+  position: fixed !important;
+  top: 0 !important;
+  left: 0 !important;
+  width: 100vw !important;
+  height: 100vh !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  z-index: 1 !important;
+  pointer-events: none !important;
+}
+
+/* Isi dashboard di atas binary rain */
+.app-shell,
+.app-shell * {
+  position: relative;
+}
+
+.app-shell {
+  z-index: 2 !important;
+}
