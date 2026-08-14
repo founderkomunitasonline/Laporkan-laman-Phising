@@ -39,3 +39,238 @@ button:hover{transform:translateY(-1px);filter:brightness(1.08)}
 .note{margin-top:10px;padding:10px;border-left:3px solid #e7d020;color:#6e8497;background:#08131f;font-size:8px;line-height:1.7}
 footer{text-align:right;margin-top:10px;color:#40566c;font:8px Consolas,monospace;letter-spacing:2px}
 @media(max-width:700px){.stats{grid-template-columns:repeat(2,1fr)}.stats article:last-child{grid-column:span 2}.actions{grid-template-columns:1fr}.all-row{align-items:flex-start;flex-direction:column}.item{grid-template-columns:30px 1fr}.item-actions{grid-column:2}.hero{min-height:280px}.floating-words{display:none}}
+/* =========================================
+   BASMI PHISING — FUTURISTIC ANIMATION PACK
+   Hanya visual, tidak mengubah fungsi JS
+   ========================================= */
+
+/* Smooth global */
+* {
+  scroll-behavior: smooth;
+}
+
+/* Header / Hero glow */
+.hero,
+header,
+.brand,
+.logo {
+  animation: consoleBreath 4s ease-in-out infinite;
+}
+
+/* Efek cahaya bergerak pada halaman */
+main {
+  position: relative;
+  overflow: hidden;
+}
+
+main::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background:
+    linear-gradient(
+      180deg,
+      transparent 0%,
+      rgba(0, 210, 255, 0.025) 50%,
+      transparent 100%
+    );
+  animation: scanDown 7s linear infinite;
+}
+
+/* Panel futuristic */
+section,
+.card,
+.results,
+.url-item {
+  transition:
+    transform 0.25s ease,
+    border-color 0.25s ease,
+    box-shadow 0.25s ease;
+}
+
+/* Hover kartu URL */
+.url-item:hover {
+  transform: translateY(-2px);
+  box-shadow:
+    0 0 18px rgba(0, 210, 255, 0.12),
+    inset 0 0 18px rgba(0, 210, 255, 0.025);
+}
+
+/* Tombol */
+button {
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease,
+    filter 0.2s ease;
+}
+
+button:hover {
+  transform: translateY(-1px);
+  filter: brightness(1.08);
+}
+
+button:active {
+  transform: scale(0.98);
+}
+
+/* Tombol proses */
+#processBtn {
+  animation: buttonPulse 3s ease-in-out infinite;
+}
+
+/* Status ACTIVE */
+.status,
+.badge,
+.ready,
+.security-status {
+  animation: statusPulse 2.5s ease-in-out infinite;
+}
+
+/* Angka statistik */
+.stat-value,
+.total-count,
+.valid-count,
+.invalid-count,
+.opened-count {
+  animation: numberGlow 3s ease-in-out infinite;
+}
+
+/* Garis scan */
+.scan-line {
+  animation: scanMove 3.5s linear infinite;
+}
+
+/* Orb / inti energi kalau class ini ada */
+.energy-orb,
+.core-orb,
+.orb {
+  animation:
+    orbFloat 4s ease-in-out infinite,
+    orbGlow 2.5s ease-in-out infinite;
+}
+
+/* Logo shield */
+.logo-shield,
+.shield,
+.brand-icon {
+  animation: shieldFloat 4s ease-in-out infinite;
+}
+
+/* =========================================
+   KEYFRAMES
+   ========================================= */
+
+@keyframes consoleBreath {
+  0%, 100% {
+    filter: brightness(1);
+  }
+
+  50% {
+    filter: brightness(1.08);
+  }
+}
+
+@keyframes buttonPulse {
+  0%, 100% {
+    box-shadow: 0 0 0 rgba(0, 210, 255, 0);
+  }
+
+  50% {
+    box-shadow: 0 0 18px rgba(0, 210, 255, 0.18);
+  }
+}
+
+@keyframes statusPulse {
+  0%, 100% {
+    opacity: 1;
+  }
+
+  50% {
+    opacity: 0.72;
+  }
+}
+
+@keyframes numberGlow {
+  0%, 100% {
+    text-shadow: 0 0 0 rgba(0, 210, 255, 0);
+  }
+
+  50% {
+    text-shadow: 0 0 10px rgba(0, 210, 255, 0.35);
+  }
+}
+
+@keyframes scanDown {
+  0% {
+    transform: translateY(-100%);
+  }
+
+  100% {
+    transform: translateY(100%);
+  }
+}
+
+@keyframes scanMove {
+  0% {
+    transform: translateY(-120%);
+    opacity: 0;
+  }
+
+  20% {
+    opacity: 1;
+  }
+
+  80% {
+    opacity: 1;
+  }
+
+  100% {
+    transform: translateY(120%);
+    opacity: 0;
+  }
+}
+
+@keyframes orbFloat {
+  0%, 100% {
+    transform: translateY(0) scale(1);
+  }
+
+  50% {
+    transform: translateY(-7px) scale(1.04);
+  }
+}
+
+@keyframes orbGlow {
+  0%, 100% {
+    filter: brightness(1);
+  }
+
+  50% {
+    filter: brightness(1.25);
+  }
+}
+
+@keyframes shieldFloat {
+  0%, 100% {
+    transform: translateY(0);
+  }
+
+  50% {
+    transform: translateY(-3px);
+  }
+}
+
+/* =========================================
+   REDUCED MOTION
+   ========================================= */
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    scroll-behavior: auto !important;
+  }
+}
