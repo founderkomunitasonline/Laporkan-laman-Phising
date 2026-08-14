@@ -356,57 +356,11 @@ button{
   text-overflow:ellipsis;
 }
 
-.item-detail{
-  margin-top:8px;
-  padding:9px 10px;
-  border:1px solid rgba(38,125,165,.35);
-  border-radius:8px;
-  background:rgba(3,10,19,.65);
-  color:#a9bdd0;
-  font-size:10px;
-  line-height:1.5;
-  white-space:pre-wrap;
-  overflow-wrap:anywhere;
-}
-
-.item-actions{
-  display:flex;
-  align-items:center;
-  justify-content:flex-end;
-  gap:7px;
-  flex-shrink:0;
-  min-width:230px;
-}
-
-.copy-detail{
-  min-width:100px;
-  height:36px;
-  padding:0 10px;
-  background:#152337;
-  color:#b8c8d8;
-  border:1px solid #29435f;
-  font-size:10px;
-  white-space:nowrap;
-}
-
-.copy-detail:hover{
-  background:#1c3049;
-  border-color:#3c6b8f;
-}
-
-.copy-detail.copied{
-  background:#16875a;
-  color:#fff;
-  border-color:#26c985;
-}
-
 .open{
   min-width:125px;
   height:36px;
-  padding:0 12px;
   background:#147bea;
   color:#fff;
-  white-space:nowrap;
 }
 
 .open:hover{
@@ -477,17 +431,7 @@ button{
     white-space:normal;
     overflow-wrap:anywhere;
   }
-  .item-actions{
-    width:100%;
-    min-width:0;
-    justify-content:flex-start;
-    flex-wrap:wrap;
-    margin-top:8px;
-  }
-  .copy-detail,.open{
-    min-width:120px;
-    flex:1;
-  }
+  .open{min-width:105px}
   .open-all{min-width:105px}
 }
 </style>
@@ -600,12 +544,10 @@ https://contoh4.com"></textarea>
   <div class="note">
     URL duplikat otomatis dihapus. Jika URL yang sama muncul
     beberapa kali, hanya kemunculan pertama yang digunakan.
-    Maksimal 100 URL unik diproses. Tombol pertama membuka semua
-    URL sekaligus, sedangkan setiap item di bawahnya membuka
-    laporan untuk URL tersebut saja. Detail laporan tampil pada
-    masing-masing item dan otomatis disalin ke clipboard saat
-    tombol BUKA LAPORAN ditekan, sehingga Anda dapat menempelkan
-    detail tersebut ke kolom "Detail tambahan" di Google.
+    Maksimal 100 URL unik diproses. Anda dapat membuka semua
+    laporan sekaligus melalui tombol pertama, atau melaporkan
+    URL satu per satu menggunakan tombol pada masing-masing item.
+    Detail laporan disimpan sebagai informasi pada setiap item laporan.
   </div>
 
 </div>
@@ -831,6 +773,8 @@ document.getElementById("process").addEventListener(
 
     queue.appendChild(bulkItem);
 
+    const individualButtons = [];
+
     urls.slice(0,100).forEach(function(url,index){
 
       const item = document.createElement("div");
@@ -849,65 +793,33 @@ document.getElementById("process").addEventListener(
       urlText.textContent = url;
 
       const detailText = document.createElement("div");
-      detailText.className = "item-detail";
-      detailText.textContent = detail;
+      detailText.className = "detail-preview";
+      detailText.title = detail;
+      detailText.textContent = "Detail: " + detail;
 
-      content.appendChild(urlText);
-      content.appendChild(detailText);
-
-      const actions = document.createElement("div");
-      actions.className = "item-actions";
-
-      /* TOMBOL 1: SALIN DETAIL */
-      const copyDetail = document.createElement("button");
-      copyDetail.className = "copy-detail";
-      copyDetail.textContent = "SALIN DETAIL";
-
-      copyDetail.addEventListener("click", async function(){
-        try{
-          await navigator.clipboard.writeText(detail);
-          copyDetail.textContent = "✓ DETAIL DISALIN";
-          copyDetail.classList.add("copied");
-
-          setTimeout(function(){
-            copyDetail.textContent = "SALIN DETAIL";
-            copyDetail.classList.remove("copied");
-          },1800);
-
-        }catch{
-          alert(
-            "Detail tidak dapat disalin otomatis. " +
-            "Silakan salin detail dari kartu nomor " + (index + 1) + "."
-          );
-        }
-      });
-
-      /* TOMBOL 2: BUKA LAPORAN URL INI */
       const open = document.createElement("button");
       open.className = "open";
       open.textContent = "BUKA LAPORAN";
+      individualButtons.push(open);
 
-      open.addEventListener("click", async function(){
+      open.addEventListener("click",function(){
 
         if(!isValidUrl(url)){
+
           alert(
             "URL nomor " +
             (index + 1) +
             " tidak valid."
           );
+
           return;
         }
 
         /*
-          Clipboard dipakai agar setelah halaman Google terbuka,
-          pengguna dapat langsung Ctrl+V pada kolom "Detail tambahan".
-          Browser tidak mengizinkan halaman ini mengisi textarea
-          milik domain Google secara langsung karena same-origin policy.
+          Parameter resmi yang digunakan di sini adalah URL
+          halaman yang akan dilaporkan. Detail laporan tetap
+          tersedia di dashboard sebagai referensi pengguna.
         */
-        try{
-          await navigator.clipboard.writeText(detail);
-        }catch{}
-
         const reportUrl =
           "https://safebrowsing.google.com/safebrowsing/report_phish/?hl=id&url="
           + encodeURIComponent(url);
@@ -919,24 +831,31 @@ document.getElementById("process").addEventListener(
         );
 
         if(!open.classList.contains("opened")){
+
           open.classList.add("opened");
-          open.textContent = "✓ SUDAH DIBUKA";
+
+          open.textContent =
+            "✓ SUDAH DIBUKA";
 
           openedCount++;
+
           updateStats();
+
         }
+
       });
 
-      actions.appendChild(copyDetail);
-      actions.appendChild(open);
+      content.appendChild(urlText);
+      content.appendChild(detailText);
 
       item.appendChild(number);
       item.appendChild(content);
-      item.appendChild(actions);
+      item.appendChild(open);
 
       queue.appendChild(item);
 
     });
+
   }
 );
 
