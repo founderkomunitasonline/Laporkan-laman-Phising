@@ -369,3 +369,98 @@ section:hover,
     animation: none !important;
   }
 }
+/* =========================================
+   BASMI PHISING — BINARY RAIN V2
+   ========================================= */
+
+#binary-rain {
+  position: fixed;
+  inset: 0;
+  width: 100vw;
+  height: 100vh;
+
+  overflow: hidden;
+  pointer-events: none;
+
+  z-index: 0;
+}
+
+.binary-stream {
+  position: absolute;
+
+  top: -420px;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  gap: 2px;
+
+  font-family: "Courier New", monospace;
+  font-size: 12px;
+  font-weight: 700;
+
+  line-height: 1.25;
+
+  color: rgba(0, 255, 150, 0.38);
+
+  text-shadow:
+    0 0 5px rgba(0, 255, 150, 0.35),
+    0 0 10px rgba(0, 180, 255, 0.15);
+
+  animation:
+    binaryFallV2 linear infinite;
+}
+
+/* Biru */
+.binary-stream:nth-child(3n) {
+  color: rgba(0, 190, 255, 0.36);
+
+  text-shadow:
+    0 0 5px rgba(0, 190, 255, 0.4),
+    0 0 10px rgba(0, 220, 255, 0.15);
+}
+
+/* Hijau */
+.binary-stream:nth-child(4n) {
+  color: rgba(50, 255, 140, 0.42);
+}
+
+/* Sedikit lebih redup */
+.binary-stream:nth-child(5n) {
+  opacity: 0.18 !important;
+}
+
+/* Digit kepala sedikit lebih terang */
+.binary-stream span:first-child {
+  color: rgba(180, 255, 220, 0.75);
+  text-shadow:
+    0 0 6px rgba(0, 255, 160, 0.7);
+}
+
+@keyframes binaryFallV2 {
+
+  0% {
+    transform: translateY(0);
+  }
+
+  100% {
+    transform: translateY(calc(100vh + 500px));
+  }
+
+}
+
+/* Pastikan dashboard tetap di depan */
+body > *:not(#binary-rain) {
+  position: relative;
+  z-index: 1;
+}
+
+@media (max-width: 700px) {
+
+  .binary-stream {
+    font-size: 9px;
+    gap: 1px;
+  }
+
+}
