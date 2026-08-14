@@ -373,6 +373,26 @@ button{
   box-shadow:0 0 18px rgba(38,201,133,.25);
 }
 
+/* BULK REPORT */
+.bulk-item{
+  border-color:#6d5a16;
+  background:linear-gradient(90deg,#111a25,#172033);
+}
+.open-all{
+  min-width:165px;
+  background:linear-gradient(90deg,#e0a91b,#ffe45c);
+  color:#111;
+  box-shadow:0 0 18px rgba(255,215,60,.18);
+}
+.open-all:hover{
+  background:linear-gradient(90deg,#f0b92a,#ffe97a);
+  box-shadow:0 0 24px rgba(255,215,60,.32);
+}
+.open-all.opened{
+  background:linear-gradient(90deg,#16875a,#26c985);
+  color:#fff;
+}
+
 /* DUPLICATE NOTICE */
 .duplicate-info{
   display:none;
@@ -412,6 +432,7 @@ button{
     overflow-wrap:anywhere;
   }
   .open{min-width:105px}
+  .open-all{min-width:105px}
 }
 </style>
 </head>
@@ -523,8 +544,10 @@ https://contoh4.com"></textarea>
   <div class="note">
     URL duplikat otomatis dihapus. Jika URL yang sama muncul
     beberapa kali, hanya kemunculan pertama yang digunakan.
-    Maksimal 100 URL unik diproses. Detail laporan disimpan
-    sebagai informasi pada setiap item laporan.
+    Maksimal 100 URL unik diproses. Anda dapat membuka semua
+    laporan sekaligus melalui tombol pertama, atau melaporkan
+    URL satu per satu menggunakan tombol pada masing-masing item.
+    Detail laporan disimpan sebagai informasi pada setiap item laporan.
   </div>
 
 </div>
@@ -669,6 +692,89 @@ document.getElementById("process").addEventListener(
 
     updateStats();
 
+    /* TOMBOL PERTAMA: BUKA SEMUA LAPORAN */
+    const bulkItem = document.createElement("div");
+    bulkItem.className = "item bulk-item";
+
+    const bulkNumber = document.createElement("div");
+    bulkNumber.className = "number";
+    bulkNumber.textContent = "ALL";
+
+    const bulkContent = document.createElement("div");
+    bulkContent.className = "item-content";
+
+    const bulkUrlText = document.createElement("div");
+    bulkUrlText.className = "url";
+    bulkUrlText.textContent = urls.length + " URL — buka semua laporan sekaligus";
+
+    const bulkDetailText = document.createElement("div");
+    bulkDetailText.className = "detail-preview";
+    bulkDetailText.textContent =
+      "Membuka Google Safe Browsing dengan seluruh URL dalam satu laporan.";
+
+    const bulkOpen = document.createElement("button");
+    bulkOpen.className = "open open-all";
+    bulkOpen.textContent = "BUKA SEMUA LAPORAN";
+
+    bulkOpen.addEventListener("click", function(){
+
+      const invalidCount = urls.filter(function(value){
+        return !isValidUrl(value);
+      }).length;
+
+      if(invalidCount > 0){
+        alert(
+          "Ada " + invalidCount +
+          " URL yang tidak valid. Perbaiki URL tersebut sebelum menggunakan BUKA SEMUA LAPORAN."
+        );
+        return;
+      }
+
+      /*
+        Semua URL digabung dengan baris baru.
+        encodeURIComponent() akan mengubah baris baru menjadi %0A,
+        sesuai format URL laporan yang diinginkan.
+      */
+      const allUrls = urls.join("\n");
+
+      const reportUrl =
+        "https://safebrowsing.google.com/safebrowsing/report_phish/?hl=id&url="
+        + encodeURIComponent(allUrls);
+
+      window.open(
+        reportUrl,
+        "_blank",
+        "noopener,noreferrer"
+      );
+
+      if(!bulkOpen.classList.contains("opened")){
+
+        bulkOpen.classList.add("opened");
+        bulkOpen.textContent = "✓ SEMUA SUDAH DIBUKA";
+
+        openedCount = urls.length;
+
+        document.querySelectorAll(".open:not(.open-all)").forEach(function(button){
+          button.classList.add("opened");
+          button.textContent = "✓ SUDAH DIBUKA";
+        });
+
+        updateStats();
+      }
+
+    });
+
+    bulkContent.appendChild(bulkUrlText);
+    bulkContent.appendChild(bulkDetailText);
+
+    bulkItem.appendChild(bulkNumber);
+    bulkItem.appendChild(bulkContent);
+    bulkItem.appendChild(bulkOpen);
+
+    queue.appendChild(bulkItem);
+
+    const individualButtons = [];
+
     urls.slice(0,100).forEach(function(url,index){
 
       const item = document.createElement("div");
@@ -694,6 +800,7 @@ document.getElementById("process").addEventListener(
       const open = document.createElement("button");
       open.className = "open";
       open.textContent = "BUKA LAPORAN";
+      individualButtons.push(open);
 
       open.addEventListener("click",function(){
 
