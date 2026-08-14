@@ -1,17 +1,26 @@
 /*
   BASMI PHISING — app-detail.js
-  Fungsi tambahan untuk menampilkan detail laporan.
+  PATCH TAMBAHAN — tidak mengganti app.js
+
+  Fungsi:
+  1. Menggunakan ID yang benar dari index.html:
+     #detail dan #process
+  2. Menampilkan detail pada setiap item URL.
+  3. Saat "BUKA LAPORAN" diklik, detail otomatis disalin ke clipboard.
+  4. Tombol tetap membuka URL laporan milik app.js.
 */
 
 (function () {
   "use strict";
 
-  const detailInput = document.getElementById("detailInput");
-  const processBtn = document.getElementById("processBtn");
+  const detailInput = document.getElementById("detail");
+  const processBtn = document.getElementById("process");
   const queue = document.getElementById("queue");
 
   if (!detailInput || !processBtn || !queue) {
-    console.warn("app-detail.js: elemen dashboard tidak ditemukan.");
+    console.warn(
+      "app-detail.js: #detail, #process, atau #queue tidak ditemukan."
+    );
     return;
   }
 
@@ -19,141 +28,83 @@
     return detailInput.value.trim();
   }
 
-  function makeDetailLine(text) {
-    const line = document.createElement("div");
+  async function copyDetail(detail) {
+    if (!detail) return false;
 
-    line.className = "detail-line app-detail-extra";
-    line.textContent = "Detail: " + (text || "-");
-
-    return line;
-  }
-
-  function makeCopyButton(text) {
-    const button = document.createElement("button");
-
-    button.type = "button";
-    button.className = "copy app-detail-copy";
-    button.textContent = "SALIN DETAIL";
-
-    button.addEventListener("click", async function (event) {
-      event.stopPropagation();
-
+    try {
+      await navigator.clipboard.writeText(detail);
+      return true;
+    } catch (err) {
       try {
-        await navigator.clipboard.writeText(text || "");
+        const temp = document.createElement("textarea");
 
-        button.textContent = "TERSALIN ✓";
+        temp.value = detail;
+        temp.style.position = "fixed";
+        temp.style.opacity = "0";
 
-        setTimeout(function () {
-          button.textContent = "SALIN DETAIL";
-        }, 1200);
+        document.body.appendChild(temp);
 
-      } catch (error) {
-        const area = document.createElement("textarea");
+        temp.focus();
+        temp.select();
 
-        area.value = text || "";
-        document.body.appendChild(area);
+        const ok = document.execCommand("copy");
 
-        area.select();
-        document.execCommand("copy");
+        temp.remove();
 
-        area.remove();
-
-        button.textContent = "TERSALIN ✓";
-
-        setTimeout(function () {
-          button.textContent = "SALIN DETAIL";
-        }, 1200);
+        return ok;
+      } catch (fallbackErr) {
+        return false;
       }
-    });
-
-    return button;
+    }
   }
 
-  function updateRows() {
+  function refreshDetails() {
     const detail = getDetail();
-    const rows = queue.querySelectorAll(".item");
 
-    rows.forEach(function (row) {
+    queue.querySelectorAll(".item").forEach(function (item) {
 
-      const info = row.children[1];
-      const actions = row.querySelector(".item-actions");
+      // Item "BUKA SEMUA" tidak perlu detail per URL.
+      if (item.classList.contains("bulk-item")) return;
 
-      if (!info) return;
+      const content = item.querySelector(".item-content");
 
-      /*
-       * Hapus detail lama supaya tidak menggandakan
-       * ketika daftar URL diperbarui.
-       */
+      if (!content) return;
 
-      const oldDetail = info.querySelector(".app-detail-extra");
+      let detailEl = content.querySelector(".app-detail-preview");
 
-      if (oldDetail) {
-        oldDetail.remove();
+      if (!detailEl) {
+        detailEl = document.createElement("div");
+
+        detailEl.className =
+          "detail-preview app-detail-preview";
+
+        content.appendChild(detailEl);
       }
 
-      /*
-       * Tambahkan detail laporan.
-       */
+      detailEl.textContent =
+        "Detail: " + (detail || "-");
 
-      info.appendChild(
-        makeDetailLine(detail)
-      );
-
-      /*
-       * Tambahkan tombol salin detail
-       * jika bagian tombol tersedia.
-       */
-
-      if (actions) {
-
-        const oldCopy =
-          actions.querySelector(".app-detail-copy");
-
-        if (oldCopy) {
-          oldCopy.remove();
-        }
-
-        actions.insertBefore(
-          makeCopyButton(detail),
-          actions.firstChild
-        );
-      }
+      detailEl.title = detail || "";
     });
   }
 
   /*
    * Setelah tombol PROSES URL ditekan,
-   * tunggu app.js selesai membuat daftar URL.
+   * app.js membuat daftar URL.
    */
-
   processBtn.addEventListener("click", function () {
 
-    setTimeout(function () {
-      updateRows();
-    }, 100);
-
-    setTimeout(function () {
-      updateRows();
-    }, 500);
+    setTimeout(refreshDetails, 50);
+    setTimeout(refreshDetails, 300);
+    setTimeout(refreshDetails, 800);
 
   });
 
   /*
    * Pantau perubahan daftar URL.
-   * Ini membuat detail tetap muncul walaupun
-   * app.js menggambar ulang daftar.
    */
-
   const observer = new MutationObserver(function () {
-
-    if (queue.children.length > 0) {
-
-      setTimeout(function () {
-        updateRows();
-      }, 0);
-
-    }
-
+    refreshDetails();
   });
 
   observer.observe(queue, {
@@ -162,16 +113,59 @@
   });
 
   /*
-   * Kalau detail laporan diubah,
-   * semua item ikut diperbarui.
+   * Jika detail laporan diubah,
+   * semua preview ikut diperbarui.
    */
-
   detailInput.addEventListener("input", function () {
-
-    setTimeout(function () {
-      updateRows();
-    }, 0);
-
+    refreshDetails();
   });
+
+  /*
+   * Tombol BUKA LAPORAN.
+   *
+   * Detail akan disalin ke clipboard terlebih dahulu.
+   *
+   * Karena halaman Google Safe Browsing berada
+   * pada domain berbeda, dashboard tidak dapat
+   * mengisi textarea Google secara otomatis.
+   */
+  queue.addEventListener("click", async function (event) {
+
+    const button =
+      event.target.closest(".open:not(.open-all)");
+
+    if (!button) return;
+
+    const detail = getDetail();
+
+    if (!detail) return;
+
+    const copied = await copyDetail(detail);
+
+    if (copied) {
+
+      const oldText = button.textContent;
+
+      button.textContent = "✓ DETAIL DISALIN";
+
+      setTimeout(function () {
+
+        /*
+         * Jangan mengganggu status SUDAH DIBUKA
+         * milik app.js.
+         */
+        if (!button.classList.contains("opened")) {
+          button.textContent =
+            oldText || "BUKA LAPORAN";
+        }
+
+      }, 1000);
+    }
+  });
+
+  /*
+   * Jalankan pertama kali.
+   */
+  refreshDetails();
 
 })();
