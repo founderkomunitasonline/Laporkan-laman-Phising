@@ -1,13 +1,12 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
   <defs>
-    <linearGradient id="bpGradient" x1="0" y1="0" x2="1" y2="1">
+    <linearGradient id="g" x1="0" y1="0" x2="1" y2="1">
       <stop offset="0%" stop-color="#19e6c1"></stop>
-      <stop offset="50%" stop-color="#168cff"></stop>
-      <stop offset="100%" stop-color="#e66cff"></stop>
+      <stop offset="100%" stop-color="#168cff"></stop>
     </linearGradient>
 
     <filter id="glow" x="-50%" y="-50%" width="200%" height="200%">
-      <feGaussianBlur stdDeviation="2.2" result="blur"></feGaussianBlur>
+      <feGaussianBlur stdDeviation="2.5" result="blur"></feGaussianBlur>
       <feMerge>
         <feMergeNode in="blur"></feMergeNode>
         <feMergeNode in="SourceGraphic"></feMergeNode>
@@ -18,15 +17,62 @@
   <!-- Background -->
   <rect width="64" height="64" rx="16" fill="#06121f"></rect>
 
-  <!-- Neon border -->
-  <rect x="7" y="7" width="50" height="50" rx="13" fill="none" stroke="url(#bpGradient)" stroke-width="2.5" filter="url(#glow)"></rect>
+  <!-- Outer security frame -->
+  <rect x="6" y="6" width="52" height="52" rx="14" fill="none" stroke="url(#g)" stroke-width="1.5" opacity=".5"></rect>
 
-  <!-- BP -->
-  <text x="32" y="42" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="25" font-weight="900" letter-spacing="-2" fill="url(#bpGradient)" stroke="#bfffff" stroke-width=".35" paint-order="stroke" filter="url(#glow)">BP</text>
+  <!-- Shield -->
+  <path d="M32 9
+       L49 16
+       L49 29
+       C49 40 42 49 32 54
+       C22 49 15 40 15 29
+       L15 16
+       Z" fill="#06121f" stroke="url(#g)" stroke-width="3" stroke-linejoin="round" filter="url(#glow)"></path>
 
-  <!-- Security diamond -->
-  <path d="M32 12 L38 18 L32 24 L26 18 Z" fill="none" stroke="#b9ffff" stroke-width="1.8" stroke-linejoin="round" opacity=".95" filter="url(#glow)"></path>
+  <!-- Keyhole -->
+  <path d="M32 20
+       A7 7 0 1 0 32 34
+       A7 7 0 0 0 32 20
+       Z" fill="url(#g)" filter="url(#glow)"></path>
 
-  <!-- Center point -->
-  <circle cx="32" cy="18" r="1.5" fill="#ffffff"></circle>
+  <path d="M27.5 31
+       L30 41
+       L34 41
+       L36.5 31
+       Z" fill="url(#g)" filter="url(#glow)"></path>
+
+  <!-- BP SILHOUETTE inside the keyhole -->
+  <path d="
+      M29.1 25.4
+      L29.1 30.8
+      L31.2 30.8
+      L31.2 25.4
+      Z
+
+      M31.2 25.4
+      L33.2 25.4
+      C34.4 25.4 35.1 26.1 35.1 27
+      C35.1 27.8 34.5 28.4 33.6 28.5
+      C34.6 28.6 35.3 29.2 35.3 30.1
+      C35.3 31 34.5 31.6 33.2 31.6
+      L31.2 31.6
+      Z
+
+      M32.2 26.2
+      L32.2 27.8
+      L33.1 27.8
+      C33.7 27.8 34 27.5 34 27
+      C34 26.5 33.7 26.2 33.1 26.2
+      Z
+
+      M32.2 28.7
+      L32.2 30.8
+      L33.1 30.8
+      C33.8 30.8 34.2 30.4 34.2 29.8
+      C34.2 29.1 33.8 28.7 33.1 28.7
+      Z
+    " fill="#06121f" fill-rule="evenodd"></path>
+
+  <!-- Small cyan highlight -->
+  <circle cx="32" cy="22" r="1.2" fill="#ffffff" opacity=".95"></circle>
 </svg>
