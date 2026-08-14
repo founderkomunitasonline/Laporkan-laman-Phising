@@ -1,6 +1,37 @@
 const REPORT_BASE = "https://safebrowsing.google.com/safebrowsing/report_phish/?hl=id&url=";
 
 const $ = (id) => document.getElementById(id);
+// ===============================
+// MEMORI DETAIL LAPORAN
+// ===============================
+const DETAIL_MEMORY_KEY = "basmi_phising_detail_memory";
+
+const DEFAULT_DETAIL =
+  "URL ini diduga terkait aktivitas phishing yang berpotensi menipu pengguna atau mengumpulkan informasi sensitif secara tidak sah. Mohon dilakukan pemeriksaan lebih lanjut.";
+
+function loadSavedDetail() {
+  const saved = localStorage.getItem(DETAIL_MEMORY_KEY);
+
+  if (saved && saved.trim()) {
+    detailInput.value = saved;
+  } else {
+    detailInput.value = DEFAULT_DETAIL;
+    localStorage.setItem(DETAIL_MEMORY_KEY, DEFAULT_DETAIL);
+  }
+
+  detailInput.dispatchEvent(new Event("input", { bubbles: true }));
+}
+
+detailInput.addEventListener("input", function () {
+  const value = detailInput.value.trim();
+
+  if (value) {
+    localStorage.setItem(DETAIL_MEMORY_KEY, value);
+  }
+});
+
+// Jalankan saat situs dibuka
+loadSavedDetail();
 const urlInput = $("urlInput");
 const detailInput = $("detailInput");
 const queue = $("queue");
