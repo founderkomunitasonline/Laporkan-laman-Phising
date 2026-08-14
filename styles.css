@@ -40,237 +40,332 @@ button:hover{transform:translateY(-1px);filter:brightness(1.08)}
 footer{text-align:right;margin-top:10px;color:#40566c;font:8px Consolas,monospace;letter-spacing:2px}
 @media(max-width:700px){.stats{grid-template-columns:repeat(2,1fr)}.stats article:last-child{grid-column:span 2}.actions{grid-template-columns:1fr}.all-row{align-items:flex-start;flex-direction:column}.item{grid-template-columns:30px 1fr}.item-actions{grid-column:2}.hero{min-height:280px}.floating-words{display:none}}
 /* =========================================
-   BASMI PHISING — FUTURISTIC ANIMATION PACK
-   Hanya visual, tidak mengubah fungsi JS
+   BASMI PHISING — CYBER COMMAND CENTER FX
+   TAMBAHAN VISUAL SAJA
    ========================================= */
 
-/* Smooth global */
-* {
-  scroll-behavior: smooth;
+/* Ambient background */
+body {
+  position: relative;
+  overflow-x: hidden;
+  background-image:
+    linear-gradient(rgba(0, 180, 255, 0.025) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0, 180, 255, 0.025) 1px, transparent 1px);
+  background-size: 45px 45px;
+  animation: gridDrift 18s linear infinite;
 }
 
-/* Header / Hero glow */
-.hero,
-header,
-.brand,
-.logo {
-  animation: consoleBreath 4s ease-in-out infinite;
+/* Ambient light */
+body::before,
+body::after {
+  content: "";
+  position: fixed;
+  width: 420px;
+  height: 420px;
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: -1;
+  filter: blur(80px);
+  opacity: 0.14;
 }
 
-/* Efek cahaya bergerak pada halaman */
-main {
+body::before {
+  top: 5%;
+  left: -180px;
+  background: rgba(0, 190, 255, 0.45);
+  animation: ambientLeft 8s ease-in-out infinite alternate;
+}
+
+body::after {
+  right: -180px;
+  bottom: 5%;
+  background: rgba(110, 60, 255, 0.35);
+  animation: ambientRight 10s ease-in-out infinite alternate;
+}
+
+/* Scanline layar */
+main::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 2px;
+  top: -5%;
+  pointer-events: none;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(0, 220, 255, 0.5),
+    transparent
+  );
+  box-shadow: 0 0 18px rgba(0, 220, 255, 0.35);
+  animation: screenScan 8s linear infinite;
+}
+
+/* Panel lebih hidup */
+section,
+.results,
+.card {
   position: relative;
   overflow: hidden;
 }
 
-main::before {
+section::before,
+.results::before,
+.card::before {
   content: "";
   position: absolute;
-  inset: 0;
+  top: 0;
+  left: -120%;
+  width: 60%;
+  height: 100%;
   pointer-events: none;
-  background:
-    linear-gradient(
-      180deg,
-      transparent 0%,
-      rgba(0, 210, 255, 0.025) 50%,
-      transparent 100%
-    );
-  animation: scanDown 7s linear infinite;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(0, 220, 255, 0.045),
+    transparent
+  );
+  transform: skewX(-20deg);
+  animation: panelSweep 7s ease-in-out infinite;
 }
 
-/* Panel futuristic */
+/* Border energy */
 section,
-.card,
 .results,
 .url-item {
-  transition:
-    transform 0.25s ease,
-    border-color 0.25s ease,
-    box-shadow 0.25s ease;
+  animation: borderEnergy 4s ease-in-out infinite;
 }
 
-/* Hover kartu URL */
-.url-item:hover {
-  transform: translateY(-2px);
+/* URL cards masuk sedikit bergantian */
+.url-item:nth-child(1) {
+  animation-delay: 0s;
+}
+
+.url-item:nth-child(2) {
+  animation-delay: 0.12s;
+}
+
+.url-item:nth-child(3) {
+  animation-delay: 0.24s;
+}
+
+.url-item:nth-child(4) {
+  animation-delay: 0.36s;
+}
+
+.url-item:nth-child(5) {
+  animation-delay: 0.48s;
+}
+
+.url-item:nth-child(6) {
+  animation-delay: 0.60s;
+}
+
+/* Nomor URL */
+.url-item .number,
+.url-item .index,
+.url-item .num {
+  animation: numberPulse 2.8s ease-in-out infinite;
+}
+
+/* Input fokus */
+textarea:focus,
+input:focus {
   box-shadow:
-    0 0 18px rgba(0, 210, 255, 0.12),
-    inset 0 0 18px rgba(0, 210, 255, 0.025);
+    0 0 0 1px rgba(0, 220, 255, 0.35),
+    0 0 22px rgba(0, 200, 255, 0.12),
+    inset 0 0 20px rgba(0, 200, 255, 0.025);
 }
 
-/* Tombol */
-button {
-  transition:
-    transform 0.2s ease,
-    box-shadow 0.2s ease,
-    filter 0.2s ease;
-}
-
-button:hover {
-  transform: translateY(-1px);
-  filter: brightness(1.08);
-}
-
-button:active {
-  transform: scale(0.98);
-}
-
-/* Tombol proses */
-#processBtn {
-  animation: buttonPulse 3s ease-in-out infinite;
-}
-
-/* Status ACTIVE */
-.status,
-.badge,
-.ready,
-.security-status {
-  animation: statusPulse 2.5s ease-in-out infinite;
-}
-
-/* Angka statistik */
-.stat-value,
-.total-count,
-.valid-count,
-.invalid-count,
-.opened-count {
-  animation: numberGlow 3s ease-in-out infinite;
-}
-
-/* Garis scan */
-.scan-line {
-  animation: scanMove 3.5s linear infinite;
-}
-
-/* Orb / inti energi kalau class ini ada */
-.energy-orb,
-.core-orb,
-.orb {
+/* Tombol buka semua */
+#openAllBtn,
+.all-button,
+.all-btn {
   animation:
-    orbFloat 4s ease-in-out infinite,
-    orbGlow 2.5s ease-in-out infinite;
+    allButtonPulse 2.8s ease-in-out infinite,
+    buttonFloat 4s ease-in-out infinite;
 }
 
-/* Logo shield */
-.logo-shield,
-.shield,
-.brand-icon {
-  animation: shieldFloat 4s ease-in-out infinite;
+/* Status */
+#status,
+.status {
+  position: relative;
+}
+
+#status::after,
+.status::after {
+  content: "";
+  display: inline-block;
+  width: 6px;
+  height: 6px;
+  margin-left: 7px;
+  border-radius: 50%;
+  background: currentColor;
+  box-shadow: 0 0 10px currentColor;
+  animation: statusDot 1.4s ease-in-out infinite;
+}
+
+/* Text glitch ringan */
+.brand,
+.logo,
+h1 {
+  animation: titlePulse 4s ease-in-out infinite;
+}
+
+/* Hover panel */
+section:hover,
+.results:hover {
+  box-shadow:
+    0 0 25px rgba(0, 190, 255, 0.08),
+    inset 0 0 30px rgba(0, 190, 255, 0.025);
 }
 
 /* =========================================
    KEYFRAMES
    ========================================= */
 
-@keyframes consoleBreath {
-  0%, 100% {
-    filter: brightness(1);
+@keyframes gridDrift {
+  from {
+    background-position: 0 0;
   }
 
-  50% {
-    filter: brightness(1.08);
-  }
-}
-
-@keyframes buttonPulse {
-  0%, 100% {
-    box-shadow: 0 0 0 rgba(0, 210, 255, 0);
-  }
-
-  50% {
-    box-shadow: 0 0 18px rgba(0, 210, 255, 0.18);
+  to {
+    background-position: 45px 45px;
   }
 }
 
-@keyframes statusPulse {
-  0%, 100% {
-    opacity: 1;
+@keyframes ambientLeft {
+  from {
+    transform: translate(0, 0) scale(0.9);
   }
 
-  50% {
-    opacity: 0.72;
-  }
-}
-
-@keyframes numberGlow {
-  0%, 100% {
-    text-shadow: 0 0 0 rgba(0, 210, 255, 0);
-  }
-
-  50% {
-    text-shadow: 0 0 10px rgba(0, 210, 255, 0.35);
+  to {
+    transform: translate(120px, 70px) scale(1.15);
   }
 }
 
-@keyframes scanDown {
+@keyframes ambientRight {
+  from {
+    transform: translate(0, 0) scale(1);
+  }
+
+  to {
+    transform: translate(-100px, -80px) scale(1.2);
+  }
+}
+
+@keyframes screenScan {
   0% {
-    transform: translateY(-100%);
-  }
-
-  100% {
-    transform: translateY(100%);
-  }
-}
-
-@keyframes scanMove {
-  0% {
-    transform: translateY(-120%);
+    top: -5%;
     opacity: 0;
   }
 
-  20% {
+  10% {
     opacity: 1;
   }
 
-  80% {
+  90% {
     opacity: 1;
   }
 
   100% {
-    transform: translateY(120%);
+    top: 105%;
     opacity: 0;
   }
 }
 
-@keyframes orbFloat {
-  0%, 100% {
-    transform: translateY(0) scale(1);
+@keyframes panelSweep {
+  0%,
+  55% {
+    left: -120%;
   }
 
-  50% {
-    transform: translateY(-7px) scale(1.04);
-  }
-}
-
-@keyframes orbGlow {
-  0%, 100% {
-    filter: brightness(1);
+  75% {
+    left: 140%;
   }
 
-  50% {
-    filter: brightness(1.25);
+  100% {
+    left: 140%;
   }
 }
 
-@keyframes shieldFloat {
-  0%, 100% {
+@keyframes borderEnergy {
+  0%,
+  100% {
+    box-shadow:
+      0 0 0 rgba(0, 210, 255, 0);
+  }
+
+  50% {
+    box-shadow:
+      0 0 14px rgba(0, 210, 255, 0.07);
+  }
+}
+
+@keyframes numberPulse {
+  0%,
+  100% {
+    transform: scale(1);
+  }
+
+  50% {
+    transform: scale(1.04);
+  }
+}
+
+@keyframes allButtonPulse {
+  0%,
+  100% {
+    box-shadow: 0 0 0 rgba(0, 255, 180, 0);
+  }
+
+  50% {
+    box-shadow:
+      0 0 20px rgba(0, 255, 180, 0.18);
+  }
+}
+
+@keyframes buttonFloat {
+  0%,
+  100% {
     transform: translateY(0);
   }
 
   50% {
-    transform: translateY(-3px);
+    transform: translateY(-2px);
   }
 }
 
-/* =========================================
-   REDUCED MOTION
-   ========================================= */
+@keyframes statusDot {
+  0%,
+  100% {
+    transform: scale(0.8);
+    opacity: 0.55;
+  }
 
+  50% {
+    transform: scale(1.35);
+    opacity: 1;
+  }
+}
+
+@keyframes titlePulse {
+  0%,
+  100% {
+    filter: brightness(1);
+  }
+
+  50% {
+    filter: brightness(1.18);
+  }
+}
+
+/* HP / laptop aman */
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,
   *::after {
-    animation-duration: 0.01ms !important;
-    animation-iteration-count: 1 !important;
-    scroll-behavior: auto !important;
+    animation: none !important;
   }
 }
