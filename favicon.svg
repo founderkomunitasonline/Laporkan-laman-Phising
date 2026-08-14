@@ -1,11 +1,13 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
   <defs>
-    <linearGradient id="g" x1="0" y1="0" x2="1" y2="1">
+    <linearGradient id="bpGradient" x1="0" y1="0" x2="1" y2="1">
       <stop offset="0%" stop-color="#19e6c1"></stop>
-      <stop offset="100%" stop-color="#168cff"></stop>
+      <stop offset="50%" stop-color="#168cff"></stop>
+      <stop offset="100%" stop-color="#e66cff"></stop>
     </linearGradient>
-    <filter id="glow">
-      <feGaussianBlur stdDeviation="2.5" result="blur"></feGaussianBlur>
+
+    <filter id="glow" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur stdDeviation="2.2" result="blur"></feGaussianBlur>
       <feMerge>
         <feMergeNode in="blur"></feMergeNode>
         <feMergeNode in="SourceGraphic"></feMergeNode>
@@ -13,11 +15,18 @@
     </filter>
   </defs>
 
+  <!-- Background -->
   <rect width="64" height="64" rx="16" fill="#06121f"></rect>
 
-  <path d="M32 10 L49 27 L39 37 L32 30 L25 37 L15 27 Z" fill="none" stroke="url(#g)" stroke-width="4" stroke-linejoin="round" filter="url(#glow)"></path>
+  <!-- Neon border -->
+  <rect x="7" y="7" width="50" height="50" rx="13" fill="none" stroke="url(#bpGradient)" stroke-width="2.5" filter="url(#glow)"></rect>
 
-  <path d="M25 37 L32 44 L39 37" fill="none" stroke="#19e6c1" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"></path>
+  <!-- BP -->
+  <text x="32" y="42" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="25" font-weight="900" letter-spacing="-2" fill="url(#bpGradient)" stroke="#bfffff" stroke-width=".35" paint-order="stroke" filter="url(#glow)">BP</text>
 
-  <circle cx="32" cy="27" r="3" fill="#fff"></circle>
+  <!-- Security diamond -->
+  <path d="M32 12 L38 18 L32 24 L26 18 Z" fill="none" stroke="#b9ffff" stroke-width="1.8" stroke-linejoin="round" opacity=".95" filter="url(#glow)"></path>
+
+  <!-- Center point -->
+  <circle cx="32" cy="18" r="1.5" fill="#ffffff"></circle>
 </svg>
