@@ -4,34 +4,36 @@ const $ = (id) => document.getElementById(id);
 // ===============================
 // MEMORI DETAIL LAPORAN
 // ===============================
-const DETAIL_MEMORY_KEY = "basmi_phising_detail_memory";
+const DETAIL_MEMORY_KEY = "basmi_phising_detail";
 
 const DEFAULT_DETAIL =
   "URL ini diduga terkait aktivitas phishing yang berpotensi menipu pengguna atau mengumpulkan informasi sensitif secara tidak sah. Mohon dilakukan pemeriksaan lebih lanjut.";
 
-function loadSavedDetail() {
-  const saved = localStorage.getItem(DETAIL_MEMORY_KEY);
+// Ambil detail yang tersimpan
+try {
+  const savedDetail = localStorage.getItem(DETAIL_MEMORY_KEY);
 
-  if (saved && saved.trim()) {
-    detailInput.value = saved;
+  if (savedDetail && savedDetail.trim()) {
+    detailTextarea.value = savedDetail;
   } else {
-    detailInput.value = DEFAULT_DETAIL;
+    detailTextarea.value = DEFAULT_DETAIL;
     localStorage.setItem(DETAIL_MEMORY_KEY, DEFAULT_DETAIL);
   }
-
-  detailInput.dispatchEvent(new Event("input", { bubbles: true }));
+} catch (e) {
+  detailTextarea.value = DEFAULT_DETAIL;
 }
 
-detailInput.addEventListener("input", function () {
-  const value = detailInput.value.trim();
-
-  if (value) {
-    localStorage.setItem(DETAIL_MEMORY_KEY, value);
+// Simpan otomatis setiap kali detail diubah
+detailTextarea.addEventListener("input", function () {
+  try {
+    localStorage.setItem(
+      DETAIL_MEMORY_KEY,
+      detailTextarea.value
+    );
+  } catch (e) {
+    // Abaikan jika browser tidak mengizinkan localStorage
   }
 });
-
-// Jalankan saat situs dibuka
-loadSavedDetail();
 const urlInput = $("urlInput");
 const detailInput = $("detailInput");
 const queue = $("queue");
