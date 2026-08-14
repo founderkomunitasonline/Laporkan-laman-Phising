@@ -464,3 +464,49 @@ body > *:not(#binary-rain) {
   }
 
 }
+/* =========================================
+   FIX — DASHBOARD RAPAT KE ATAS
+   ========================================= */
+
+html,
+body {
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+main {
+  margin-top: 0 !important;
+  padding-top: 0 !important;
+
+  /* cegah layout melakukan vertical centering */
+  align-items: flex-start !important;
+  justify-content: flex-start !important;
+}
+
+/* Elemen dashboard pertama */
+main > *:first-child {
+  margin-top: 0 !important;
+}
+
+/* Hero / header utama */
+.hero,
+.hero-section,
+.dashboard-hero,
+header {
+  margin-top: 0 !important;
+}
+
+/* Jangan biarkan container pertama mendorong dashboard turun */
+main > section:first-child {
+  margin-top: 0 !important;
+}
+
+/* Binary rain tetap menjadi background */
+#binary-rain {
+  position: fixed !important;
+  inset: 0 !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  z-index: 0 !important;
+  pointer-events: none !important;
+}
