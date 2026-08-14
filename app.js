@@ -1,171 +1,129 @@
-(function () {
-  "use strict";
+const REPORT_BASE = "https://safebrowsing.google.com/safebrowsing/report_phish/?hl=id&url=";
 
-  /*
-    BASMI PHISING
-    app.js = fungsi tambahan saja.
+const $ = (id) => document.getElementById(id);
+const urlInput = $("urlInput");
+const detailInput = $("detailInput");
+const queue = $("queue");
 
-    Tidak mengambil alih fungsi utama index.html.
-    Index.html tetap menangani:
-    - proses URL
-    - validasi URL
-    - daftar laporan
-    - tombol buka laporan
-    - statistik
-  */
+let reports = [];
 
-  const urlsInput = document.getElementById("urls");
-  const detailInput = document.getElementById("detail");
-  const queue = document.getElementById("queue");
+function cleanUrls(text){
+  const lines = text.split(/\r?\n/).map(v => v.trim()).filter(Boolean);
+  const unique = [...new Set(lines)];
+  return unique.slice(0,100);
+}
 
-  if (!urlsInput || !detailInput || !queue) {
-    console.warn("BASMI PHISING: elemen dashboard tidak ditemukan.");
-    return;
+function validUrl(value){
+  try{
+    const u = new URL(value);
+    return u.protocol === "http:" || u.protocol === "https:";
+  }catch{
+    return false;
   }
+}
 
-  /*
-    Menyalin detail laporan.
-  */
-  async function copyDetail(detail) {
-    if (!detail) return;
+function reportUrl(url){
+  return REPORT_BASE + encodeURIComponent(url);
+}
 
-    try {
-      await navigator.clipboard.writeText(detail);
-      return true;
-    } catch (error) {
-      const textarea = document.createElement("textarea");
+function updateStats(){
+  $("totalUrl").textContent = reports.length;
+  $("validUrl").textContent = reports.filter(x => x.valid).length;
+  $("invalidUrl").textContent = reports.filter(x => !x.valid).length;
+  $("openedUrl").textContent = reports.filter(x => x.opened).length;
+  $("allCount").textContent = `${reports.length} URL`;
+}
 
-      textarea.value = detail;
-      textarea.style.position = "fixed";
-      textarea.style.opacity = "0";
+function render(){
+  queue.innerHTML = "";
 
-      document.body.appendChild(textarea);
+  reports.forEach((item,index)=>{
+    const row = document.createElement("div");
+    row.className = "item";
 
-      textarea.focus();
-      textarea.select();
+    const num = document.createElement("div");
+    num.className = "num";
+    num.textContent = index + 1;
 
-      try {
-        document.execCommand("copy");
-      } catch (e) {}
+    const info = document.createElement("div");
+    const url = document.createElement("div");
+    url.className = "url";
+    url.textContent = item.url;
+    const detail = document.createElement("div");
+    detail.className = "detail-line";
+    detail.textContent = `Detail: ${item.detail || "-"}`;
+    info.append(url,detail);
 
-      textarea.remove();
+    const actions = document.createElement("div");
+    actions.className = "item-actions";
 
-      return true;
-    }
-  }
+    const copy = document.createElement("button");
+    copy.className = "copy";
+    copy.textContent = "SALIN DETAIL";
+    copy.onclick = async () => {
+      await navigator.clipboard.writeText(item.detail || "");
+      copy.textContent = "TERSALIN";
+      setTimeout(()=>copy.textContent="SALIN DETAIL",1200);
+    };
 
-  /*
-    Tambahkan fungsi SALIN DETAIL ke setiap laporan.
-  */
-  function updateReportButtons() {
+    const open = document.createElement("button");
+    open.className = item.opened ? "opened" : "open";
+    open.textContent = item.opened ? "✓ SUDAH DIBUKA" : "BUKA LAPORAN";
+    open.onclick = () => {
+      window.open(reportUrl(item.url), "_blank", "noopener,noreferrer");
+      item.opened = true;
+      render();
+      updateStats();
+    };
 
-    const detail = detailInput.value.trim();
-
-    queue.querySelectorAll(".item").forEach(function (item) {
-
-      /*
-        Jangan mengubah tombol ALL.
-      */
-      if (item.classList.contains("bulk-item")) {
-        return;
-      }
-
-      /*
-        Cari area tombol.
-        Versi index.html kita menggunakan tombol langsung
-        di dalam item.
-      */
-      const buttons = item.querySelectorAll("button");
-
-      if (!buttons.length) {
-        return;
-      }
-
-      /*
-        Cegah membuat tombol salin berkali-kali.
-      */
-      if (item.querySelector(".copy-detail-btn")) {
-        return;
-      }
-
-      const copyButton = document.createElement("button");
-
-      copyButton.type = "button";
-      copyButton.className = "copy-detail-btn";
-      copyButton.textContent = "SALIN DETAIL";
-
-      copyButton.addEventListener("click", async function (event) {
-
-        event.preventDefault();
-        event.stopPropagation();
-
-        const text = detailInput.value.trim();
-
-        if (!text) {
-          alert("Detail laporan masih kosong.");
-          return;
-        }
-
-        const copied = await copyDetail(text);
-
-        if (copied) {
-
-          copyButton.textContent = "✓ TERSALIN";
-
-          setTimeout(function () {
-            copyButton.textContent = "SALIN DETAIL";
-          }, 1200);
-
-        }
-
-      });
-
-      /*
-        Letakkan sebelum tombol BUKA LAPORAN.
-      */
-      const openButton = item.querySelector(".open");
-
-      if (openButton) {
-        openButton.parentNode.insertBefore(
-          copyButton,
-          openButton
-        );
-      } else {
-        item.appendChild(copyButton);
-      }
-
-    });
-
-  }
-
-  /*
-    Setelah PROSES URL selesai,
-    index.html membuat daftar item.
-  */
-  const observer = new MutationObserver(function () {
-
-    if (queue.children.length) {
-      updateReportButtons();
-    }
-
+    actions.append(copy,open);
+    row.append(num,info,actions);
+    queue.appendChild(row);
   });
 
-  observer.observe(queue, {
-    childList: true,
-    subtree: true
+  $("openAllBtn").disabled = reports.length === 0;
+  $("openAllBtn").textContent = reports.length ? "↗ BUKA SEMUA" : "↗ BUKA SEMUA";
+  updateStats();
+}
+
+$("processBtn").onclick = () => {
+  const urls = cleanUrls(urlInput.value);
+  const detail = detailInput.value.trim();
+
+  reports = urls.map(url => ({
+    url,
+    detail,
+    valid: validUrl(url),
+    opened:false
+  }));
+
+  render();
+};
+
+$("clearBtn").onclick = () => {
+  urlInput.value = "";
+  detailInput.value = "";
+  reports = [];
+  $("detailCount").textContent = "0";
+  render();
+};
+
+detailInput.addEventListener("input",()=>{
+  $("detailCount").textContent = detailInput.value.length;
+});
+
+$("openAllBtn").onclick = () => {
+  // Browser dapat memblokir sebagian popup jika terlalu banyak tab dibuka.
+  // Tombol satu-per-satu tetap tersedia sebagai cara yang paling stabil.
+  reports.forEach((item,index)=>{
+    setTimeout(()=>{
+      const win = window.open(reportUrl(item.url), "_blank");
+      if(win) item.opened = true;
+      if(index === reports.length - 1){
+        render();
+      }
+    }, index * 180);
   });
+};
 
-  /*
-    Jika detail laporan diubah,
-    tidak perlu mengubah fungsi utama.
-  */
-  detailInput.addEventListener("input", function () {
-
-    /*
-      Hanya memperbarui fungsi tambahan.
-    */
-    updateReportButtons();
-
-  });
-
-})();
+render();
