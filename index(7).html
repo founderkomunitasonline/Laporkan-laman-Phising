@@ -1,0 +1,777 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Phishing Report Dashboard</title>
+
+<style>
+*{box-sizing:border-box}
+
+html,body{
+  margin:0;
+  min-height:100%;
+  font-family:Arial,Helvetica,sans-serif;
+  background:#020712;
+  color:#fff;
+  overflow-x:hidden;
+}
+
+body{
+  position:relative;
+  padding:35px 14px;
+}
+
+/* BACKGROUND */
+.bg{
+  position:fixed;
+  inset:0;
+  overflow:hidden;
+  pointer-events:none;
+  z-index:0;
+  background:
+    radial-gradient(circle at 50% 15%,rgba(0,180,255,.12),transparent 30%),
+    radial-gradient(circle at 15% 70%,rgba(255,0,180,.08),transparent 30%),
+    radial-gradient(circle at 85% 60%,rgba(0,255,180,.08),transparent 30%),
+    #020712;
+}
+
+.grid{
+  position:absolute;
+  inset:0;
+  opacity:.18;
+  background-image:
+    linear-gradient(rgba(0,180,255,.15) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(0,180,255,.15) 1px,transparent 1px);
+  background-size:45px 45px;
+  transform:perspective(500px) rotateX(55deg) scale(1.5);
+  transform-origin:bottom;
+}
+
+/* PARTICLES */
+.particle{
+  position:absolute;
+  width:3px;
+  height:3px;
+  border-radius:50%;
+  background:currentColor;
+  box-shadow:0 0 10px currentColor;
+  animation:float linear infinite;
+}
+
+.p1{left:8%;top:25%;color:#00eaff;animation-duration:8s}
+.p2{left:18%;top:70%;color:#ff4fd8;animation-duration:11s}
+.p3{left:32%;top:35%;color:#ffe45c;animation-duration:9s}
+.p4{left:47%;top:80%;color:#62ff9b;animation-duration:12s}
+.p5{left:61%;top:22%;color:#7b7cff;animation-duration:10s}
+.p6{left:76%;top:65%;color:#ff8a4d;animation-duration:9s}
+.p7{left:90%;top:30%;color:#00eaff;animation-duration:13s}
+.p8{left:70%;top:88%;color:#ff4fd8;animation-duration:8s}
+.p9{left:42%;top:12%;color:#ffe45c;animation-duration:10s}
+.p10{left:13%;top:48%;color:#62ff9b;animation-duration:12s}
+
+@keyframes float{
+  0%{transform:translateY(30px);opacity:0}
+  20%{opacity:1}
+  80%{opacity:1}
+  100%{transform:translateY(-120px);opacity:0}
+}
+
+/* SHOOTING STARS */
+.shooting{
+  position:absolute;
+  width:110px;
+  height:2px;
+  background:linear-gradient(90deg,transparent,#fff,transparent);
+  box-shadow:0 0 12px #7cecff;
+  transform:rotate(-35deg);
+  animation:shoot 5s linear infinite;
+  opacity:0;
+}
+
+.s1{top:18%;left:5%;animation-delay:1s}
+.s2{top:40%;left:65%;animation-delay:3s}
+.s3{top:65%;left:25%;animation-delay:4.5s}
+
+@keyframes shoot{
+  0%{transform:translate(0,0) rotate(-35deg);opacity:0}
+  10%{opacity:1}
+  25%{transform:translate(350px,200px) rotate(-35deg);opacity:0}
+  100%{opacity:0}
+}
+
+/* MAIN */
+.container{
+  position:relative;
+  z-index:2;
+  width:min(1100px,100%);
+  margin:auto;
+  padding:30px;
+  border:1px solid rgba(0,210,255,.35);
+  border-radius:22px;
+  background:rgba(8,18,34,.88);
+  box-shadow:
+    0 0 50px rgba(0,180,255,.12),
+    inset 0 0 50px rgba(0,180,255,.025);
+  backdrop-filter:blur(12px);
+}
+
+.container:before,
+.container:after{
+  content:"";
+  position:absolute;
+  width:28px;
+  height:28px;
+  border-color:#00d9ff;
+  border-style:solid;
+}
+
+.container:before{
+  top:10px;
+  left:10px;
+  border-width:1px 0 0 1px;
+}
+
+.container:after{
+  top:10px;
+  right:10px;
+  border-width:1px 1px 0 0;
+}
+
+/* HEADER */
+.header{
+  text-align:center;
+  margin-bottom:28px;
+}
+
+.logo{
+  width:58px;
+  height:58px;
+  margin:auto;
+  border-radius:50%;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:31px;
+  background:radial-gradient(circle,#ffe66d,#d59f16);
+  color:#ff674d;
+  box-shadow:
+    0 0 15px #ffe45c,
+    0 0 40px rgba(255,210,40,.4);
+  animation:pulse 2s ease-in-out infinite;
+}
+
+@keyframes pulse{
+  50%{
+    box-shadow:
+      0 0 25px #ffe45c,
+      0 0 65px rgba(255,210,40,.5);
+  }
+}
+
+h1{
+  margin:15px 0 5px;
+  font-size:26px;
+  background:linear-gradient(90deg,#ffe45c,#61e8ff,#ff70dc);
+  -webkit-background-clip:text;
+  color:transparent;
+}
+
+.subtitle{
+  color:#8ea4bc;
+  font-size:13px;
+}
+
+/* STATS */
+.stats{
+  display:grid;
+  grid-template-columns:repeat(5,1fr);
+  gap:10px;
+  margin-bottom:25px;
+}
+
+.stat{
+  padding:14px;
+  border:1px solid #163955;
+  border-radius:11px;
+  background:linear-gradient(145deg,#0c192b,#08111e);
+}
+
+.stat-label{
+  font-size:9px;
+  color:#728aa5;
+  text-transform:uppercase;
+}
+
+.stat-value{
+  margin-top:5px;
+  font-size:19px;
+  font-weight:bold;
+  color:#ffe04d;
+}
+
+/* SECTION */
+.section-title{
+  display:flex;
+  justify-content:space-between;
+  margin-bottom:9px;
+  font-size:12px;
+  font-weight:bold;
+}
+
+.limit{
+  color:#6f849b;
+}
+
+/* INPUT */
+.input-box{
+  margin-bottom:15px;
+}
+
+textarea{
+  width:100%;
+  resize:vertical;
+  border:1px solid #1d4968;
+  border-radius:12px;
+  background:#030a13;
+  color:#e9f5ff;
+  padding:15px;
+  outline:none;
+  font-family:Consolas,monospace;
+  font-size:12px;
+  line-height:1.55;
+  box-shadow:inset 0 0 25px rgba(0,190,255,.03);
+}
+
+#urls{
+  height:270px;
+}
+
+#detail{
+  height:105px;
+  min-height:80px;
+  max-height:220px;
+}
+
+textarea:focus{
+  border-color:#00cfff;
+  box-shadow:
+    0 0 15px rgba(0,210,255,.15),
+    inset 0 0 25px rgba(0,190,255,.04);
+}
+
+.char-count{
+  text-align:right;
+  margin-top:5px;
+  color:#617991;
+  font-size:10px;
+}
+
+/* BUTTONS */
+.actions{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:10px;
+  margin-top:12px;
+}
+
+button{
+  border:0;
+  border-radius:9px;
+  height:44px;
+  cursor:pointer;
+  font-weight:bold;
+  transition:.2s;
+}
+
+.process{
+  background:linear-gradient(90deg,#d29c19,#ffe45c,#d29c19);
+  color:#111;
+  box-shadow:0 0 20px rgba(255,215,60,.15);
+}
+
+.process:hover{
+  transform:translateY(-2px);
+  box-shadow:0 0 28px rgba(255,215,60,.3);
+}
+
+.clear{
+  background:#152337;
+  color:#b8c8d8;
+  border:1px solid #29435f;
+}
+
+.clear:hover{
+  background:#1c3049;
+}
+
+/* QUEUE */
+.queue{
+  margin-top:20px;
+}
+
+.item{
+  display:flex;
+  align-items:center;
+  gap:12px;
+  padding:12px;
+  margin-bottom:8px;
+  border:1px solid #183651;
+  border-radius:10px;
+  background:linear-gradient(90deg,#091525,#0c1929);
+  transition:.2s;
+}
+
+.item:hover{
+  border-color:#267da5;
+  transform:translateX(2px);
+}
+
+.number{
+  min-width:25px;
+  color:#ffe04d;
+  font-weight:bold;
+}
+
+.item-content{
+  flex:1;
+  min-width:0;
+}
+
+.url{
+  overflow:hidden;
+  white-space:nowrap;
+  text-overflow:ellipsis;
+  color:#b9cce0;
+  font-family:Consolas,monospace;
+  font-size:11px;
+}
+
+.detail-preview{
+  margin-top:5px;
+  color:#7f9bb4;
+  font-size:10px;
+  overflow:hidden;
+  white-space:nowrap;
+  text-overflow:ellipsis;
+}
+
+.open{
+  min-width:125px;
+  height:36px;
+  background:#147bea;
+  color:#fff;
+}
+
+.open:hover{
+  background:#2892ff;
+  box-shadow:0 0 18px rgba(20,123,234,.4);
+}
+
+.open.opened{
+  background:linear-gradient(90deg,#16875a,#26c985);
+  box-shadow:0 0 18px rgba(38,201,133,.25);
+}
+
+/* DUPLICATE NOTICE */
+.duplicate-info{
+  display:none;
+  margin-top:10px;
+  padding:10px 13px;
+  border-radius:8px;
+  border:1px solid rgba(255,210,50,.25);
+  background:rgba(255,210,50,.06);
+  color:#e8ca58;
+  font-size:11px;
+}
+
+.duplicate-info.show{
+  display:block;
+}
+
+/* NOTE */
+.note{
+  margin-top:20px;
+  padding:13px;
+  border-left:3px solid #ffe04d;
+  border-radius:7px;
+  background:rgba(255,255,255,.025);
+  color:#8095ab;
+  font-size:11px;
+  line-height:1.6;
+}
+
+@media(max-width:700px){
+  .container{padding:18px}
+  .stats{grid-template-columns:repeat(2,1fr)}
+  .stats .stat:last-child{grid-column:span 2}
+  .actions{grid-template-columns:1fr}
+  .item{align-items:flex-start}
+  .url{
+    white-space:normal;
+    overflow-wrap:anywhere;
+  }
+  .open{min-width:105px}
+}
+</style>
+</head>
+
+<body>
+
+<div class="bg">
+  <div class="grid"></div>
+
+  <div class="particle p1"></div>
+  <div class="particle p2"></div>
+  <div class="particle p3"></div>
+  <div class="particle p4"></div>
+  <div class="particle p5"></div>
+  <div class="particle p6"></div>
+  <div class="particle p7"></div>
+  <div class="particle p8"></div>
+  <div class="particle p9"></div>
+  <div class="particle p10"></div>
+
+  <div class="shooting s1"></div>
+  <div class="shooting s2"></div>
+  <div class="shooting s3"></div>
+</div>
+
+<div class="container">
+
+  <div class="header">
+    <div class="logo">⚡</div>
+    <h1>Phishing Report Dashboard</h1>
+    <div class="subtitle">
+      Futuristic URL reporting interface
+    </div>
+  </div>
+
+  <div class="stats">
+
+    <div class="stat">
+      <div class="stat-label">Total URL</div>
+      <div class="stat-value" id="total">0</div>
+    </div>
+
+    <div class="stat">
+      <div class="stat-label">Valid</div>
+      <div class="stat-value" id="valid">0</div>
+    </div>
+
+    <div class="stat">
+      <div class="stat-label">Invalid</div>
+      <div class="stat-value" id="invalid">0</div>
+    </div>
+
+    <div class="stat">
+      <div class="stat-label">Dibuka</div>
+      <div class="stat-value" id="opened">0</div>
+    </div>
+
+    <div class="stat">
+      <div class="stat-label">Status</div>
+      <div class="stat-value">ACTIVE</div>
+    </div>
+
+  </div>
+
+  <div class="input-box">
+    <div class="section-title">
+      <span>📋 URL INPUT</span>
+      <span class="limit">Maksimal 100 URL unik</span>
+    </div>
+
+    <textarea
+      id="urls"
+      placeholder="https://contoh1.com
+https://contoh2.com
+https://contoh3.com
+https://contoh4.com"></textarea>
+  </div>
+
+  <div class="input-box">
+    <div class="section-title">
+      <span>📝 DETAIL LAPORAN</span>
+      <span class="limit">Maksimal 800 karakter</span>
+    </div>
+
+    <textarea
+      id="detail"
+      maxlength="800"
+      placeholder="LINK SCAM PHISING"></textarea>
+
+    <div class="char-count">
+      <span id="detailCount">0</span>/800
+    </div>
+  </div>
+
+  <div id="duplicateInfo" class="duplicate-info"></div>
+
+  <div class="actions">
+    <button class="process" id="process">
+      ⚡ PROSES URL
+    </button>
+
+    <button class="clear" id="clear">
+      🗑 BERSIHKAN
+    </button>
+  </div>
+
+  <div class="queue" id="queue"></div>
+
+  <div class="note">
+    URL duplikat otomatis dihapus. Jika URL yang sama muncul
+    beberapa kali, hanya kemunculan pertama yang digunakan.
+    Maksimal 100 URL unik diproses. Detail laporan disimpan
+    sebagai informasi pada setiap item laporan.
+  </div>
+
+</div>
+
+<script>
+
+const textarea = document.getElementById("urls");
+const detailTextarea = document.getElementById("detail");
+const detailCount = document.getElementById("detailCount");
+const queue = document.getElementById("queue");
+
+const totalEl = document.getElementById("total");
+const validEl = document.getElementById("valid");
+const invalidEl = document.getElementById("invalid");
+const openedEl = document.getElementById("opened");
+const duplicateInfo = document.getElementById("duplicateInfo");
+
+let openedCount = 0;
+
+/* Ambil URL dan buang duplikat.
+   Kemunculan pertama selalu dipertahankan. */
+function getUniqueUrls(){
+
+  const seen = new Set();
+  const uniqueUrls = [];
+
+  const rawUrls = textarea.value
+    .split(/\\r?\\n/)
+    .map(x => x.trim())
+    .filter(x => x !== "");
+
+  rawUrls.forEach(url => {
+
+    let normalized = url;
+
+    try{
+      const parsed = new URL(url);
+      normalized = parsed.href.toLowerCase();
+    }catch{
+      normalized = url.toLowerCase();
+    }
+
+    if(!seen.has(normalized)){
+      seen.add(normalized);
+      uniqueUrls.push(url);
+    }
+
+  });
+
+  return {
+    raw: rawUrls,
+    unique: uniqueUrls
+  };
+}
+
+function getUrls(){
+  return getUniqueUrls().unique;
+}
+
+function isValidUrl(value){
+
+  try{
+    const u = new URL(value);
+
+    return (
+      u.protocol === "http:" ||
+      u.protocol === "https:"
+    );
+
+  }catch{
+    return false;
+  }
+
+}
+
+function getDetail(){
+  return detailTextarea.value.trim();
+}
+
+function updateDetailCount(){
+  detailCount.textContent = detailTextarea.value.length;
+}
+
+function updateStats(){
+
+  const result = getUniqueUrls();
+  const urls = result.unique;
+
+  const valid = urls.filter(isValidUrl).length;
+  const invalid = urls.length - valid;
+
+  const duplicateCount =
+    result.raw.length - result.unique.length;
+
+  totalEl.textContent = urls.length;
+  validEl.textContent = valid;
+  invalidEl.textContent = invalid;
+  openedEl.textContent = openedCount;
+
+  if(duplicateCount > 0){
+
+    duplicateInfo.classList.add("show");
+
+    duplicateInfo.textContent =
+      "♻ " + duplicateCount +
+      " URL duplikat ditemukan dan otomatis dihapus. " +
+      "Yang dipertahankan adalah kemunculan pertama.";
+
+  }else{
+
+    duplicateInfo.classList.remove("show");
+    duplicateInfo.textContent = "";
+
+  }
+
+}
+
+textarea.addEventListener("input", updateStats);
+detailTextarea.addEventListener("input", updateDetailCount);
+
+document.getElementById("process").addEventListener(
+  "click",
+  function(){
+
+    const urls = getUrls();
+
+    if(!urls.length){
+      alert("Masukkan minimal 1 URL.");
+      return;
+    }
+
+    const detail = getDetail();
+
+    if(!detail){
+      alert("Isi Detail Laporan terlebih dahulu.");
+      detailTextarea.focus();
+      return;
+    }
+
+    queue.innerHTML = "";
+    openedCount = 0;
+
+    updateStats();
+
+    urls.slice(0,100).forEach(function(url,index){
+
+      const item = document.createElement("div");
+      item.className = "item";
+
+      const number = document.createElement("div");
+      number.className = "number";
+      number.textContent = index + 1;
+
+      const content = document.createElement("div");
+      content.className = "item-content";
+
+      const urlText = document.createElement("div");
+      urlText.className = "url";
+      urlText.title = url;
+      urlText.textContent = url;
+
+      const detailText = document.createElement("div");
+      detailText.className = "detail-preview";
+      detailText.title = detail;
+      detailText.textContent = "Detail: " + detail;
+
+      const open = document.createElement("button");
+      open.className = "open";
+      open.textContent = "BUKA LAPORAN";
+
+      open.addEventListener("click",function(){
+
+        if(!isValidUrl(url)){
+
+          alert(
+            "URL nomor " +
+            (index + 1) +
+            " tidak valid."
+          );
+
+          return;
+        }
+
+        /*
+          Parameter resmi yang digunakan di sini adalah URL
+          halaman yang akan dilaporkan. Detail laporan tetap
+          tersedia di dashboard sebagai referensi pengguna.
+        */
+        const reportUrl =
+          "https://safebrowsing.google.com/safebrowsing/report_phish/?hl=id&url="
+          + encodeURIComponent(url);
+
+        window.open(
+          reportUrl,
+          "_blank",
+          "noopener,noreferrer"
+        );
+
+        if(!open.classList.contains("opened")){
+
+          open.classList.add("opened");
+
+          open.textContent =
+            "✓ SUDAH DIBUKA";
+
+          openedCount++;
+
+          updateStats();
+
+        }
+
+      });
+
+      content.appendChild(urlText);
+      content.appendChild(detailText);
+
+      item.appendChild(number);
+      item.appendChild(content);
+      item.appendChild(open);
+
+      queue.appendChild(item);
+
+    });
+
+  }
+);
+
+document.getElementById("clear").addEventListener(
+  "click",
+  function(){
+
+    textarea.value = "";
+    detailTextarea.value = "";
+    queue.innerHTML = "";
+
+    openedCount = 0;
+
+    updateDetailCount();
+    updateStats();
+
+  }
+);
+
+updateDetailCount();
+updateStats();
+
+</script>
+
+</body>
+</html>
