@@ -27,3 +27,6 @@ document.addEventListener('DOMContentLoaded', function() {
         dashboard.style.animation = 'fadeIn 1s ease-out';
     }
 });
+showToast('✅ URL berhasil diproses!', 'success');
+showToast('⚠️ URL tidak valid!', 'error');
+showToast('🔍 Memproses URL...', 'info');
