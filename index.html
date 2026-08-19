@@ -1,5 +1,22 @@
 <!DOCTYPE html>
 <html lang="id">
+<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>BASMI PHISING — Security Console</title><link rel="stylesheet" href="styles.css"></head>
+  <link rel="icon" type="image/svg+xml" href="favicon.svg">
+<body>
+<div class="ambient ambient-a"></div><div class="ambient ambient-b"></div>
+<main class="app-shell">
+<nav class="page-nav"><a href="index.html" class="active">DASHBOARD</a><a href="laporan.html">LAPORAN</a></nav>
+<header class="hero"><div class="brand"><div class="brand-shield">◇</div><div><div class="brand-title">BASMI PHISING</div><div class="brand-subtitle">SECURITY CONSOLE</div></div></div><div class="hero-orb" aria-hidden="true"><span></span></div><div class="floating-words" aria-hidden="true"><span>PHISHING</span><span>SCAN</span><span>LINK TERKENDALI</span><span>SECURITY</span><span>REPORT</span></div><h1>Phishing Report Dashboard</h1><p>FUTURISTIC URL REPORTING INTERFACE</p><div class="status-pill"><i></i> SECURITY CONSOLE · READY</div></header>
+<section class="stats"><article><small>TOTAL URL</small><strong id="totalUrl">0</strong></article><article><small>VALID</small><strong id="validUrl">0</strong></article><article><small>INVALID</small><strong id="invalidUrl">0</strong></article><article><small>DIBUKA</small><strong id="openedUrl">0</strong></article><article><small>STATUS</small><strong class="active">ACTIVE</strong></article></section>
+<section class="panel"><div class="field-heading"><label for="urlInput">▣ URL INPUT</label><span>Maksimal 100 URL unik</span></div><textarea id="urlInput" placeholder="https://contoh-domain.com/\nhttps://contoh-domain.net/"></textarea><div class="field-heading"><label for="detailInput">▧ DETAIL LAPORAN</label><span>Maksimal 800 karakter</span></div><textarea id="detailInput" class="detail" maxlength="800" placeholder="Contoh: terindikasi phishing..."></textarea><div class="counter"><span id="detailCount">0</span>/800</div><div class="actions"><button id="processBtn" class="primary">◈ PROSES URL</button><button id="clearBtn" class="secondary">▣ BERSIHKAN</button></div></section>
+<section class="results"><div class="all-row"><div><b>ALL</b><span><strong id="allCount">0 URL</strong> — buka semua laporan sekaligus</span><small>Membuka Google Safe Browsing dengan seluruh URL dalam satu laporan.</small></div><button id="openAllBtn" class="all-button">↗ BUKA SEMUA</button></div><div id="queue" class="queue"></div><div class="note">URL duplikat otomatis dihapus. Setiap URL memiliki detail laporan sendiri. Gunakan tombol <b>BUKA LAPORAN</b> untuk membuka laporan satu per satu.</div></section>
+<footer>© BASMI PHISING · SECURITY CONSOLE</footer>
+</main>
+<script src="app.js"></script><script src="app-detail.js"></script><script src="binary-rain.js"></script>
+</body></html>
+
+<!DOCTYPE html>
+<html lang="id">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
