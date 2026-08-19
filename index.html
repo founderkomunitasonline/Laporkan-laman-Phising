@@ -9,18 +9,23 @@
 
     <style>
         /* ============================================================
-           ANIMASI DASAR
+           ANIMASI DASAR (Pakai !important biar dipaksa jalan)
            ============================================================ */
         .app-shell {
-            animation: fadeIn 0.8s ease-out;
+            animation: fadeIn 0.8s ease-out !important;
+            opacity: 0 !important;
         }
+        .app-shell.animated {
+            opacity: 1 !important;
+        }
+
         @keyframes fadeIn {
             0% { opacity: 0; transform: scale(0.96) translateY(20px); }
             100% { opacity: 1; transform: scale(1) translateY(0); }
         }
 
         .brand-shield {
-            animation: pulseGlow 2.5s infinite alternate;
+            animation: pulseGlow 2.5s infinite alternate !important;
         }
         @keyframes pulseGlow {
             0% { filter: drop-shadow(0 0 5px #00ffff); }
@@ -28,12 +33,12 @@
         }
 
         .brand-title {
-            background: linear-gradient(90deg, #00ffff, #a855f7, #00ffff);
-            background-size: 200% auto;
-            -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent;
-            animation: textShimmer 4s linear infinite;
+            background: linear-gradient(90deg, #00ffff, #a855f7, #00ffff) !important;
+            background-size: 200% auto !important;
+            -webkit-background-clip: text !important;
+            background-clip: text !important;
+            color: transparent !important;
+            animation: textShimmer 4s linear infinite !important;
         }
         @keyframes textShimmer {
             0% { background-position: 0% center; }
@@ -41,7 +46,7 @@
         }
 
         .brand-subtitle {
-            animation: slideIn 0.8s ease-out 0.3s both;
+            animation: slideIn 0.8s ease-out 0.3s both !important;
         }
         @keyframes slideIn {
             0% { opacity: 0; transform: translateX(-20px); }
@@ -49,11 +54,11 @@
         }
 
         .page-nav a {
-            transition: all 0.3s ease;
+            transition: all 0.3s ease !important;
         }
         .page-nav a:hover {
-            transform: translateY(-2px);
-            text-shadow: 0 0 15px rgba(0, 255, 255, 0.6);
+            transform: translateY(-2px) !important;
+            text-shadow: 0 0 15px rgba(0, 255, 255, 0.6) !important;
         }
 
         /* Container partikel di belakang */
@@ -75,16 +80,16 @@
            EFEK INTERAKSI (Tombol & Kartu)
            ============================================================ */
         .primary, .secondary, .all-button {
-            transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94) !important;
             position: relative;
             overflow: hidden;
         }
         .primary:hover, .secondary:hover, .all-button:hover {
-            transform: translateY(-3px) scale(1.02);
-            box-shadow: 0 10px 30px rgba(0, 255, 255, 0.25);
+            transform: translateY(-3px) scale(1.02) !important;
+            box-shadow: 0 10px 30px rgba(0, 255, 255, 0.25) !important;
         }
         .primary:active, .secondary:active, .all-button:active {
-            transform: scale(0.96);
+            transform: scale(0.96) !important;
         }
 
         textarea:focus {
@@ -93,23 +98,23 @@
         }
 
         .stats article {
-            transition: all 0.3s ease;
+            transition: all 0.3s ease !important;
             cursor: default;
         }
         .stats article:hover {
-            transform: translateY(-5px);
+            transform: translateY(-5px) !important;
             background: rgba(0, 255, 255, 0.08) !important;
             border-color: #00ffff !important;
-            box-shadow: 0 8px 25px rgba(0, 255, 255, 0.1);
+            box-shadow: 0 8px 25px rgba(0, 255, 255, 0.1) !important;
         }
 
         .queue-item {
-            transition: all 0.3s ease;
+            transition: all 0.3s ease !important;
         }
         .queue-item:hover {
-            transform: translateX(6px);
-            border-left: 3px solid #00ffff;
-            padding-left: 12px;
+            transform: translateX(6px) !important;
+            border-left: 3px solid #00ffff !important;
+            padding-left: 12px !important;
         }
     </style>
 </head>
@@ -123,7 +128,7 @@
     <div class="ambient ambient-b"></div>
 
     <!-- ===== MAIN APP ===== -->
-    <main class="app-shell">
+    <main class="app-shell" id="mainApp">
 
         <!-- Navigasi -->
         <nav class="page-nav">
@@ -237,11 +242,24 @@
         }
 
         // ============================================================
-        // 2. INIT PARTIKEL
+        // 2. FORCE ANIMASI JALAN (Trigger pake JS)
         // ============================================================
         document.addEventListener('DOMContentLoaded', function() {
             console.log('🚀 BASMI PHISING siap!');
 
+            // Force animasi fade-in
+            const app = document.getElementById('mainApp');
+            if (app) {
+                // Reset animasi biar jalan ulang
+                app.style.animation = 'none';
+                app.offsetHeight; // Trigger reflow
+                app.style.animation = 'fadeIn 0.8s ease-out';
+                app.classList.add('animated');
+            }
+
+            // ============================================================
+            // 3. INIT PARTIKEL
+            // ============================================================
             if (typeof tsParticles !== 'undefined') {
                 tsParticles.load({
                     id: 'tsparticles',
@@ -291,12 +309,6 @@
                     }
                 });
             }
-
-            // ============================================================
-            // 3. CONTOH PANGGIL TOAST (OPSIONAL)
-            // ============================================================
-            // Tinggal panggil showToast('Pesan', 'success/error/info')
-            // Contoh: showToast('🚀 Dashboard siap!', 'info');
         });
     </script>
 
