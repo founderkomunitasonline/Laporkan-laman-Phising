@@ -311,6 +311,124 @@
             }
         });
     </script>
+<!-- ============================================================
+     🔥 EFEK API UNTUK TOMBOL DI LAPORAN.HTML
+     ============================================================ -->
+<style>
+    /* Efek Api untuk tombol */
+    .report-actions .primary, 
+    .all-button,
+    .report-actions .secondary {
+        transition: all 0.3s ease !important;
+        position: relative !important;
+        overflow: hidden !important;
+        border: none !important;
+    }
 
+    /* Efek Api saat di-hover */
+    .report-actions .primary:hover, 
+    .all-button:hover,
+    .report-actions .secondary:hover {
+        background: linear-gradient(135deg, #ff4500, #ff8c00) !important;
+        color: #fff !important;
+        box-shadow: 0 0 30px rgba(255, 69, 0, 0.7), 0 0 60px rgba(255, 69, 0, 0.4) !important;
+        transform: scale(1.05) translateY(-3px) !important;
+        animation: firePulse 0.8s infinite alternate !important;
+    }
+
+    /* Animasi berdenyut kayak api */
+    @keyframes firePulse {
+        0% { box-shadow: 0 0 20px rgba(255, 69, 0, 0.6), 0 0 40px rgba(255, 69, 0, 0.3); }
+        100% { box-shadow: 0 0 40px rgba(255, 69, 0, 0.9), 0 0 80px rgba(255, 69, 0, 0.5), 0 0 120px rgba(255, 165, 0, 0.3); }
+    }
+
+    /* Efek partikel api (percikan) */
+    .report-actions .primary:hover::before, 
+    .all-button:hover::before,
+    .report-actions .secondary:hover::before {
+        content: '';
+        position: absolute;
+        top: -50%;
+        left: -50%;
+        width: 200%;
+        height: 200%;
+        background: radial-gradient(circle at 30% 30%, rgba(255, 69, 0, 0.3), transparent 60%);
+        animation: fireSparks 0.6s ease-out forwards;
+        pointer-events: none;
+    }
+
+    @keyframes fireSparks {
+        0% { transform: scale(0.5) rotate(0deg); opacity: 1; }
+        100% { transform: scale(1.5) rotate(20deg); opacity: 0; }
+    }
+
+    /* Efek hover untuk tombol "SUDAH DIBUKA" (biasanya disabled) */
+    .report-actions .secondary:disabled:hover {
+        background: #2a2a2a !important;
+        box-shadow: none !important;
+        transform: none !important;
+        animation: none !important;
+        cursor: not-allowed;
+    }
+
+    /* Efek hover untuk elemen queue item (daftar URL) */
+    .queue-item:hover {
+        transform: translateX(8px) !important;
+        border-left: 4px solid #ff4500 !important;
+        box-shadow: 0 0 20px rgba(255, 69, 0, 0.2) !important;
+        transition: all 0.3s ease !important;
+    }
+
+    /* Efek hover untuk tombol BUKA LAPORAN per item */
+    .queue-item .btn-open:hover {
+        background: linear-gradient(135deg, #ff4500, #ff8c00) !important;
+        color: #fff !important;
+        box-shadow: 0 0 20px rgba(255, 69, 0, 0.6) !important;
+        transform: scale(1.05) !important;
+        transition: all 0.3s ease !important;
+    }
+</style>
+
+<!-- ============================================================
+     🔥 SCRIPT UNTUK MENAMBAH EFEK API KE TOMBOL "SUDAH DIBUKA"
+     ============================================================ -->
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    console.log('🔥 Efek API aktif untuk tombol laporan!');
+
+    // Ambil semua tombol dengan class .secondary yang ada di dalam .report-actions
+    const reportButtons = document.querySelectorAll('.report-actions .secondary, .report-actions .primary, .all-button');
+    
+    reportButtons.forEach(btn => {
+        // Tambahkan efek suara (opsional) atau class tambahan
+        btn.addEventListener('mouseenter', function() {
+            // Trigger efek visual tambahan jika diperlukan
+            console.log('🔥 Tombol disentuh api!');
+        });
+        
+        // Efek klik - ledakan kecil
+        btn.addEventListener('click', function() {
+            this.style.transform = 'scale(0.95)';
+            setTimeout(() => {
+                this.style.transform = '';
+            }, 150);
+        });
+    });
+
+    // Khusus untuk tombol "SUDAH DIBUKA" yang disable, kita kasih efek berbeda
+    const disabledButtons = document.querySelectorAll('.secondary:disabled');
+    disabledButtons.forEach(btn => {
+        btn.addEventListener('mouseenter', function() {
+            // Tetap kasih efek meskipun disable
+            this.style.border = '2px solid #ff4500';
+            this.style.boxShadow = '0 0 15px rgba(255, 69, 0, 0.3)';
+        });
+        btn.addEventListener('mouseleave', function() {
+            this.style.border = '';
+            this.style.boxShadow = '';
+        });
+    });
+});
+</script>
 </body>
 </html>
