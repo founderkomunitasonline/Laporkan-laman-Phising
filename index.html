@@ -9,7 +9,7 @@
 
     <style>
         /* ============================================================
-           ANIMASI DASAR (Tetap jalan walau tanpa partikel)
+           ANIMASI DASAR
            ============================================================ */
         .app-shell {
             animation: fadeIn 0.8s ease-out;
@@ -56,101 +56,7 @@
             text-shadow: 0 0 15px rgba(0, 255, 255, 0.6);
         }
 
-        /* ============================================================
-           DARK / LIGHT MODE
-           ============================================================ */
-        /* Tombol toggle */
-        .theme-toggle {
-            position: fixed;
-            bottom: 30px;
-            right: 30px;
-            z-index: 9999;
-            background: rgba(0, 255, 255, 0.15);
-            backdrop-filter: blur(12px);
-            border: 1px solid rgba(0, 255, 255, 0.3);
-            border-radius: 60px;
-            padding: 14px 20px;
-            color: #d0e0ff;
-            font-family: 'Courier New', monospace;
-            font-size: 0.9rem;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.4s ease;
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            box-shadow: 0 8px 32px rgba(0,0,0,0.5);
-        }
-        .theme-toggle:hover {
-            transform: scale(1.05) translateY(-3px);
-            box-shadow: 0 0 40px rgba(0, 255, 255, 0.3);
-            border-color: #00ffff;
-        }
-        .theme-toggle .icon {
-            font-size: 1.4rem;
-        }
-
-        /* Light theme */
-        body.light-theme {
-            background: #f0f4ff !important;
-            color: #0b0d15 !important;
-        }
-        body.light-theme .app-shell {
-            background: rgba(255, 255, 255, 0.85) !important;
-            backdrop-filter: blur(12px);
-            border-color: rgba(0, 0, 0, 0.15) !important;
-        }
-        body.light-theme .brand-title {
-            background: linear-gradient(90deg, #0066ff, #7b2ffc, #0066ff) !important;
-            background-size: 200% auto !important;
-            -webkit-background-clip: text !important;
-            background-clip: text !important;
-            color: transparent !important;
-        }
-        body.light-theme .brand-subtitle,
-        body.light-theme p,
-        body.light-theme .subtitle {
-            color: #1a1a2e !important;
-        }
-        body.light-theme .panel,
-        body.light-theme .results {
-            background: rgba(255, 255, 255, 0.6) !important;
-            border-color: rgba(0, 0, 0, 0.1) !important;
-        }
-        body.light-theme textarea {
-            background: rgba(0, 0, 0, 0.05) !important;
-            color: #1a1a2e !important;
-            border-color: rgba(0, 0, 0, 0.2) !important;
-        }
-        body.light-theme .page-nav a {
-            color: #1a1a2e !important;
-        }
-        body.light-theme .page-nav a.active {
-            color: #0066ff !important;
-            border-bottom-color: #0066ff !important;
-        }
-        body.light-theme .status-pill {
-            background: rgba(0, 0, 0, 0.08) !important;
-            color: #1a1a2e !important;
-        }
-        body.light-theme .stats article {
-            background: rgba(0, 0, 0, 0.05) !important;
-            color: #1a1a2e !important;
-        }
-        body.light-theme footer {
-            color: #555 !important;
-        }
-        body.light-theme .theme-toggle {
-            background: rgba(0, 0, 0, 0.1) !important;
-            color: #1a1a2e !important;
-            border-color: rgba(0, 0, 0, 0.2) !important;
-        }
-        body.light-theme .theme-toggle:hover {
-            border-color: #0066ff !important;
-            box-shadow: 0 0 40px rgba(0, 102, 255, 0.2) !important;
-        }
-
-        /* Biar container partikel tidak blocking */
+        /* Container partikel di belakang */
         #tsparticles {
             position: fixed;
             top: 0;
@@ -256,12 +162,6 @@
 
     </main>
 
-    <!-- ===== TOMBOL THEME TOGGLE ===== -->
-    <button id="themeToggle" class="theme-toggle">
-        <span class="icon">🌙</span>
-        <span id="themeLabel">GELAP</span>
-    </button>
-
     <!-- ===== SCRIPTS ===== -->
     <script src="app.js"></script>
     <script src="app-detail.js"></script>
@@ -273,20 +173,24 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            console.log('🚀 BASMI PHISING dengan Partikel & Dark/Light Mode aktif!');
+            console.log('🚀 Partikel aktif!');
 
-            // ============================================================
-            // 1. INIT PARTIKEL
-            // ============================================================
             if (typeof tsParticles !== 'undefined') {
                 tsParticles.load({
                     id: 'tsparticles',
                     options: {
                         fpsLimit: 60,
                         particles: {
-                            number: { value: 50, density: { enable: true, value_area: 800 } },
-                            color: { value: ['#00ffff', '#a855f7', '#ffffff'] },
-                            shape: { type: 'circle' },
+                            number: {
+                                value: 50,
+                                density: { enable: true, value_area: 800 }
+                            },
+                            color: {
+                                value: ['#00ffff', '#a855f7', '#ffffff']
+                            },
+                            shape: {
+                                type: 'circle'
+                            },
                             opacity: {
                                 value: 0.3,
                                 random: true,
@@ -319,53 +223,6 @@
                         background: { color: 'transparent' }
                     }
                 });
-            }
-
-            // ============================================================
-            // 2. DARK / LIGHT MODE TOGGLE
-            // ============================================================
-            const toggleBtn = document.getElementById('themeToggle');
-            const themeLabel = document.getElementById('themeLabel');
-            const icon = toggleBtn.querySelector('.icon');
-
-            let currentTheme = localStorage.getItem('theme') || 'dark';
-            applyTheme(currentTheme);
-
-            toggleBtn.addEventListener('click', function() {
-                const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
-                applyTheme(newTheme);
-            });
-
-            function applyTheme(theme) {
-                currentTheme = theme;
-                document.body.classList.remove('dark-theme', 'light-theme');
-                document.body.classList.add(theme + '-theme');
-
-                if (theme === 'dark') {
-                    icon.textContent = '🌙';
-                    themeLabel.textContent = 'GELAP';
-                } else {
-                    icon.textContent = '☀️';
-                    themeLabel.textContent = 'TERANG';
-                }
-
-                localStorage.setItem('theme', theme);
-
-                // Update warna partikel sesuai tema
-                const colors = theme === 'dark' ?
-                    ['#00ffff', '#a855f7', '#ffffff'] :
-                    ['#0066ff', '#7b2ffc', '#ff6b6b'];
-
-                if (typeof tsParticles !== 'undefined') {
-                    tsParticles.load({
-                        id: 'tsparticles',
-                        options: {
-                            particles: {
-                                color: { value: colors }
-                            }
-                        }
-                    });
-                }
             }
         });
     </script>
