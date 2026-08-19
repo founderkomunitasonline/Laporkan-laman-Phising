@@ -70,6 +70,47 @@
             position: relative;
             z-index: 1;
         }
+
+        /* ============================================================
+           EFEK INTERAKSI (Tombol & Kartu)
+           ============================================================ */
+        .primary, .secondary, .all-button {
+            transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            position: relative;
+            overflow: hidden;
+        }
+        .primary:hover, .secondary:hover, .all-button:hover {
+            transform: translateY(-3px) scale(1.02);
+            box-shadow: 0 10px 30px rgba(0, 255, 255, 0.25);
+        }
+        .primary:active, .secondary:active, .all-button:active {
+            transform: scale(0.96);
+        }
+
+        textarea:focus {
+            border-color: #00ffff !important;
+            box-shadow: 0 0 30px rgba(0, 255, 255, 0.15) !important;
+        }
+
+        .stats article {
+            transition: all 0.3s ease;
+            cursor: default;
+        }
+        .stats article:hover {
+            transform: translateY(-5px);
+            background: rgba(0, 255, 255, 0.08) !important;
+            border-color: #00ffff !important;
+            box-shadow: 0 8px 25px rgba(0, 255, 255, 0.1);
+        }
+
+        .queue-item {
+            transition: all 0.3s ease;
+        }
+        .queue-item:hover {
+            transform: translateX(6px);
+            border-left: 3px solid #00ffff;
+            padding-left: 12px;
+        }
     </style>
 </head>
 <body>
@@ -162,6 +203,9 @@
 
     </main>
 
+    <!-- ===== NOTIFIKASI TOAST ===== -->
+    <div id="toast" style="position:fixed;bottom:100px;right:30px;background:rgba(0,255,255,0.15);backdrop-filter:blur(12px);border:1px solid #00ffff;color:#d0e0ff;padding:14px 28px;border-radius:16px;z-index:9999;display:none;font-family:'Courier New',monospace;font-weight:600;font-size:0.95rem;box-shadow:0 8px 32px rgba(0,0,0,0.6);min-width:200px;text-align:center;"></div>
+
     <!-- ===== SCRIPTS ===== -->
     <script src="app.js"></script>
     <script src="app-detail.js"></script>
@@ -172,8 +216,31 @@
     </script>
 
     <script>
+        // ============================================================
+        // 1. FUNGSI TOAST
+        // ============================================================
+        function showToast(message, type = 'info') {
+            const toast = document.getElementById('toast');
+            toast.textContent = message;
+            if (type === 'success') {
+                toast.style.borderColor = '#00ff88';
+                toast.style.color = '#00ff88';
+            } else if (type === 'error') {
+                toast.style.borderColor = '#ff4444';
+                toast.style.color = '#ff4444';
+            } else {
+                toast.style.borderColor = '#00ffff';
+                toast.style.color = '#d0e0ff';
+            }
+            toast.style.display = 'block';
+            setTimeout(() => { toast.style.display = 'none'; }, 3500);
+        }
+
+        // ============================================================
+        // 2. INIT PARTIKEL
+        // ============================================================
         document.addEventListener('DOMContentLoaded', function() {
-            console.log('🚀 Partikel aktif!');
+            console.log('🚀 BASMI PHISING siap!');
 
             if (typeof tsParticles !== 'undefined') {
                 tsParticles.load({
@@ -224,6 +291,12 @@
                     }
                 });
             }
+
+            // ============================================================
+            // 3. CONTOH PANGGIL TOAST (OPSIONAL)
+            // ============================================================
+            // Tinggal panggil showToast('Pesan', 'success/error/info')
+            // Contoh: showToast('🚀 Dashboard siap!', 'info');
         });
     </script>
 
