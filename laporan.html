@@ -1,8 +1,196 @@
-<!DOCTYPE html><html lang="id"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>BASMI PHISING — Report Center</title><link rel="stylesheet" href="styles.css"></head><link rel="icon" type="image/svg+xml" href="favicon.svg"><body>
-<div class="ambient ambient-a"></div><div class="ambient ambient-b"></div><main class="app-shell">
-<nav class="page-nav"><a href="index.html">DASHBOARD</a><a href="laporan.html" class="active">LAPORAN</a></nav>
-<header class="hero"><div class="brand"><div class="brand-shield">◇</div><div><div class="brand-title">BASMI PHISING</div><div class="brand-subtitle">REPORT CENTER</div></div></div><div class="hero-orb" aria-hidden="true"><span></span></div><div class="floating-words" aria-hidden="true"><span>REPORT</span><span>EMAIL</span><span>NETCRAFT</span><span>SECURITY</span><span>VERIFICATION</span></div><h1>Reporting Center</h1><p>PREPARE · COPY · REPORT</p><div class="status-pill"><i></i> <span id="reportStatus">MEMUAT DATA...</span></div></header>
-<section class="panel"><div class="report-info"><strong>REPORT DESTINATION</strong><span id="reportCount">0 URL</span></div><div class="report-tabs"><button id="emailTab" class="report-tab active">📧 EMAIL</button><button id="netcraftTab" class="report-tab">🌐 NETCRAFT</button></div>
-<div id="emailPanel" class="report-panel active"><div class="field-heading"><label for="emailPreview">▧ TEMPLATE LAPORAN EMAIL</label><span>Otomatis dari Dashboard</span></div><textarea id="emailPreview" class="report-preview" spellcheck="false"></textarea><div class="report-actions"><button id="copyEmail" class="primary">▣ SALIN LAPORAN</button><button id="refreshReports" class="secondary">↻ PERBARUI DATA</button></div></div>
-<div id="netcraftPanel" class="report-panel"><div class="field-heading"><label>▧ URL UNTUK NETCRAFT</label><span>Bulk report</span></div><div id="netcraftUrls" class="report-list"></div><div class="report-actions"><button id="copyUrls" class="primary">▣ SALIN SEMUA URL</button><button id="openNetcraft" class="all-button">↗ BUKA NETCRAFT</button></div><div class="notice">Saat BUKA NETCRAFT ditekan, daftar URL akan disalin ke clipboard terlebih dahulu. Setelah halaman Netcraft terbuka, tempel daftar URL tersebut ke kolom pelaporan bulk.</div></div></section>
-<footer>© BASMI PHISING · REPORT CENTER</footer></main><script src="laporan.js"></script><script src="binary-rain.js"></script></body></html>
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BASMI PHISING — Report Center</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="icon" type="image/svg+xml" href="favicon.svg">
+
+    <!-- ===== ANIMASI TAMBAHAN ===== -->
+    <style>
+        /* Fade-in untuk seluruh shell */
+        .app-shell {
+            animation: fadeIn 0.8s ease-out;
+        }
+        @keyframes fadeIn {
+            0% { opacity: 0; transform: scale(0.96) translateY(20px); }
+            100% { opacity: 1; transform: scale(1) translateY(0); }
+        }
+
+        /* Glow berdenyut untuk ikon perisai */
+        .brand-shield {
+            animation: pulseGlow 2.5s infinite alternate;
+        }
+        @keyframes pulseGlow {
+            0% { filter: drop-shadow(0 0 5px #00ffff); }
+            100% { filter: drop-shadow(0 0 25px #00ffff); }
+        }
+
+        /* Shimmer teks untuk judul */
+        .brand-title {
+            background: linear-gradient(90deg, #00ffff, #a855f7, #00ffff);
+            background-size: 200% auto;
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            animation: textShimmer 4s linear infinite;
+        }
+        @keyframes textShimmer {
+            0% { background-position: 0% center; }
+            100% { background-position: 200% center; }
+        }
+
+        /* Subtitle slide-in */
+        .brand-subtitle {
+            animation: slideIn 0.8s ease-out 0.3s both;
+        }
+        @keyframes slideIn {
+            0% { opacity: 0; transform: translateX(-20px); }
+            100% { opacity: 1; transform: translateX(0); }
+        }
+
+        /* Efek hover halus untuk navigasi */
+        .page-nav a {
+            transition: all 0.3s ease;
+        }
+        .page-nav a:hover {
+            transform: translateY(-2px);
+            text-shadow: 0 0 15px rgba(0, 255, 255, 0.6);
+        }
+
+        /* Animasi untuk tab panel */
+        .report-panel {
+            animation: fadeIn 0.5s ease-out;
+        }
+
+        /* Badge status berkedip */
+        .status-pill i {
+            animation: pulseDot 1.5s ease-in-out infinite;
+        }
+        @keyframes pulseDot {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.3; }
+        }
+
+        /* Animasi untuk tombol */
+        .primary, .secondary, .all-button {
+            transition: all 0.3s ease;
+        }
+        .primary:hover, .secondary:hover, .all-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 0 25px rgba(0, 255, 255, 0.3);
+        }
+
+        /* Animasi untuk report tabs */
+        .report-tab {
+            transition: all 0.3s ease;
+        }
+        .report-tab:hover {
+            transform: translateY(-1px);
+            text-shadow: 0 0 10px rgba(0, 255, 255, 0.4);
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Ambient Background -->
+    <div class="ambient ambient-a"></div>
+    <div class="ambient ambient-b"></div>
+
+    <!-- ===== MAIN APP ===== -->
+    <main class="app-shell">
+
+        <!-- Navigasi -->
+        <nav class="page-nav">
+            <a href="index.html">DASHBOARD</a>
+            <a href="laporan.html" class="active">LAPORAN</a>
+        </nav>
+
+        <!-- Hero / Branding -->
+        <header class="hero">
+            <div class="brand">
+                <div class="brand-shield">◇</div>
+                <div>
+                    <div class="brand-title">BASMI PHISING</div>
+                    <div class="brand-subtitle">REPORT CENTER</div>
+                </div>
+            </div>
+            <div class="hero-orb" aria-hidden="true"><span></span></div>
+            <div class="floating-words" aria-hidden="true">
+                <span>REPORT</span>
+                <span>EMAIL</span>
+                <span>NETCRAFT</span>
+                <span>SECURITY</span>
+                <span>VERIFICATION</span>
+            </div>
+            <h1>Reporting Center</h1>
+            <p>PREPARE · COPY · REPORT</p>
+            <div class="status-pill"><i></i> <span id="reportStatus">DATA TERSEDIA DARI DASHBOARD</span></div>
+        </header>
+
+        <!-- Panel Laporan -->
+        <section class="panel">
+            <div class="report-info">
+                <strong>REPORT DESTINATION</strong>
+                <span id="reportCount">0 URL</span>
+            </div>
+
+            <!-- Tabs -->
+            <div class="report-tabs">
+                <button id="emailTab" class="report-tab active">📧 EMAIL</button>
+                <button id="netcraftTab" class="report-tab">🌐 NETCRAFT</button>
+            </div>
+
+            <!-- Panel Email -->
+            <div id="emailPanel" class="report-panel active">
+                <div class="field-heading">
+                    <label for="emailPreview">▧ TEMPLATE LAPORAN EMAIL</label>
+                    <span>Otomatis dari Dashboard</span>
+                </div>
+                <textarea id="emailPreview" class="report-preview" spellcheck="false"></textarea>
+                <div class="report-actions">
+                    <button id="copyEmail" class="primary">▣ SALIN LAPORAN</button>
+                    <button id="refreshReports" class="secondary">↻ PERBARUI DATA</button>
+                </div>
+            </div>
+
+            <!-- Panel Netcraft -->
+            <div id="netcraftPanel" class="report-panel">
+                <div class="field-heading">
+                    <label>▧ URL UNTUK NETCRAFT</label>
+                    <span>Bulk report</span>
+                </div>
+                <div id="netcraftUrls" class="report-list"></div>
+                <div class="report-actions">
+                    <button id="copyUrls" class="primary">▣ SALIN SEMUA URL</button>
+                    <button id="openNetcraft" class="all-button">↗ BUKA NETCRAFT</button>
+                </div>
+                <div class="notice">
+                    Saat BUKA NETCRAFT ditekan, daftar URL akan disalin ke clipboard terlebih dahulu. 
+                    Setelah halaman Netcraft terbuka, tempel daftar URL tersebut ke kolom pelaporan bulk.
+                </div>
+            </div>
+        </section>
+
+        <footer>© BASMI PHISING · REPORT CENTER</footer>
+
+    </main>
+
+    <!-- ===== SCRIPTS ===== -->
+    <script src="laporan.js"></script>
+    <script src="binary-rain.js"></script>
+
+    <!-- ===== TRIGGER ANIMASI ===== -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('🚀 Animasi Report Center aktif!');
+            const shell = document.querySelector('.app-shell');
+            if (shell) {
+                shell.style.animation = 'fadeIn 0.8s ease-out';
+            }
+        });
+    </script>
+
+</body>
+</html>
