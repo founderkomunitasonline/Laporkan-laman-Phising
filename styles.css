@@ -590,3 +590,76 @@ body {
 .report-empty{padding:24px 12px;border:1px dashed #21465f;border-radius:10px;color:#6f879b;text-align:center;font-size:10px}
 .notice{margin-top:10px;padding:10px;border-left:3px solid #00cfff;color:#7893a8;background:#08131f;font-size:8px;line-height:1.7}
 @media(max-width:700px){.page-nav a{flex:1;text-align:center;padding:9px 8px}.report-tabs,.report-actions{grid-template-columns:1fr}.report-url-row{align-items:flex-start;flex-direction:column}.report-url-row code{white-space:normal;word-break:break-all}}
+/* ===== ANIMASI BARU ===== */
+
+/* Fade-in untuk container utama */
+.dashboard {
+    animation: fadeIn 1s ease-out;
+}
+
+@keyframes fadeIn {
+    0% { opacity: 0; transform: scale(0.96) translateY(20px); }
+    100% { opacity: 1; transform: scale(1) translateY(0); }
+}
+
+/* Glow berdenyut untuk logo */
+.logo-icon {
+    animation: pulseGlow 2.5s infinite alternate;
+}
+
+@keyframes pulseGlow {
+    0% { filter: drop-shadow(0 0 5px #00ffff); }
+    100% { filter: drop-shadow(0 0 20px #00ffff); }
+}
+
+/* Shimmer text buat judul */
+.title {
+    background: linear-gradient(90deg, #00ffff, #a855f7, #00ffff);
+    background-size: 200% auto;
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    animation: textShimmer 4s linear infinite;
+}
+
+@keyframes textShimmer {
+    0% { background-position: 0% center; }
+    100% { background-position: 200% center; }
+}
+
+/* Dot status berkedip */
+.status-dot {
+    animation: pulseDot 1.5s ease-in-out infinite;
+}
+
+@keyframes pulseDot {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.4; transform: scale(0.6); }
+}
+
+/* Badge berkedip */
+.badge {
+    animation: blinkBadge 2s step-end infinite;
+}
+
+@keyframes blinkBadge {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.4; }
+}
+
+/* Efek hover tombol makin halus */
+.btn-primary:hover {
+    transform: scale(1.03) !important;
+    box-shadow: 0 0 40px rgba(0, 255, 255, 0.5) !important;
+    transition: all 0.3s ease;
+}
+
+/* Efek slide-in buat subtitle */
+.subtitle {
+    animation: slideIn 0.8s ease-out 0.3s both;
+}
+
+@keyframes slideIn {
+    0% { opacity: 0; transform: translateX(-20px); }
+    100% { opacity: 1; transform: translateX(0); }
+}
