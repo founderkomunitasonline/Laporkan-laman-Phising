@@ -17,3 +17,13 @@ detailInput.addEventListener("input",()=>{$("detailCount").textContent=detailInp
 $("openAllBtn").onclick=()=>{reports.forEach((item,index)=>{setTimeout(()=>{const win=window.open(reportUrl(item.url),"_blank");if(win)item.opened=true;if(index===reports.length-1){saveReports();render()}},index*180)})};
 try{const saved=JSON.parse(localStorage.getItem(REPORT_STORAGE_KEY)||"[]");if(Array.isArray(saved))reports=saved}catch(error){reports=[]}
 render();
+// ===== TRIGGER ANIMASI SAAT LOAD =====
+document.addEventListener('DOMContentLoaded', function() {
+    console.log('🚀 Dashboard dengan animasi siap!');
+    
+    // Tambah class buat trigger animasi ke elemen utama
+    const dashboard = document.querySelector('.dashboard');
+    if (dashboard) {
+        dashboard.style.animation = 'fadeIn 1s ease-out';
+    }
+});
