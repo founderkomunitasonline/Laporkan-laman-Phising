@@ -185,6 +185,97 @@
             transform: scale(1.05) !important;
             transition: all 0.3s ease !important;
         }
+
+        /* ============================================================
+           STYLE UNTUK HISTORY LAPORAN
+           ============================================================ */
+        .history-container {
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255,255,255,0.05);
+        }
+        .history-title {
+            font-size: 0.7rem;
+            letter-spacing: 3px;
+            color: rgba(255,255,255,0.15);
+            text-transform: uppercase;
+            margin-bottom: 12px;
+        }
+        .history-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 16px;
+            margin-bottom: 6px;
+            background: rgba(255,255,255,0.02);
+            border-radius: 10px;
+            border: 1px solid rgba(255,255,255,0.04);
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        .history-item:hover {
+            background: rgba(0,255,255,0.05) !important;
+            border-color: rgba(0,255,255,0.15) !important;
+        }
+        .history-item .info {
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+        }
+        .history-item .date {
+            font-size: 0.6rem;
+            color: rgba(255,255,255,0.15);
+            letter-spacing: 1px;
+        }
+        .history-item .urls {
+            font-size: 0.8rem;
+            color: #d0d0d0;
+        }
+        .history-item .actions {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .history-item .delete-btn {
+            background: none;
+            border: 1px solid rgba(255,68,68,0.15);
+            color: rgba(255,68,68,0.3);
+            border-radius: 20px;
+            padding: 2px 12px;
+            font-size: 0.6rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: 'Courier New', monospace;
+        }
+        .history-item .delete-btn:hover {
+            border-color: rgba(255,68,68,0.5);
+            color: #ff4444;
+        }
+        .history-empty {
+            text-align: center;
+            padding: 20px;
+            color: rgba(255,255,255,0.1);
+            font-size: 0.7rem;
+            letter-spacing: 2px;
+        }
+        .history-clear {
+            display: flex;
+            justify-content: flex-end;
+            margin-top: 8px;
+        }
+        .history-clear button {
+            background: none;
+            border: none;
+            color: rgba(255,255,255,0.06);
+            font-size: 0.55rem;
+            cursor: pointer;
+            font-family: 'Courier New', monospace;
+            letter-spacing: 1px;
+            transition: all 0.3s ease;
+        }
+        .history-clear button:hover {
+            color: rgba(255,68,68,0.3);
+        }
     </style>
 </head>
 <body>
@@ -273,6 +364,15 @@
             </div>
         </section>
 
+        <!-- ===== HISTORY LAPORAN ===== -->
+        <div class="history-container" id="historyContainer">
+            <div class="history-title">📜 RIWAYAT LAPORAN</div>
+            <div id="historyList"></div>
+            <div class="history-clear">
+                <button onclick="clearAllHistory()">HAPUS SEMUA HISTORY</button>
+            </div>
+        </div>
+
         <footer>© BASMI PHISING · SECURITY CONSOLE</footer>
 
     </main>
@@ -311,7 +411,84 @@
         }
 
         // ============================================================
-        // 2. FORCE ANIMASI JALAN (Trigger pake JS)
+        // 2. HISTORY LAPORAN (localStorage)
+        // ============================================================
+        function saveHistory(urls, detail) {
+            if (!urls || urls.length === 0) return;
+            
+            const history = JSON.parse(localStorage.getItem('phishHistory') || '[]');
+            history.push({
+                id: Date.now(),
+                date: new Date().toLocaleString('id-ID'),
+                urls: urls,
+                detail: detail || '',
+                total: urls.length
+            });
+            
+            if (history.length > 20) history.shift();
+            localStorage.setItem('phishHistory', JSON.stringify(history));
+            renderHistory();
+        }
+
+        function renderHistory() {
+            const history = JSON.parse(localStorage.getItem('phishHistory') || '[]');
+            const container = document.getElementById('historyList');
+            if (!container) return;
+            
+            if (history.length === 0) {
+                container.innerHTML = `<div class="history-empty">📭 BELUM ADA RIWAYAT</div>`;
+                return;
+            }
+            
+            container.innerHTML = history.map((item, index) => `
+                <div class="history-item" onclick="loadHistory(${index})">
+                    <div class="info">
+                        <span class="date">${item.date}</span>
+                        <span class="urls">${item.total} URL · ${item.urls[0] ? item.urls[0].substring(0,40) + '...' : ''}</span>
+                    </div>
+                    <div class="actions">
+                        <span style="font-size:0.55rem;color:rgba(255,255,255,0.08);">${item.detail ? '📝' : ''}</span>
+                        <button class="delete-btn" onclick="event.stopPropagation();deleteHistory(${index})">✕</button>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function loadHistory(index) {
+            const history = JSON.parse(localStorage.getItem('phishHistory') || '[]');
+            const item = history[index];
+            if (!item) return;
+            
+            const urlInput = document.getElementById('urlInput');
+            const detailInput = document.getElementById('detailInput');
+            
+            if (urlInput) urlInput.value = item.urls.join('\n');
+            if (detailInput) detailInput.value = item.detail || '';
+            
+            if (urlInput) urlInput.dispatchEvent(new Event('input'));
+            if (detailInput) detailInput.dispatchEvent(new Event('input'));
+            
+            showToast(`📜 ${item.total} URL dari history dimuat!`, 'success');
+        }
+
+        function deleteHistory(index) {
+            let history = JSON.parse(localStorage.getItem('phishHistory') || '[]');
+            history.splice(index, 1);
+            localStorage.setItem('phishHistory', JSON.stringify(history));
+            renderHistory();
+            showToast('🗑️ History dihapus!', 'info');
+        }
+
+        function clearAllHistory() {
+            if (confirm('Yakin mau hapus semua history?')) {
+                localStorage.removeItem('phishHistory');
+                renderHistory();
+                showToast('🗑️ Semua history dihapus!', 'info');
+            }
+        }
+
+        // ============================================================
+        // 3. FORCE ANIMASI JALAN (Trigger pake JS)
         // ============================================================
         document.addEventListener('DOMContentLoaded', function() {
             console.log('🚀 BASMI PHISING siap!');
@@ -326,7 +503,7 @@
             }
 
             // ============================================================
-            // 3. INIT PARTIKEL
+            // 4. INIT PARTIKEL
             // ============================================================
             if (typeof tsParticles !== 'undefined') {
                 tsParticles.load({
@@ -379,7 +556,13 @@
             }
 
             // ============================================================
-            // 4. EFEK API UNTUK TOMBOL DI LAPORAN
+            // 5. RENDER HISTORY
+            // ============================================================
+            renderHistory();
+            console.log('📜 History laporan siap!');
+
+            // ============================================================
+            // 6. EFEK API UNTUK TOMBOL DI LAPORAN
             // ============================================================
             console.log('🔥 Efek API aktif untuk tombol laporan!');
 
