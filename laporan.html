@@ -7,99 +7,191 @@
     <link rel="stylesheet" href="styles.css">
     <link rel="icon" type="image/svg+xml" href="favicon.svg">
 
-    <!-- ===== ANIMASI TAMBAHAN ===== -->
     <style>
-        /* Fade-in untuk seluruh shell */
+        /* ============================================================
+           ANIMASI DASAR
+           ============================================================ */
         .app-shell {
-            animation: fadeIn 0.8s ease-out;
+            animation: fadeIn 0.8s ease-out !important;
+            opacity: 0 !important;
         }
+        .app-shell.animated {
+            opacity: 1 !important;
+        }
+
         @keyframes fadeIn {
             0% { opacity: 0; transform: scale(0.96) translateY(20px); }
             100% { opacity: 1; transform: scale(1) translateY(0); }
         }
 
-        /* Glow berdenyut untuk ikon perisai */
         .brand-shield {
-            animation: pulseGlow 2.5s infinite alternate;
+            animation: pulseGlow 2.5s infinite alternate !important;
         }
         @keyframes pulseGlow {
             0% { filter: drop-shadow(0 0 5px #00ffff); }
             100% { filter: drop-shadow(0 0 25px #00ffff); }
         }
 
-        /* Shimmer teks untuk judul */
         .brand-title {
-            background: linear-gradient(90deg, #00ffff, #a855f7, #00ffff);
-            background-size: 200% auto;
-            -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent;
-            animation: textShimmer 4s linear infinite;
+            background: linear-gradient(90deg, #00ffff, #a855f7, #00ffff) !important;
+            background-size: 200% auto !important;
+            -webkit-background-clip: text !important;
+            background-clip: text !important;
+            color: transparent !important;
+            animation: textShimmer 4s linear infinite !important;
         }
         @keyframes textShimmer {
             0% { background-position: 0% center; }
             100% { background-position: 200% center; }
         }
 
-        /* Subtitle slide-in */
         .brand-subtitle {
-            animation: slideIn 0.8s ease-out 0.3s both;
+            animation: slideIn 0.8s ease-out 0.3s both !important;
         }
         @keyframes slideIn {
             0% { opacity: 0; transform: translateX(-20px); }
             100% { opacity: 1; transform: translateX(0); }
         }
 
-        /* Efek hover halus untuk navigasi */
         .page-nav a {
-            transition: all 0.3s ease;
+            transition: all 0.3s ease !important;
         }
         .page-nav a:hover {
-            transform: translateY(-2px);
-            text-shadow: 0 0 15px rgba(0, 255, 255, 0.6);
+            transform: translateY(-2px) !important;
+            text-shadow: 0 0 15px rgba(0, 255, 255, 0.6) !important;
         }
 
-        /* Animasi untuk tab panel */
+        /* Container partikel di belakang */
+        #tsparticles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+            pointer-events: none;
+        }
+        .app-shell {
+            position: relative;
+            z-index: 1;
+        }
+
+        /* ============================================================
+           EFEK INTERAKSI (Tombol & Kartu)
+           ============================================================ */
+        .primary, .secondary, .all-button, .report-tab {
+            transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94) !important;
+            position: relative;
+            overflow: hidden;
+        }
+        .primary:hover, .secondary:hover, .all-button:hover, .report-tab:hover {
+            transform: translateY(-3px) scale(1.02) !important;
+            box-shadow: 0 10px 30px rgba(0, 255, 255, 0.25) !important;
+        }
+        .primary:active, .secondary:active, .all-button:active, .report-tab:active {
+            transform: scale(0.96) !important;
+        }
+
+        textarea:focus {
+            border-color: #00ffff !important;
+            box-shadow: 0 0 30px rgba(0, 255, 255, 0.15) !important;
+        }
+
         .report-panel {
-            animation: fadeIn 0.5s ease-out;
+            animation: fadeIn 0.5s ease-out !important;
         }
 
-        /* Badge status berkedip */
+        /* Status pill berkedip */
         .status-pill i {
-            animation: pulseDot 1.5s ease-in-out infinite;
+            animation: pulseDot 1.5s ease-in-out infinite !important;
         }
         @keyframes pulseDot {
             0%, 100% { opacity: 1; }
             50% { opacity: 0.3; }
         }
 
-        /* Animasi untuk tombol */
-        .primary, .secondary, .all-button {
-            transition: all 0.3s ease;
-        }
-        .primary:hover, .secondary:hover, .all-button:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 0 25px rgba(0, 255, 255, 0.3);
+        /* ============================================================
+           EFEK API UNTUK TOMBOL (ORANGE)
+           ============================================================ */
+        .report-actions .primary, 
+        .all-button,
+        .report-actions .secondary {
+            transition: all 0.3s ease !important;
+            position: relative !important;
+            overflow: hidden !important;
+            border: none !important;
         }
 
-        /* Animasi untuk report tabs */
-        .report-tab {
-            transition: all 0.3s ease;
+        .report-actions .primary:hover, 
+        .all-button:hover,
+        .report-actions .secondary:hover {
+            background: linear-gradient(135deg, #ff4500, #ff8c00) !important;
+            color: #fff !important;
+            box-shadow: 0 0 30px rgba(255, 69, 0, 0.7), 0 0 60px rgba(255, 69, 0, 0.4) !important;
+            transform: scale(1.05) translateY(-3px) !important;
+            animation: firePulse 0.8s infinite alternate !important;
         }
-        .report-tab:hover {
-            transform: translateY(-1px);
-            text-shadow: 0 0 10px rgba(0, 255, 255, 0.4);
+
+        @keyframes firePulse {
+            0% { box-shadow: 0 0 20px rgba(255, 69, 0, 0.6), 0 0 40px rgba(255, 69, 0, 0.3); }
+            100% { box-shadow: 0 0 40px rgba(255, 69, 0, 0.9), 0 0 80px rgba(255, 69, 0, 0.5), 0 0 120px rgba(255, 165, 0, 0.3); }
+        }
+
+        .report-actions .primary:hover::before, 
+        .all-button:hover::before,
+        .report-actions .secondary:hover::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle at 30% 30%, rgba(255, 69, 0, 0.3), transparent 60%);
+            animation: fireSparks 0.6s ease-out forwards;
+            pointer-events: none;
+        }
+
+        @keyframes fireSparks {
+            0% { transform: scale(0.5) rotate(0deg); opacity: 1; }
+            100% { transform: scale(1.5) rotate(20deg); opacity: 0; }
+        }
+
+        .report-actions .secondary:disabled:hover {
+            background: #2a2a2a !important;
+            box-shadow: none !important;
+            transform: none !important;
+            animation: none !important;
+            cursor: not-allowed;
+        }
+
+        /* Efek hover untuk queue item */
+        .queue-item:hover {
+            transform: translateX(8px) !important;
+            border-left: 4px solid #ff4500 !important;
+            box-shadow: 0 0 20px rgba(255, 69, 0, 0.2) !important;
+            transition: all 0.3s ease !important;
+        }
+
+        .queue-item .btn-open:hover {
+            background: linear-gradient(135deg, #ff4500, #ff8c00) !important;
+            color: #fff !important;
+            box-shadow: 0 0 20px rgba(255, 69, 0, 0.6) !important;
+            transform: scale(1.05) !important;
+            transition: all 0.3s ease !important;
         }
     </style>
 </head>
 <body>
+
+    <!-- ===== KONTAINER PARTIKEL ===== -->
+    <div id="tsparticles"></div>
 
     <!-- Ambient Background -->
     <div class="ambient ambient-a"></div>
     <div class="ambient ambient-b"></div>
 
     <!-- ===== MAIN APP ===== -->
-    <main class="app-shell">
+    <main class="app-shell" id="mainApp">
 
         <!-- Navigasi -->
         <nav class="page-nav">
@@ -177,18 +269,137 @@
 
     </main>
 
+    <!-- ===== NOTIFIKASI TOAST ===== -->
+    <div id="toast" style="position:fixed;bottom:100px;right:30px;background:rgba(0,255,255,0.15);backdrop-filter:blur(12px);border:1px solid #00ffff;color:#d0e0ff;padding:14px 28px;border-radius:16px;z-index:9999;display:none;font-family:'Courier New',monospace;font-weight:600;font-size:0.95rem;box-shadow:0 8px 32px rgba(0,0,0,0.6);min-width:200px;text-align:center;"></div>
+
     <!-- ===== SCRIPTS ===== -->
     <script src="laporan.js"></script>
     <script src="binary-rain.js"></script>
 
-    <!-- ===== TRIGGER ANIMASI ===== -->
+    <!-- ===== LIBRARY PARTIKEL ===== -->
+    <script src="https://cdn.jsdelivr.net/npm/tsparticles@2.12.0/tsparticles.bundle.min.js">
+    </script>
+
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            console.log('🚀 Animasi Report Center aktif!');
-            const shell = document.querySelector('.app-shell');
-            if (shell) {
-                shell.style.animation = 'fadeIn 0.8s ease-out';
+        // ============================================================
+        // 1. FUNGSI TOAST
+        // ============================================================
+        function showToast(message, type = 'info') {
+            const toast = document.getElementById('toast');
+            toast.textContent = message;
+            if (type === 'success') {
+                toast.style.borderColor = '#00ff88';
+                toast.style.color = '#00ff88';
+            } else if (type === 'error') {
+                toast.style.borderColor = '#ff4444';
+                toast.style.color = '#ff4444';
+            } else {
+                toast.style.borderColor = '#00ffff';
+                toast.style.color = '#d0e0ff';
             }
+            toast.style.display = 'block';
+            setTimeout(() => { toast.style.display = 'none'; }, 3500);
+        }
+
+        // ============================================================
+        // 2. FORCE ANIMASI JALAN (Trigger pake JS)
+        // ============================================================
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('🚀 BASMI PHISING Report Center siap!');
+
+            // Force animasi fade-in
+            const app = document.getElementById('mainApp');
+            if (app) {
+                app.style.animation = 'none';
+                app.offsetHeight;
+                app.style.animation = 'fadeIn 0.8s ease-out';
+                app.classList.add('animated');
+            }
+
+            // ============================================================
+            // 3. INIT PARTIKEL
+            // ============================================================
+            if (typeof tsParticles !== 'undefined') {
+                tsParticles.load({
+                    id: 'tsparticles',
+                    options: {
+                        fpsLimit: 60,
+                        particles: {
+                            number: {
+                                value: 50,
+                                density: { enable: true, value_area: 800 }
+                            },
+                            color: {
+                                value: ['#00ffff', '#a855f7', '#ffffff']
+                            },
+                            shape: {
+                                type: 'circle'
+                            },
+                            opacity: {
+                                value: 0.3,
+                                random: true,
+                                anim: { enable: true, speed: 0.5, opacity_min: 0.05 }
+                            },
+                            size: {
+                                value: 3,
+                                random: true,
+                                anim: { enable: true, speed: 1, size_min: 0.5 }
+                            },
+                            move: {
+                                enable: true,
+                                speed: 1.2,
+                                direction: 'none',
+                                random: true,
+                                straight: false,
+                                outModes: { default: 'out' }
+                            }
+                        },
+                        interactivity: {
+                            events: {
+                                onHover: { enable: true, mode: 'repulse' },
+                                onClick: { enable: true, mode: 'push' }
+                            },
+                            modes: {
+                                repulse: { distance: 100, duration: 0.4 },
+                                push: { particles_nb: 3 }
+                            }
+                        },
+                        background: { color: 'transparent' }
+                    }
+                });
+            }
+
+            // ============================================================
+            // 4. EFEK API UNTUK TOMBOL
+            // ============================================================
+            console.log('🔥 Efek API aktif untuk tombol laporan!');
+
+            const reportButtons = document.querySelectorAll('.report-actions .secondary, .report-actions .primary, .all-button');
+            
+            reportButtons.forEach(btn => {
+                btn.addEventListener('mouseenter', function() {
+                    console.log('🔥 Tombol disentuh api!');
+                });
+                
+                btn.addEventListener('click', function() {
+                    this.style.transform = 'scale(0.95)';
+                    setTimeout(() => {
+                        this.style.transform = '';
+                    }, 150);
+                });
+            });
+
+            const disabledButtons = document.querySelectorAll('.secondary:disabled');
+            disabledButtons.forEach(btn => {
+                btn.addEventListener('mouseenter', function() {
+                    this.style.border = '2px solid #ff4500';
+                    this.style.boxShadow = '0 0 15px rgba(255, 69, 0, 0.3)';
+                });
+                btn.addEventListener('mouseleave', function() {
+                    this.style.border = '';
+                    this.style.boxShadow = '';
+                });
+            });
         });
     </script>
 
