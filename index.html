@@ -9,7 +9,7 @@
 
     <style>
         /* ============================================================
-           ANIMASI DASAR (Pakai !important biar dipaksa jalan)
+           ANIMASI DASAR
            ============================================================ */
         .app-shell {
             animation: fadeIn 0.8s ease-out !important;
@@ -61,7 +61,6 @@
             text-shadow: 0 0 15px rgba(0, 255, 255, 0.6) !important;
         }
 
-        /* Container partikel di belakang */
         #tsparticles {
             position: fixed;
             top: 0;
@@ -77,7 +76,7 @@
         }
 
         /* ============================================================
-           EFEK INTERAKSI (Tombol & Kartu)
+           EFEK TOMBOL & KARTU
            ============================================================ */
         .primary, .secondary, .all-button {
             transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94) !important;
@@ -104,6 +103,7 @@
             border-radius: 8px !important;
             background: rgba(255, 255, 255, 0.03) !important;
             border: 1px solid rgba(255, 255, 255, 0.05) !important;
+            text-align: center !important;
         }
         .stats article:hover {
             transform: translateY(-5px) !important;
@@ -127,112 +127,83 @@
         }
 
         /* ============================================================
-           EFEK API UNTUK TOMBOL (LAPORAN.HTML)
+           PERBAIKAN LAYOUT — HERO RAPI
            ============================================================ */
-        .report-actions .primary, 
-        .all-button,
-        .report-actions .secondary {
-            transition: all 0.3s ease !important;
-            position: relative !important;
-            overflow: hidden !important;
-            border: none !important;
+        .hero {
+            text-align: center !important;
+            padding: 10px 10px 5px 10px !important;
         }
-
-        .report-actions .primary:hover, 
-        .all-button:hover,
-        .report-actions .secondary:hover {
-            background: linear-gradient(135deg, #ff4500, #ff8c00) !important;
-            color: #fff !important;
-            box-shadow: 0 0 30px rgba(255, 69, 0, 0.7), 0 0 60px rgba(255, 69, 0, 0.4) !important;
-            transform: scale(1.05) translateY(-3px) !important;
-            animation: firePulse 0.8s infinite alternate !important;
+        .brand {
+            display: flex !important;
+            align-items: center !important;
+            justify-content: center !important;
+            gap: 12px !important;
+            margin-bottom: 6px !important;
         }
-
-        @keyframes firePulse {
-            0% { box-shadow: 0 0 20px rgba(255, 69, 0, 0.6), 0 0 40px rgba(255, 69, 0, 0.3); }
-            100% { box-shadow: 0 0 40px rgba(255, 69, 0, 0.9), 0 0 80px rgba(255, 69, 0, 0.5), 0 0 120px rgba(255, 165, 0, 0.3); }
+        .floating-words {
+            display: none !important;
         }
-
-        .report-actions .primary:hover::before, 
-        .all-button:hover::before,
-        .report-actions .secondary:hover::before {
-            content: '';
-            position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: radial-gradient(circle at 30% 30%, rgba(255, 69, 0, 0.3), transparent 60%);
-            animation: fireSparks 0.6s ease-out forwards;
-            pointer-events: none;
+        .status-pill {
+            display: inline-block !important;
+            margin: 6px auto !important;
+            padding: 6px 18px !important;
+            border-radius: 20px !important;
+            background: rgba(0, 255, 255, 0.08) !important;
+            border: 1px solid rgba(0, 255, 255, 0.15) !important;
+            font-size: 0.75rem !important;
+            color: #00ffff !important;
         }
-
-        @keyframes fireSparks {
-            0% { transform: scale(0.5) rotate(0deg); opacity: 1; }
-            100% { transform: scale(1.5) rotate(20deg); opacity: 0; }
+        .hero h1 {
+            font-size: 1.6rem !important;
+            margin: 4px 0 !important;
+            color: #ffffff !important;
         }
-
-        .report-actions .secondary:disabled:hover {
-            background: #2a2a2a !important;
-            box-shadow: none !important;
-            transform: none !important;
-            animation: none !important;
-            cursor: not-allowed;
-        }
-
-        .queue-item:hover {
-            transform: translateX(8px) !important;
-            border-left: 4px solid #ff4500 !important;
-            box-shadow: 0 0 20px rgba(255, 69, 0, 0.2) !important;
-            transition: all 0.3s ease !important;
-        }
-
-        .queue-item .btn-open:hover {
-            background: linear-gradient(135deg, #ff4500, #ff8c00) !important;
-            color: #fff !important;
-            box-shadow: 0 0 20px rgba(255, 69, 0, 0.6) !important;
-            transform: scale(1.05) !important;
-            transition: all 0.3s ease !important;
+        .hero p {
+            font-size: 0.8rem !important;
+            opacity: 0.6 !important;
+            margin: 2px 0 !important;
+            color: #8899bb !important;
         }
 
         /* ============================================================
-           VISUAL BARU: Clock, Threat Level, Progress Bar
+           VISUAL BARU
            ============================================================ */
         .clock-container {
-            text-align: center;
-            color: #00ffff;
+            text-align: center !important;
+            margin: 4px 0 6px 0 !important;
             font-family: 'Courier New', monospace;
-            font-size: 0.85rem;
-            margin-top: 6px;
-            letter-spacing: 2px;
-            opacity: 0.8;
+            font-size: 0.8rem !important;
+            color: #00ffff !important;
+            letter-spacing: 2px !important;
+            opacity: 0.8 !important;
         }
 
         .threat-level {
-            text-align: center;
-            margin: 15px auto 10px auto;
-            padding: 8px 20px;
-            max-width: 300px;
-            border-radius: 20px;
-            font-family: 'Courier New', monospace;
-            font-weight: 700;
-            font-size: 0.8rem;
-            letter-spacing: 1px;
-            background: rgba(0, 255, 65, 0.08);
-            border: 1px solid rgba(0, 255, 65, 0.2);
-            color: #00ff88;
-            transition: all 0.5s ease;
+            text-align: center !important;
+            margin: 6px auto 10px auto !important;
+            padding: 6px 20px !important;
+            max-width: 350px !important;
+            border-radius: 20px !important;
+            font-family: 'Courier New', monospace !important;
+            font-weight: 700 !important;
+            font-size: 0.75rem !important;
+            letter-spacing: 1px !important;
+            background: rgba(0, 255, 65, 0.08) !important;
+            border: 1px solid rgba(0, 255, 65, 0.2) !important;
+            color: #00ff88 !important;
+            display: inline-block !important;
+            transition: all 0.5s ease !important;
         }
         .threat-level.warning {
-            border-color: #ffaa00;
-            color: #ffaa00;
-            box-shadow: 0 0 20px rgba(255, 170, 0, 0.15);
+            border-color: #ffaa00 !important;
+            color: #ffaa00 !important;
+            box-shadow: 0 0 20px rgba(255, 170, 0, 0.15) !important;
         }
         .threat-level.danger {
-            border-color: #ff4444;
-            color: #ff4444;
-            box-shadow: 0 0 30px rgba(255, 68, 68, 0.2);
-            animation: threatPulse 0.8s infinite alternate;
+            border-color: #ff4444 !important;
+            color: #ff4444 !important;
+            box-shadow: 0 0 30px rgba(255, 68, 68, 0.2) !important;
+            animation: threatPulse 0.8s infinite alternate !important;
         }
         @keyframes threatPulse {
             0% { box-shadow: 0 0 10px rgba(255, 68, 68, 0.2); }
@@ -240,75 +211,79 @@
         }
 
         .progress-container {
-            margin: 15px 0 10px 0;
-            padding: 10px 20px;
-            background: rgba(255, 255, 255, 0.03);
-            border-radius: 12px;
-            border: 1px solid rgba(255, 255, 255, 0.05);
+            margin: 10px 0 !important;
+            padding: 10px 16px !important;
+            background: rgba(255, 255, 255, 0.02) !important;
+            border-radius: 10px !important;
+            border: 1px solid rgba(255, 255, 255, 0.05) !important;
         }
         .progress-bar-bg {
-            width: 100%;
-            height: 6px;
-            background: rgba(255, 255, 255, 0.08);
-            border-radius: 10px;
-            overflow: hidden;
-            margin-top: 6px;
+            width: 100% !important;
+            height: 5px !important;
+            background: rgba(255, 255, 255, 0.06) !important;
+            border-radius: 10px !important;
+            overflow: hidden !important;
+            margin-top: 4px !important;
         }
         .progress-bar-fill {
-            height: 100%;
-            width: 0%;
-            background: linear-gradient(90deg, #00ffff, #a855f7);
-            border-radius: 10px;
-            transition: width 0.8s ease;
+            height: 100% !important;
+            width: 0% !important;
+            background: linear-gradient(90deg, #00ffff, #a855f7) !important;
+            border-radius: 10px !important;
+            transition: width 0.8s ease !important;
         }
         .progress-label {
-            display: flex;
-            justify-content: space-between;
-            font-family: 'Courier New', monospace;
-            font-size: 0.75rem;
-            color: #8899bb;
+            display: flex !important;
+            justify-content: space-between !important;
+            font-family: 'Courier New', monospace !important;
+            font-size: 0.7rem !important;
+            color: #8899bb !important;
         }
 
         .live-feed {
-            margin-top: 15px;
-            padding: 12px 16px;
-            background: rgba(0, 0, 0, 0.3);
-            border-radius: 8px;
-            border: 1px solid rgba(0, 255, 255, 0.08);
-            max-height: 80px;
-            overflow-y: auto;
-            font-family: 'Courier New', monospace;
-            font-size: 0.75rem;
-            color: #6688aa;
+            margin-top: 12px !important;
+            padding: 10px 14px !important;
+            background: rgba(0, 0, 0, 0.3) !important;
+            border-radius: 8px !important;
+            border: 1px solid rgba(0, 255, 255, 0.06) !important;
+            max-height: 70px !important;
+            overflow-y: auto !important;
+            font-family: 'Courier New', monospace !important;
+            font-size: 0.7rem !important;
+            color: #6688aa !important;
         }
         .live-feed .entry {
-            padding: 2px 0;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+            padding: 2px 0 !important;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.02) !important;
         }
         .live-feed .entry .time {
-            color: #00ffff;
-            margin-right: 10px;
+            color: #00ffff !important;
+            margin-right: 8px !important;
         }
         .live-feed .entry .highlight {
-            color: #00ff88;
+            color: #00ff88 !important;
         }
         .live-feed::-webkit-scrollbar {
-            width: 3px;
+            width: 3px !important;
         }
         .live-feed::-webkit-scrollbar-track {
-            background: transparent;
+            background: transparent !important;
         }
         .live-feed::-webkit-scrollbar-thumb {
-            background: #00ffff;
-            border-radius: 10px;
+            background: #00ffff !important;
+            border-radius: 10px !important;
         }
 
         .footer-extra {
-            text-align: center;
-            margin-top: 10px;
-            font-size: 0.7rem;
-            color: #445566;
-            letter-spacing: 1px;
+            text-align: center !important;
+            margin-top: 6px !important;
+            font-size: 0.6rem !important;
+            color: #445566 !important;
+            letter-spacing: 1px !important;
+        }
+        .results .note {
+            font-size: 0.75rem !important;
+            opacity: 0.6 !important;
         }
     </style>
 </head>
@@ -339,24 +314,16 @@
                     <div class="brand-subtitle">SECURITY CONSOLE</div>
                 </div>
             </div>
-            <div class="hero-orb" aria-hidden="true"><span></span></div>
-            <div class="floating-words" aria-hidden="true">
-                <span>PHISHING</span>
-                <span>SCAN</span>
-                <span>LINK TERKENDALI</span>
-                <span>SECURITY</span>
-                <span>REPORT</span>
-            </div>
             <h1>Phishing Report Dashboard</h1>
             <p>FUTURISTIC URL REPORTING INTERFACE</p>
             <div class="status-pill"><i></i> SECURITY CONSOLE · READY</div>
             
-            <!-- ===== JAM DIGITAL (VISUAL BARU) ===== -->
+            <!-- ===== JAM DIGITAL ===== -->
             <div class="clock-container" id="clockDisplay">🕒 SISTEM AKTIF · 00:00:00</div>
-        </header>
 
-        <!-- ===== THREAT LEVEL (VISUAL BARU) ===== -->
-        <div class="threat-level" id="threatLevel">🟢 LEVEL AMAN — 0 ANCAMAN</div>
+            <!-- ===== THREAT LEVEL ===== -->
+            <div class="threat-level" id="threatLevel">🟢 LEVEL AMAN — 0 URL terverifikasi</div>
+        </header>
 
         <!-- Stats -->
         <section class="stats">
@@ -367,7 +334,7 @@
             <article><span class="icon">⚡</span><small>STATUS</small><strong class="active">ACTIVE</strong></article>
         </section>
 
-        <!-- ===== PROGRESS BAR (VISUAL BARU) ===== -->
+        <!-- ===== PROGRESS BAR ===== -->
         <div class="progress-container">
             <div class="progress-label">
                 <span>📊 PROGRES PELAPORAN</span>
@@ -415,7 +382,7 @@
             </div>
         </section>
 
-        <!-- ===== LIVE FEED (VISUAL BARU) ===== -->
+        <!-- ===== LIVE FEED ===== -->
         <div class="live-feed" id="liveFeed">
             <div class="entry"><span class="time">[SISTEM]</span> Console siap menerima laporan</div>
         </div>
@@ -531,32 +498,13 @@
             // ============================================================
             // 4. EFEK API UNTUK TOMBOL DI LAPORAN
             // ============================================================
-            console.log('🔥 Efek API aktif untuk tombol laporan!');
-
             const reportButtons = document.querySelectorAll('.report-actions .secondary, .report-actions .primary, .all-button');
-            
             reportButtons.forEach(btn => {
-                btn.addEventListener('mouseenter', function() {
-                    console.log('🔥 Tombol disentuh api!');
-                });
-                
                 btn.addEventListener('click', function() {
                     this.style.transform = 'scale(0.95)';
                     setTimeout(() => {
                         this.style.transform = '';
                     }, 150);
-                });
-            });
-
-            const disabledButtons = document.querySelectorAll('.secondary:disabled');
-            disabledButtons.forEach(btn => {
-                btn.addEventListener('mouseenter', function() {
-                    this.style.border = '2px solid #ff4500';
-                    this.style.boxShadow = '0 0 15px rgba(255, 69, 0, 0.3)';
-                });
-                btn.addEventListener('mouseleave', function() {
-                    this.style.border = '';
-                    this.style.boxShadow = '';
                 });
             });
 
@@ -572,7 +520,7 @@
             setInterval(updateClock, 1000);
 
             // ============================================================
-            // 6. THREAT LEVEL (Update berdasarkan jumlah URL)
+            // 6. THREAT LEVEL
             // ============================================================
             function updateThreatLevel() {
                 const total = parseInt(document.getElementById('totalUrl').textContent) || 0;
@@ -595,7 +543,7 @@
             }
 
             // ============================================================
-            // 7. PROGRESS BAR (Update berdasarkan queue)
+            // 7. PROGRESS BAR
             // ============================================================
             function updateProgress() {
                 const queueItems = document.querySelectorAll('.queue-item').length;
@@ -607,7 +555,7 @@
             }
 
             // ============================================================
-            // 8. LIVE FEED — Tambah notifikasi
+            // 8. LIVE FEED
             // ============================================================
             function addFeedEntry(message, type = 'info') {
                 const feed = document.getElementById('liveFeed');
@@ -631,7 +579,6 @@
             // ============================================================
             // 9. HOOK — Pantau perubahan di queue & stats
             // ============================================================
-            // Observer buat detect perubahan di queue
             const observer = new MutationObserver(function() {
                 updateProgress();
                 updateThreatLevel();
@@ -642,29 +589,42 @@
                 observer.observe(queue, { childList: true, subtree: true });
             }
 
-            // Observer buat detect perubahan angka stat
-            const statsObserver = new MutationObserver(function() {
-                updateThreatLevel();
-                updateProgress();
-            });
-            
             ['totalUrl', 'invalidUrl'].forEach(id => {
                 const el = document.getElementById(id);
                 if (el) {
+                    const statsObserver = new MutationObserver(function() {
+                        updateThreatLevel();
+                        updateProgress();
+                    });
                     statsObserver.observe(el, { childList: true, characterData: true, subtree: true });
                 }
             });
 
-            // Override fungsi process biar live feed jalan
-            const origProcess = window.processUrls;
-            if (typeof origProcess === 'function') {
-                window.processUrls = function() {
-                    addFeedEntry('🔄 Memproses URL...', 'info');
-                    origProcess.apply(this, arguments);
-                };
-            }
+            // ============================================================
+            // 10. HOOK TOMBOL
+            // ============================================================
+            document.getElementById('processBtn').addEventListener('click', function() {
+                const input = document.getElementById('urlInput');
+                const urls = input.value.split('\n').filter(u => u.trim());
+                if (urls.length > 0) {
+                    addFeedEntry('📥 ' + urls.length + ' URL diterima untuk diproses', 'info');
+                    setTimeout(() => {
+                        const total = parseInt(document.getElementById('totalUrl').textContent) || 0;
+                        if (total > 0) {
+                            addFeedEntry('✅ ' + total + ' URL berhasil diproses', 'success');
+                        }
+                    }, 1500);
+                }
+            });
 
-            // Tambah feed awal
+            document.getElementById('openAllBtn').addEventListener('click', function() {
+                const total = parseInt(document.getElementById('totalUrl').textContent) || 0;
+                if (total > 0) {
+                    addFeedEntry('📤 Membuka ' + total + ' laporan ke Google Safe Browsing', 'warning');
+                }
+            });
+
+            // Feed awal
             addFeedEntry('🟢 Console siap menerima laporan', 'success');
             addFeedEntry('📡 Menunggu input URL...', 'info');
 
@@ -674,39 +634,7 @@
                 updateProgress();
             }, 500);
 
-            // ============================================================
-            // 10. HOOK TOMBOL PROSES — Tambah feed & progress
-            // ============================================================
-            const processBtn = document.getElementById('processBtn');
-            if (processBtn) {
-                processBtn.addEventListener('click', function() {
-                    const input = document.getElementById('urlInput');
-                    const urls = input.value.split('\n').filter(u => u.trim());
-                    if (urls.length > 0) {
-                        addFeedEntry('📥 ' + urls.length + ' URL diterima untuk diproses', 'info');
-                        setTimeout(() => {
-                            const total = parseInt(document.getElementById('totalUrl').textContent) || 0;
-                            if (total > 0) {
-                                addFeedEntry('✅ ' + total + ' URL berhasil diproses', 'success');
-                            }
-                        }, 1500);
-                    }
-                });
-            }
-
-            // Tombol BUKA SEMUA
-            const openAllBtn = document.getElementById('openAllBtn');
-            if (openAllBtn) {
-                openAllBtn.addEventListener('click', function() {
-                    const total = parseInt(document.getElementById('totalUrl').textContent) || 0;
-                    if (total > 0) {
-                        addFeedEntry('📤 Membuka ' + total + ' laporan ke Google Safe Browsing', 'warning');
-                    }
-                });
-            }
-
-            console.log('🌍 Semua fitur visual aktif!');
-            console.log('🔥 Dashboard siap digunakan');
+            console.log('🌍 Dashboard siap dengan visual baru & layout rapi!');
         });
     </script>
 
