@@ -86,7 +86,7 @@
         }
         .primary:hover, .secondary:hover, .all-button:hover {
             transform: translateY(-3px) scale(1.02) !important;
-            box-shadow: 0 10px 30px rgba(0, 255, 255, 0.25) !important;
+            box-shadow: 0 0 30px rgba(0, 255, 255, 0.5), 0 0 60px rgba(0, 255, 255, 0.2) !important;
         }
         .primary:active, .secondary:active, .all-button:active {
             transform: scale(0.96) !important;
@@ -100,12 +100,21 @@
         .stats article {
             transition: all 0.3s ease !important;
             cursor: default;
+            padding: 12px 16px !important;
+            border-radius: 8px !important;
+            background: rgba(255, 255, 255, 0.03) !important;
+            border: 1px solid rgba(255, 255, 255, 0.05) !important;
         }
         .stats article:hover {
             transform: translateY(-5px) !important;
             background: rgba(0, 255, 255, 0.08) !important;
             border-color: #00ffff !important;
             box-shadow: 0 8px 25px rgba(0, 255, 255, 0.1) !important;
+        }
+        .stats article .icon {
+            display: block;
+            font-size: 1.5rem;
+            margin-bottom: 4px;
         }
 
         .queue-item {
@@ -185,6 +194,122 @@
             transform: scale(1.05) !important;
             transition: all 0.3s ease !important;
         }
+
+        /* ============================================================
+           VISUAL BARU: Clock, Threat Level, Progress Bar
+           ============================================================ */
+        .clock-container {
+            text-align: center;
+            color: #00ffff;
+            font-family: 'Courier New', monospace;
+            font-size: 0.85rem;
+            margin-top: 6px;
+            letter-spacing: 2px;
+            opacity: 0.8;
+        }
+
+        .threat-level {
+            text-align: center;
+            margin: 15px auto 10px auto;
+            padding: 8px 20px;
+            max-width: 300px;
+            border-radius: 20px;
+            font-family: 'Courier New', monospace;
+            font-weight: 700;
+            font-size: 0.8rem;
+            letter-spacing: 1px;
+            background: rgba(0, 255, 65, 0.08);
+            border: 1px solid rgba(0, 255, 65, 0.2);
+            color: #00ff88;
+            transition: all 0.5s ease;
+        }
+        .threat-level.warning {
+            border-color: #ffaa00;
+            color: #ffaa00;
+            box-shadow: 0 0 20px rgba(255, 170, 0, 0.15);
+        }
+        .threat-level.danger {
+            border-color: #ff4444;
+            color: #ff4444;
+            box-shadow: 0 0 30px rgba(255, 68, 68, 0.2);
+            animation: threatPulse 0.8s infinite alternate;
+        }
+        @keyframes threatPulse {
+            0% { box-shadow: 0 0 10px rgba(255, 68, 68, 0.2); }
+            100% { box-shadow: 0 0 40px rgba(255, 68, 68, 0.5); }
+        }
+
+        .progress-container {
+            margin: 15px 0 10px 0;
+            padding: 10px 20px;
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+        .progress-bar-bg {
+            width: 100%;
+            height: 6px;
+            background: rgba(255, 255, 255, 0.08);
+            border-radius: 10px;
+            overflow: hidden;
+            margin-top: 6px;
+        }
+        .progress-bar-fill {
+            height: 100%;
+            width: 0%;
+            background: linear-gradient(90deg, #00ffff, #a855f7);
+            border-radius: 10px;
+            transition: width 0.8s ease;
+        }
+        .progress-label {
+            display: flex;
+            justify-content: space-between;
+            font-family: 'Courier New', monospace;
+            font-size: 0.75rem;
+            color: #8899bb;
+        }
+
+        .live-feed {
+            margin-top: 15px;
+            padding: 12px 16px;
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 8px;
+            border: 1px solid rgba(0, 255, 255, 0.08);
+            max-height: 80px;
+            overflow-y: auto;
+            font-family: 'Courier New', monospace;
+            font-size: 0.75rem;
+            color: #6688aa;
+        }
+        .live-feed .entry {
+            padding: 2px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+        }
+        .live-feed .entry .time {
+            color: #00ffff;
+            margin-right: 10px;
+        }
+        .live-feed .entry .highlight {
+            color: #00ff88;
+        }
+        .live-feed::-webkit-scrollbar {
+            width: 3px;
+        }
+        .live-feed::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        .live-feed::-webkit-scrollbar-thumb {
+            background: #00ffff;
+            border-radius: 10px;
+        }
+
+        .footer-extra {
+            text-align: center;
+            margin-top: 10px;
+            font-size: 0.7rem;
+            color: #445566;
+            letter-spacing: 1px;
+        }
     </style>
 </head>
 <body>
@@ -225,16 +350,33 @@
             <h1>Phishing Report Dashboard</h1>
             <p>FUTURISTIC URL REPORTING INTERFACE</p>
             <div class="status-pill"><i></i> SECURITY CONSOLE · READY</div>
+            
+            <!-- ===== JAM DIGITAL (VISUAL BARU) ===== -->
+            <div class="clock-container" id="clockDisplay">🕒 SISTEM AKTIF · 00:00:00</div>
         </header>
+
+        <!-- ===== THREAT LEVEL (VISUAL BARU) ===== -->
+        <div class="threat-level" id="threatLevel">🟢 LEVEL AMAN — 0 ANCAMAN</div>
 
         <!-- Stats -->
         <section class="stats">
-            <article><small>TOTAL URL</small><strong id="totalUrl">0</strong></article>
-            <article><small>VALID</small><strong id="validUrl">0</strong></article>
-            <article><small>INVALID</small><strong id="invalidUrl">0</strong></article>
-            <article><small>DIBUKA</small><strong id="openedUrl">0</strong></article>
-            <article><small>STATUS</small><strong class="active">ACTIVE</strong></article>
+            <article><span class="icon">🌐</span><small>TOTAL URL</small><strong id="totalUrl">0</strong></article>
+            <article><span class="icon">✅</span><small>VALID</small><strong id="validUrl">0</strong></article>
+            <article><span class="icon">❌</span><small>INVALID</small><strong id="invalidUrl">0</strong></article>
+            <article><span class="icon">📤</span><small>DIBUKA</small><strong id="openedUrl">0</strong></article>
+            <article><span class="icon">⚡</span><small>STATUS</small><strong class="active">ACTIVE</strong></article>
         </section>
+
+        <!-- ===== PROGRESS BAR (VISUAL BARU) ===== -->
+        <div class="progress-container">
+            <div class="progress-label">
+                <span>📊 PROGRES PELAPORAN</span>
+                <span id="progressText">0%</span>
+            </div>
+            <div class="progress-bar-bg">
+                <div class="progress-bar-fill" id="progressFill"></div>
+            </div>
+        </div>
 
         <!-- Panel Input -->
         <section class="panel">
@@ -273,7 +415,15 @@
             </div>
         </section>
 
-        <footer>© BASMI PHISING · SECURITY CONSOLE</footer>
+        <!-- ===== LIVE FEED (VISUAL BARU) ===== -->
+        <div class="live-feed" id="liveFeed">
+            <div class="entry"><span class="time">[SISTEM]</span> Console siap menerima laporan</div>
+        </div>
+
+        <footer>
+            © BASMI PHISING · SECURITY CONSOLE
+            <div class="footer-extra">⚡ Sistem dalam keadaan siaga ⚡</div>
+        </footer>
 
     </main>
 
@@ -311,7 +461,7 @@
         }
 
         // ============================================================
-        // 2. FORCE ANIMASI JALAN (Trigger pake JS)
+        // 2. FORCE ANIMASI + SEMUA FITUR VISUAL
         // ============================================================
         document.addEventListener('DOMContentLoaded', function() {
             console.log('🚀 BASMI PHISING siap!');
@@ -409,6 +559,154 @@
                     this.style.boxShadow = '';
                 });
             });
+
+            // ============================================================
+            // 5. JAM DIGITAL
+            // ============================================================
+            function updateClock() {
+                const now = new Date();
+                const time = now.toLocaleTimeString('id-ID', { hour12: false });
+                document.getElementById('clockDisplay').textContent = '🕒 SISTEM AKTIF · ' + time;
+            }
+            updateClock();
+            setInterval(updateClock, 1000);
+
+            // ============================================================
+            // 6. THREAT LEVEL (Update berdasarkan jumlah URL)
+            // ============================================================
+            function updateThreatLevel() {
+                const total = parseInt(document.getElementById('totalUrl').textContent) || 0;
+                const invalid = parseInt(document.getElementById('invalidUrl').textContent) || 0;
+                const el = document.getElementById('threatLevel');
+                
+                if (total === 0) {
+                    el.textContent = '🟢 LEVEL AMAN — Belum ada URL';
+                    el.className = 'threat-level';
+                } else if (invalid === 0) {
+                    el.textContent = '🟢 LEVEL AMAN — ' + total + ' URL terverifikasi';
+                    el.className = 'threat-level';
+                } else if (invalid <= 3) {
+                    el.textContent = '🟡 LEVEL MENENGAH — ' + invalid + ' URL mencurigakan';
+                    el.className = 'threat-level warning';
+                } else {
+                    el.textContent = '🔴 LEVEL BAHAYA — ' + invalid + ' URL terindikasi PHISHING!';
+                    el.className = 'threat-level danger';
+                }
+            }
+
+            // ============================================================
+            // 7. PROGRESS BAR (Update berdasarkan queue)
+            // ============================================================
+            function updateProgress() {
+                const queueItems = document.querySelectorAll('.queue-item').length;
+                const total = parseInt(document.getElementById('totalUrl').textContent) || 0;
+                const pct = total === 0 ? 0 : Math.min(100, Math.round((queueItems / total) * 100));
+                
+                document.getElementById('progressFill').style.width = pct + '%';
+                document.getElementById('progressText').textContent = pct + '%';
+            }
+
+            // ============================================================
+            // 8. LIVE FEED — Tambah notifikasi
+            // ============================================================
+            function addFeedEntry(message, type = 'info') {
+                const feed = document.getElementById('liveFeed');
+                const time = new Date().toLocaleTimeString('id-ID', { hour12: false });
+                const colors = {
+                    info: '#6688aa',
+                    success: '#00ff88',
+                    warning: '#ffaa00',
+                    danger: '#ff4444'
+                };
+                const entry = document.createElement('div');
+                entry.className = 'entry';
+                entry.innerHTML = `<span class="time">[${time}]</span> <span style="color:${colors[type] || '#6688aa'}">${message}</span>`;
+                feed.appendChild(entry);
+                feed.scrollTop = feed.scrollHeight;
+                if (feed.children.length > 20) {
+                    feed.removeChild(feed.firstChild);
+                }
+            }
+
+            // ============================================================
+            // 9. HOOK — Pantau perubahan di queue & stats
+            // ============================================================
+            // Observer buat detect perubahan di queue
+            const observer = new MutationObserver(function() {
+                updateProgress();
+                updateThreatLevel();
+            });
+            
+            const queue = document.getElementById('queue');
+            if (queue) {
+                observer.observe(queue, { childList: true, subtree: true });
+            }
+
+            // Observer buat detect perubahan angka stat
+            const statsObserver = new MutationObserver(function() {
+                updateThreatLevel();
+                updateProgress();
+            });
+            
+            ['totalUrl', 'invalidUrl'].forEach(id => {
+                const el = document.getElementById(id);
+                if (el) {
+                    statsObserver.observe(el, { childList: true, characterData: true, subtree: true });
+                }
+            });
+
+            // Override fungsi process biar live feed jalan
+            const origProcess = window.processUrls;
+            if (typeof origProcess === 'function') {
+                window.processUrls = function() {
+                    addFeedEntry('🔄 Memproses URL...', 'info');
+                    origProcess.apply(this, arguments);
+                };
+            }
+
+            // Tambah feed awal
+            addFeedEntry('🟢 Console siap menerima laporan', 'success');
+            addFeedEntry('📡 Menunggu input URL...', 'info');
+
+            // Update awal
+            setTimeout(() => {
+                updateThreatLevel();
+                updateProgress();
+            }, 500);
+
+            // ============================================================
+            // 10. HOOK TOMBOL PROSES — Tambah feed & progress
+            // ============================================================
+            const processBtn = document.getElementById('processBtn');
+            if (processBtn) {
+                processBtn.addEventListener('click', function() {
+                    const input = document.getElementById('urlInput');
+                    const urls = input.value.split('\n').filter(u => u.trim());
+                    if (urls.length > 0) {
+                        addFeedEntry('📥 ' + urls.length + ' URL diterima untuk diproses', 'info');
+                        setTimeout(() => {
+                            const total = parseInt(document.getElementById('totalUrl').textContent) || 0;
+                            if (total > 0) {
+                                addFeedEntry('✅ ' + total + ' URL berhasil diproses', 'success');
+                            }
+                        }, 1500);
+                    }
+                });
+            }
+
+            // Tombol BUKA SEMUA
+            const openAllBtn = document.getElementById('openAllBtn');
+            if (openAllBtn) {
+                openAllBtn.addEventListener('click', function() {
+                    const total = parseInt(document.getElementById('totalUrl').textContent) || 0;
+                    if (total > 0) {
+                        addFeedEntry('📤 Membuka ' + total + ' laporan ke Google Safe Browsing', 'warning');
+                    }
+                });
+            }
+
+            console.log('🌍 Semua fitur visual aktif!');
+            console.log('🔥 Dashboard siap digunakan');
         });
     </script>
 
