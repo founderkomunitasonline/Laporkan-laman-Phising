@@ -61,7 +61,6 @@
             text-shadow: 0 0 15px rgba(0, 255, 255, 0.6) !important;
         }
 
-        /* Container partikel di belakang */
         #tsparticles {
             position: fixed;
             top: 0;
@@ -77,7 +76,7 @@
         }
 
         /* ============================================================
-           EFEK INTERAKSI (Tombol & Kartu)
+           EFEK INTERAKSI
            ============================================================ */
         .primary, .secondary, .all-button, .report-tab {
             transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94) !important;
@@ -101,7 +100,6 @@
             animation: fadeIn 0.5s ease-out !important;
         }
 
-        /* Status pill berkedip */
         .status-pill i {
             animation: pulseDot 1.5s ease-in-out infinite !important;
         }
@@ -120,15 +118,29 @@
             position: relative !important;
             overflow: hidden !important;
             border: none !important;
+            padding: 10px 20px !important;
+            border-radius: 8px !important;
+            font-family: 'Courier New', monospace !important;
+            font-weight: 700 !important;
+            font-size: 0.85rem !important;
+            cursor: pointer;
+            color: #fff !important;
         }
 
-        .report-actions .primary:hover, 
-        .all-button:hover,
-        .report-actions .secondary:hover {
+        .report-actions .primary {
+            background: linear-gradient(135deg, #00ffff, #0088ff) !important;
+            box-shadow: 0 0 20px rgba(0, 255, 255, 0.2) !important;
+        }
+        .report-actions .primary:hover {
+            box-shadow: 0 0 30px rgba(0, 255, 255, 0.4) !important;
+        }
+
+        .report-actions .secondary, .all-button {
             background: linear-gradient(135deg, #ff4500, #ff8c00) !important;
-            color: #fff !important;
-            box-shadow: 0 0 30px rgba(255, 69, 0, 0.7), 0 0 60px rgba(255, 69, 0, 0.4) !important;
-            transform: scale(1.05) translateY(-3px) !important;
+            box-shadow: 0 0 20px rgba(255, 69, 0, 0.2) !important;
+        }
+        .report-actions .secondary:hover, .all-button:hover {
+            box-shadow: 0 0 30px rgba(255, 69, 0, 0.4) !important;
             animation: firePulse 0.8s infinite alternate !important;
         }
 
@@ -164,7 +176,6 @@
             cursor: not-allowed;
         }
 
-        /* Efek hover untuk queue item */
         .queue-item:hover {
             transform: translateX(8px) !important;
             border-left: 4px solid #ff4500 !important;
@@ -178,6 +189,370 @@
             box-shadow: 0 0 20px rgba(255, 69, 0, 0.6) !important;
             transform: scale(1.05) !important;
             transition: all 0.3s ease !important;
+        }
+
+        /* ============================================================
+           LAYOUT HERO — RAPI
+           ============================================================ */
+        .hero {
+            text-align: center !important;
+            padding: 10px 10px 5px 10px !important;
+        }
+        .brand {
+            display: flex !important;
+            align-items: center !important;
+            justify-content: center !important;
+            gap: 12px !important;
+            margin-bottom: 6px !important;
+        }
+        .floating-words {
+            display: none !important;
+        }
+        .status-pill {
+            display: inline-block !important;
+            margin: 6px auto !important;
+            padding: 6px 18px !important;
+            border-radius: 20px !important;
+            background: rgba(0, 255, 255, 0.08) !important;
+            border: 1px solid rgba(0, 255, 255, 0.15) !important;
+            font-size: 0.75rem !important;
+            color: #00ffff !important;
+        }
+        .hero h1 {
+            font-size: 1.6rem !important;
+            margin: 4px 0 !important;
+            color: #ffffff !important;
+        }
+        .hero p {
+            font-size: 0.8rem !important;
+            opacity: 0.6 !important;
+            margin: 2px 0 !important;
+            color: #8899bb !important;
+        }
+
+        /* ============================================================
+           GLITCH TEXT
+           ============================================================ */
+        .glitch-container {
+            margin: 8px 0 4px 0;
+            text-align: center;
+            font-family: 'Courier New', monospace;
+            font-weight: 700;
+            font-size: 1.1rem;
+            letter-spacing: 4px;
+            position: relative;
+            display: inline-block;
+            width: 100%;
+        }
+        .glitch {
+            color: #00ffff;
+            text-shadow: 0 0 10px rgba(0, 255, 255, 0.3);
+            position: relative;
+            display: inline-block;
+        }
+        .glitch::before {
+            content: attr(data-text);
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            color: #ff00ff;
+            text-shadow: 0 0 10px rgba(255, 0, 255, 0.5);
+            animation: glitch1 2s infinite;
+            z-index: -1;
+        }
+        .glitch::after {
+            content: attr(data-text);
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            color: #00ffff;
+            text-shadow: 0 0 10px rgba(0, 255, 255, 0.5);
+            animation: glitch2 3s infinite;
+            z-index: -1;
+        }
+        @keyframes glitch1 {
+            0%, 90%, 100% { transform: translate(0); opacity: 0; }
+            92% { transform: translate(-3px, 2px); opacity: 0.8; }
+            94% { transform: translate(3px, -2px); opacity: 0.8; }
+            96% { transform: translate(-2px, 1px); opacity: 0.6; }
+        }
+        @keyframes glitch2 {
+            0%, 85%, 100% { transform: translate(0); opacity: 0; }
+            87% { transform: translate(4px, -1px); opacity: 0.7; }
+            89% { transform: translate(-4px, 3px); opacity: 0.7; }
+            91% { transform: translate(2px, -3px); opacity: 0.5; }
+        }
+
+        /* ============================================================
+           TYPING EFFECT
+           ============================================================ */
+        .typing-container {
+            text-align: center;
+            margin: 4px 0 6px 0;
+            font-family: 'Courier New', monospace;
+            font-size: 0.75rem;
+            color: #00ff88;
+            min-height: 22px;
+            opacity: 0.8;
+        }
+        .typing-container .cursor {
+            display: inline-block;
+            width: 8px;
+            height: 14px;
+            background: #00ff88;
+            animation: blinkCursor 0.8s infinite;
+            vertical-align: text-bottom;
+            margin-left: 2px;
+        }
+        @keyframes blinkCursor {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0; }
+        }
+
+        /* ============================================================
+           VISUAL LAINNYA
+           ============================================================ */
+        .clock-container {
+            text-align: center !important;
+            margin: 4px 0 6px 0 !important;
+            font-family: 'Courier New', monospace;
+            font-size: 0.8rem !important;
+            color: #00ffff !important;
+            letter-spacing: 2px !important;
+            opacity: 0.8 !important;
+        }
+
+        .threat-level {
+            text-align: center !important;
+            margin: 6px auto 4px auto !important;
+            padding: 6px 20px !important;
+            max-width: 350px !important;
+            border-radius: 20px !important;
+            font-family: 'Courier New', monospace !important;
+            font-weight: 700 !important;
+            font-size: 0.75rem !important;
+            letter-spacing: 1px !important;
+            background: rgba(0, 255, 65, 0.08) !important;
+            border: 1px solid rgba(0, 255, 65, 0.2) !important;
+            color: #00ff88 !important;
+            display: inline-block !important;
+            transition: all 0.5s ease !important;
+        }
+        .threat-level.warning {
+            border-color: #ffaa00 !important;
+            color: #ffaa00 !important;
+            box-shadow: 0 0 20px rgba(255, 170, 0, 0.15) !important;
+        }
+        .threat-level.danger {
+            border-color: #ff4444 !important;
+            color: #ff4444 !important;
+            box-shadow: 0 0 30px rgba(255, 68, 68, 0.2) !important;
+            animation: threatPulse 0.8s infinite alternate !important;
+        }
+        @keyframes threatPulse {
+            0% { box-shadow: 0 0 10px rgba(255, 68, 68, 0.2); }
+            100% { box-shadow: 0 0 40px rgba(255, 68, 68, 0.5); }
+        }
+
+        .progress-container {
+            margin: 10px 0 !important;
+            padding: 10px 16px !important;
+            background: rgba(255, 255, 255, 0.02) !important;
+            border-radius: 10px !important;
+            border: 1px solid rgba(255, 255, 255, 0.05) !important;
+        }
+        .progress-bar-bg {
+            width: 100% !important;
+            height: 5px !important;
+            background: rgba(255, 255, 255, 0.06) !important;
+            border-radius: 10px !important;
+            overflow: hidden !important;
+            margin-top: 4px !important;
+        }
+        .progress-bar-fill {
+            height: 100% !important;
+            width: 0% !important;
+            background: linear-gradient(90deg, #00ffff, #a855f7) !important;
+            border-radius: 10px !important;
+            transition: width 0.8s ease !important;
+        }
+        .progress-label {
+            display: flex !important;
+            justify-content: space-between !important;
+            font-family: 'Courier New', monospace !important;
+            font-size: 0.7rem !important;
+            color: #8899bb !important;
+        }
+
+        .live-feed {
+            margin-top: 12px !important;
+            padding: 10px 14px !important;
+            background: rgba(0, 0, 0, 0.3) !important;
+            border-radius: 8px !important;
+            border: 1px solid rgba(0, 255, 255, 0.06) !important;
+            max-height: 70px !important;
+            overflow-y: auto !important;
+            font-family: 'Courier New', monospace !important;
+            font-size: 0.7rem !important;
+            color: #6688aa !important;
+        }
+        .live-feed .entry {
+            padding: 2px 0 !important;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.02) !important;
+        }
+        .live-feed .entry .time {
+            color: #00ffff !important;
+            margin-right: 8px !important;
+        }
+        .live-feed .entry .highlight {
+            color: #00ff88 !important;
+        }
+        .live-feed::-webkit-scrollbar {
+            width: 3px !important;
+        }
+        .live-feed::-webkit-scrollbar-track {
+            background: transparent !important;
+        }
+        .live-feed::-webkit-scrollbar-thumb {
+            background: #00ffff !important;
+            border-radius: 10px !important;
+        }
+
+        .footer-extra {
+            text-align: center !important;
+            margin-top: 6px !important;
+            font-size: 0.6rem !important;
+            color: #445566 !important;
+            letter-spacing: 1px !important;
+        }
+
+        /* ============================================================
+           STYLE KHUSUS LAPORAN
+           ============================================================ */
+        .report-info {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 8px 4px;
+            margin-bottom: 10px;
+            border-bottom: 1px solid rgba(0, 255, 255, 0.05);
+        }
+        .report-info strong {
+            color: #00ffff;
+            font-family: 'Courier New', monospace;
+            font-size: 0.8rem;
+            letter-spacing: 1px;
+        }
+        .report-info span {
+            color: #00ff88;
+            font-family: 'Courier New', monospace;
+            font-weight: 700;
+            font-size: 0.9rem;
+        }
+
+        .report-tabs {
+            display: flex;
+            gap: 8px;
+            margin: 10px 0;
+        }
+        .report-tab {
+            padding: 8px 20px;
+            border: none;
+            border-radius: 20px;
+            background: rgba(255, 255, 255, 0.05);
+            color: #8899bb;
+            font-family: 'Courier New', monospace;
+            font-weight: 600;
+            font-size: 0.8rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        .report-tab.active {
+            background: rgba(0, 255, 255, 0.12);
+            color: #00ffff;
+            box-shadow: 0 0 20px rgba(0, 255, 255, 0.05);
+        }
+        .report-tab:hover {
+            background: rgba(0, 255, 255, 0.08);
+        }
+
+        .report-panel {
+            display: none;
+            margin-top: 10px;
+        }
+        .report-panel.active {
+            display: block;
+        }
+
+        .report-preview {
+            width: 100%;
+            min-height: 120px;
+            padding: 12px;
+            background: rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(0, 255, 255, 0.08);
+            border-radius: 8px;
+            color: #d0e0ff;
+            font-family: 'Courier New', monospace;
+            font-size: 0.8rem;
+            resize: vertical;
+        }
+
+        .report-list {
+            min-height: 60px;
+            padding: 12px;
+            background: rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(0, 255, 255, 0.08);
+            border-radius: 8px;
+            color: #d0e0ff;
+            font-family: 'Courier New', monospace;
+            font-size: 0.75rem;
+            max-height: 150px;
+            overflow-y: auto;
+        }
+        .report-list .url-item {
+            padding: 3px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+        }
+        .report-list .url-item:last-child {
+            border-bottom: none;
+        }
+
+        .report-actions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin: 12px 0 8px 0;
+        }
+
+        .notice {
+            padding: 10px 14px;
+            background: rgba(255, 170, 0, 0.05);
+            border: 1px solid rgba(255, 170, 0, 0.1);
+            border-radius: 8px;
+            font-size: 0.7rem;
+            color: #8899bb;
+            margin-top: 10px;
+        }
+
+        .field-heading {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 8px 0 4px 0;
+        }
+        .field-heading label {
+            font-family: 'Courier New', monospace;
+            font-size: 0.8rem;
+            color: #00ffff;
+            font-weight: 600;
+        }
+        .field-heading span {
+            font-size: 0.7rem;
+            color: #6688aa;
         }
     </style>
 </head>
@@ -208,24 +583,88 @@
                     <div class="brand-subtitle">REPORT CENTER</div>
                 </div>
             </div>
-            <div class="hero-orb" aria-hidden="true"><span></span></div>
-            <div class="floating-words" aria-hidden="true">
-                <span>REPORT</span>
-                <span>EMAIL</span>
-                <span>NETCRAFT</span>
-                <span>SECURITY</span>
-                <span>VERIFICATION</span>
+
+            <!-- ===== GLITCH TEXT ===== -->
+            <div class="glitch-container">
+                <span class="glitch" data-text="▶ REPORT CENTER">▶ REPORT CENTER</span>
             </div>
+
             <h1>Reporting Center</h1>
             <p>PREPARE · COPY · REPORT</p>
             <div class="status-pill"><i></i> <span id="reportStatus">DATA TERSEDIA DARI DASHBOARD</span></div>
+
+            <!-- ===== TYPING EFFECT ===== -->
+            <div class="typing-container">
+                <span id="typingText"></span><span class="cursor"></span>
+            </div>
+            
+            <!-- ===== JAM DIGITAL ===== -->
+            <div class="clock-container" id="clockDisplay">🕒 SISTEM AKTIF · 00:00:00</div>
+
+            <!-- ===== THREAT LEVEL ===== -->
+            <div class="threat-level" id="threatLevel">🟢 LEVEL AMAN — 0 URL terverifikasi</div>
+
+            <!-- ============================================================
+                 HIMBAUAN GERAKAN
+                 ============================================================ -->
+            <div style="
+                display: flex;
+                flex-wrap: wrap;
+                gap: 8px 14px;
+                justify-content: center;
+                align-items: center;
+                margin: 12px auto 6px auto;
+                padding: 10px 18px;
+                max-width: 700px;
+                background: rgba(0, 255, 255, 0.04);
+                border-radius: 12px;
+                border: 1px solid rgba(0, 255, 255, 0.08);
+                font-family: 'Courier New', monospace;
+                font-size: 0.85rem;
+                text-align: center;
+                color: #88ccff;
+            ">
+                <span style="color:#ff4444; font-weight:700;">🔥 BASMI PHISING ADALAH GERAKAN</span>
+                <span style="color:#445566;">|</span>
+                <span>Bukan sekadar website. Ini perlawanan terhadap penipuan digital.</span>
+            </div>
+
+            <div style="
+                display: flex;
+                flex-wrap: wrap;
+                gap: 8px 14px;
+                justify-content: center;
+                align-items: center;
+                margin: 2px auto 10px auto;
+                padding: 6px 18px;
+                max-width: 700px;
+                font-family: 'Courier New', monospace;
+                font-size: 0.8rem;
+                text-align: center;
+                color: #6688aa;
+            ">
+                <span>🤝 SATU LAPORAN, DAMPAK BESAR</span>
+                <span style="color:#445566;">·</span>
+                <span>⭐ KAMU ADALAH PAHLAWAN DIGITAL</span>
+            </div>
         </header>
+
+        <!-- ===== PROGRESS BAR ===== -->
+        <div class="progress-container">
+            <div class="progress-label">
+                <span>📊 PROGRES PELAPORAN</span>
+                <span id="progressText">0%</span>
+            </div>
+            <div class="progress-bar-bg">
+                <div class="progress-bar-fill" id="progressFill"></div>
+            </div>
+        </div>
 
         <!-- Panel Laporan -->
         <section class="panel">
             <div class="report-info">
-                <strong>REPORT DESTINATION</strong>
-                <span id="reportCount">0 URL</span>
+                <strong>📋 REPORT DESTINATION</strong>
+                <span id="reportCount">0 URL SIAP DILAPORKAN</span>
             </div>
 
             <!-- Tabs -->
@@ -240,7 +679,7 @@
                     <label for="emailPreview">▧ TEMPLATE LAPORAN EMAIL</label>
                     <span>Otomatis dari Dashboard</span>
                 </div>
-                <textarea id="emailPreview" class="report-preview" spellcheck="false"></textarea>
+                <textarea id="emailPreview" class="report-preview" spellcheck="false" placeholder="Belum ada URL. Masukkan URL di Dashboard lalu tekan PROSES URL."></textarea>
                 <div class="report-actions">
                     <button id="copyEmail" class="primary">▣ SALIN LAPORAN</button>
                     <button id="refreshReports" class="secondary">↻ PERBARUI DATA</button>
@@ -253,19 +692,29 @@
                     <label>▧ URL UNTUK NETCRAFT</label>
                     <span>Bulk report</span>
                 </div>
-                <div id="netcraftUrls" class="report-list"></div>
+                <div id="netcraftUrls" class="report-list">
+                    <div style="opacity:0.5;">Belum ada URL. Masukkan URL di Dashboard lalu tekan PROSES URL.</div>
+                </div>
                 <div class="report-actions">
                     <button id="copyUrls" class="primary">▣ SALIN SEMUA URL</button>
                     <button id="openNetcraft" class="all-button">↗ BUKA NETCRAFT</button>
                 </div>
                 <div class="notice">
-                    Saat BUKA NETCRAFT ditekan, daftar URL akan disalin ke clipboard terlebih dahulu. 
+                    ⚡ Saat <b>BUKA NETCRAFT</b> ditekan, daftar URL akan disalin ke clipboard terlebih dahulu. 
                     Setelah halaman Netcraft terbuka, tempel daftar URL tersebut ke kolom pelaporan bulk.
                 </div>
             </div>
         </section>
 
-        <footer>© BASMI PHISING · REPORT CENTER</footer>
+        <!-- ===== LIVE FEED ===== -->
+        <div class="live-feed" id="liveFeed">
+            <div class="entry"><span class="time">[SISTEM]</span> Report Center siap digunakan</div>
+        </div>
+
+        <footer>
+            © BASMI PHISING · REPORT CENTER
+            <div class="footer-extra">⚡ Sistem dalam keadaan siaga ⚡</div>
+        </footer>
 
     </main>
 
@@ -302,7 +751,7 @@
         }
 
         // ============================================================
-        // 2. FORCE ANIMASI JALAN (Trigger pake JS)
+        // 2. FORCE ANIMASI + SEMUA FITUR VISUAL
         // ============================================================
         document.addEventListener('DOMContentLoaded', function() {
             console.log('🚀 BASMI PHISING Report Center siap!');
@@ -372,15 +821,8 @@
             // ============================================================
             // 4. EFEK API UNTUK TOMBOL
             // ============================================================
-            console.log('🔥 Efek API aktif untuk tombol laporan!');
-
             const reportButtons = document.querySelectorAll('.report-actions .secondary, .report-actions .primary, .all-button');
-            
             reportButtons.forEach(btn => {
-                btn.addEventListener('mouseenter', function() {
-                    console.log('🔥 Tombol disentuh api!');
-                });
-                
                 btn.addEventListener('click', function() {
                     this.style.transform = 'scale(0.95)';
                     setTimeout(() => {
@@ -389,17 +831,244 @@
                 });
             });
 
-            const disabledButtons = document.querySelectorAll('.secondary:disabled');
-            disabledButtons.forEach(btn => {
-                btn.addEventListener('mouseenter', function() {
-                    this.style.border = '2px solid #ff4500';
-                    this.style.boxShadow = '0 0 15px rgba(255, 69, 0, 0.3)';
-                });
-                btn.addEventListener('mouseleave', function() {
-                    this.style.border = '';
-                    this.style.boxShadow = '';
-                });
+            // ============================================================
+            // 5. JAM DIGITAL
+            // ============================================================
+            function updateClock() {
+                const now = new Date();
+                const time = now.toLocaleTimeString('id-ID', { hour12: false });
+                document.getElementById('clockDisplay').textContent = '🕒 SISTEM AKTIF · ' + time;
+            }
+            updateClock();
+            setInterval(updateClock, 1000);
+
+            // ============================================================
+            // 6. TYPING EFFECT
+            // ============================================================
+            const messages = [
+                '> PREPARE REPORT...',
+                '> COPY URL TO CLIPBOARD',
+                '> REPORT CENTER ACTIVE',
+                '> READY TO SUBMIT',
+                '> VERIFYING TARGETS...',
+                '> 0 THREATS FOUND',
+                '> ALL SYSTEMS NOMINAL'
+            ];
+            let msgIndex = 0;
+            let charIndex = 0;
+            let isDeleting = false;
+            const typingEl = document.getElementById('typingText');
+
+            function typeEffect() {
+                const currentMsg = messages[msgIndex];
+                if (!isDeleting) {
+                    typingEl.textContent = currentMsg.substring(0, charIndex + 1);
+                    charIndex++;
+                    if (charIndex === currentMsg.length) {
+                        isDeleting = true;
+                        setTimeout(typeEffect, 2500);
+                        return;
+                    }
+                    setTimeout(typeEffect, 60 + Math.random() * 40);
+                } else {
+                    typingEl.textContent = currentMsg.substring(0, charIndex - 1);
+                    charIndex--;
+                    if (charIndex === 0) {
+                        isDeleting = false;
+                        msgIndex = (msgIndex + 1) % messages.length;
+                        setTimeout(typeEffect, 500);
+                        return;
+                    }
+                    setTimeout(typeEffect, 30 + Math.random() * 20);
+                }
+            }
+            setTimeout(typeEffect, 500);
+
+            // ============================================================
+            // 7. THREAT LEVEL — SIMULASI DARI URL
+            // ============================================================
+            function updateThreatLevel() {
+                const total = parseInt(localStorage.getItem('totalUrl') || '0');
+                const invalid = parseInt(localStorage.getItem('invalidUrl') || '0');
+                const el = document.getElementById('threatLevel');
+                
+                if (total === 0) {
+                    el.textContent = '🟢 LEVEL AMAN — Belum ada URL';
+                    el.className = 'threat-level';
+                } else if (invalid === 0) {
+                    el.textContent = '🟢 LEVEL AMAN — ' + total + ' URL terverifikasi';
+                    el.className = 'threat-level';
+                } else if (invalid <= 3) {
+                    el.textContent = '🟡 LEVEL MENENGAH — ' + invalid + ' URL mencurigakan';
+                    el.className = 'threat-level warning';
+                } else {
+                    el.textContent = '🔴 LEVEL BAHAYA — ' + invalid + ' URL terindikasi PHISHING!';
+                    el.className = 'threat-level danger';
+                }
+                
+                document.getElementById('reportCount').textContent = total + ' URL SIAP DILAPORKAN';
+            }
+
+            // ============================================================
+            // 8. PROGRESS BAR
+            // ============================================================
+            function updateProgress() {
+                const total = parseInt(localStorage.getItem('totalUrl') || '0');
+                const processed = parseInt(localStorage.getItem('processedUrl') || '0');
+                const pct = total === 0 ? 0 : Math.min(100, Math.round((processed / total) * 100));
+                
+                document.getElementById('progressFill').style.width = pct + '%';
+                document.getElementById('progressText').textContent = pct + '%';
+            }
+
+            // ============================================================
+            // 9. LIVE FEED
+            // ============================================================
+            function addFeedEntry(message, type = 'info') {
+                const feed = document.getElementById('liveFeed');
+                const time = new Date().toLocaleTimeString('id-ID', { hour12: false });
+                const colors = {
+                    info: '#6688aa',
+                    success: '#00ff88',
+                    warning: '#ffaa00',
+                    danger: '#ff4444'
+                };
+                const entry = document.createElement('div');
+                entry.className = 'entry';
+                entry.innerHTML = `<span class="time">[${time}]</span> <span style="color:${colors[type] || '#6688aa'}">${message}</span>`;
+                feed.appendChild(entry);
+                feed.scrollTop = feed.scrollHeight;
+                if (feed.children.length > 20) {
+                    feed.removeChild(feed.firstChild);
+                }
+            }
+
+            // ============================================================
+            // 10. TAB SWITCH
+            // ============================================================
+            document.getElementById('emailTab').addEventListener('click', function() {
+                document.querySelectorAll('.report-tab').forEach(t => t.classList.remove('active'));
+                this.classList.add('active');
+                document.querySelectorAll('.report-panel').forEach(p => p.classList.remove('active'));
+                document.getElementById('emailPanel').classList.add('active');
             });
+
+            document.getElementById('netcraftTab').addEventListener('click', function() {
+                document.querySelectorAll('.report-tab').forEach(t => t.classList.remove('active'));
+                this.classList.add('active');
+                document.querySelectorAll('.report-panel').forEach(p => p.classList.remove('active'));
+                document.getElementById('netcraftPanel').classList.add('active');
+            });
+
+            // ============================================================
+            // 11. HOOK TOMBOL
+            // ============================================================
+            document.getElementById('copyEmail').addEventListener('click', function() {
+                const text = document.getElementById('emailPreview').value;
+                if (text && text.trim() !== '') {
+                    navigator.clipboard.writeText(text).then(() => {
+                        showToast('✅ Template laporan disalin!', 'success');
+                        addFeedEntry('📋 Template laporan disalin ke clipboard', 'success');
+                    }).catch(() => {
+                        showToast('❌ Gagal menyalin', 'error');
+                    });
+                } else {
+                    showToast('⚠️ Belum ada data laporan', 'warning');
+                }
+            });
+
+            document.getElementById('copyUrls').addEventListener('click', function() {
+                const urls = document.querySelectorAll('#netcraftUrls .url-item');
+                if (urls.length > 0) {
+                    const text = Array.from(urls).map(el => el.textContent).join('\n');
+                    navigator.clipboard.writeText(text).then(() => {
+                        showToast('✅ ' + urls.length + ' URL disalin!', 'success');
+                        addFeedEntry('📋 ' + urls.length + ' URL disalin ke clipboard', 'success');
+                    }).catch(() => {
+                        showToast('❌ Gagal menyalin', 'error');
+                    });
+                } else {
+                    showToast('⚠️ Belum ada URL', 'warning');
+                }
+            });
+
+            document.getElementById('openNetcraft').addEventListener('click', function() {
+                const urls = document.querySelectorAll('#netcraftUrls .url-item');
+                if (urls.length > 0) {
+                    const text = Array.from(urls).map(el => el.textContent).join('\n');
+                    navigator.clipboard.writeText(text).then(() => {
+                        showToast('✅ URL disalin! Membuka Netcraft...', 'success');
+                        addFeedEntry('📤 Membuka Netcraft dengan ' + urls.length + ' URL', 'warning');
+                        window.open('https://safebrowsing.google.com/', '_blank');
+                    }).catch(() => {
+                        showToast('❌ Gagal menyalin', 'error');
+                    });
+                } else {
+                    showToast('⚠️ Belum ada URL', 'warning');
+                }
+            });
+
+            document.getElementById('refreshReports').addEventListener('click', function() {
+                const total = parseInt(localStorage.getItem('totalUrl') || '0');
+                const invalid = parseInt(localStorage.getItem('invalidUrl') || '0');
+                const valid = parseInt(localStorage.getItem('validUrl') || '0');
+                const data = JSON.parse(localStorage.getItem('reportData') || '[]');
+                
+                // Update preview
+                const preview = document.getElementById('emailPreview');
+                const netcraftList = document.getElementById('netcraftUrls');
+                
+                if (data.length > 0) {
+                    const detail = localStorage.getItem('detailReport') || 'URL ini diduga terkait aktivitas phishing yang berpotensi menipu pengguna atau mengumpulkan informasi sensitif secara tidak sah. Mohon dilakukan pemeriksaan lebih lanjut.';
+                    preview.value = '📢 LAPORAN PHISHING\n\n' + 
+                        'Detail Laporan:\n' + detail + '\n\n' +
+                        'Daftar URL:\n' + data.map((u, i) => (i+1) + '. ' + u).join('\n') + '\n\n' +
+                        'Total URL: ' + data.length + '\n' +
+                        'Valid: ' + valid + '\n' +
+                        'Invalid: ' + invalid + '\n\n' +
+                        '— BASMI PHISING · Security Console';
+                    
+                    netcraftList.innerHTML = data.map(u => 
+                        `<div class="url-item">• ${u}</div>`
+                    ).join('');
+                    
+                    showToast('✅ Data berhasil diperbarui!', 'success');
+                    addFeedEntry('🔄 Data laporan diperbarui — ' + data.length + ' URL', 'success');
+                } else {
+                    preview.value = 'Belum ada URL. Masukkan URL di Dashboard lalu tekan PROSES URL.';
+                    netcraftList.innerHTML = '<div style="opacity:0.5;">Belum ada URL. Masukkan URL di Dashboard lalu tekan PROSES URL.</div>';
+                    showToast('⚠️ Belum ada data', 'warning');
+                }
+                
+                updateThreatLevel();
+                updateProgress();
+            });
+
+            // ============================================================
+            // 12. UPDATE OTOMATIS DARI DASHBOARD
+            // ============================================================
+            function autoUpdate() {
+                const data = JSON.parse(localStorage.getItem('reportData') || '[]');
+                if (data.length > 0) {
+                    document.getElementById('refreshReports').click();
+                }
+            }
+
+            // Update awal setelah 1 detik
+            setTimeout(autoUpdate, 1000);
+
+            // Feed awal
+            addFeedEntry('🟢 Report Center siap digunakan', 'success');
+            addFeedEntry('📡 Menunggu data dari Dashboard...', 'info');
+
+            // Update awal
+            setTimeout(() => {
+                updateThreatLevel();
+                updateProgress();
+            }, 500);
+
+            console.log('🌍 Report Center — semua fitur visual aktif!');
+            console.log('🔥 BASMI PHISING — Perlawanan terhadap penipuan digital.');
         });
     </script>
 
