@@ -4,10 +4,44 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>BASMI PHISING — Report Center</title>
+    
+    <!-- ============================================================
+         FONT KOMBINASI TERBAIK: JetBrains Mono + Orbitron
+         ============================================================ -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&family=Orbitron:wght@400;700;900&display=swap" rel="stylesheet">
+    
     <link rel="stylesheet" href="styles.css">
     <link rel="icon" type="image/svg+xml" href="favicon.svg">
 
     <style>
+        /* ============================================================
+           FONT KOMBINASI — JetBrains Mono + Orbitron
+           ============================================================ */
+        /* Untuk SEMUA teks biasa (body, console, feed, queue, tombol) */
+        body, .app-shell, .typing-container, .clock-container, 
+        .live-feed, .queue-item, .note, .status-pill, .progress-label,
+        .report-info, .field-heading, .notice, .footer-extra,
+        .primary, .secondary, .all-button, .report-tab,
+        .hero p, .page-nav a, .report-preview, .report-list {
+            font-family: 'JetBrains Mono', 'Courier New', monospace !important;
+        }
+
+        /* Untuk JUDUL BESAR (BASMI PHISING, REPORT CENTER, GLITCH, H1) */
+        .brand-title, .glitch, .hero h1, .brand-shield,
+        .glitch-container, .brand {
+            font-family: 'Orbitron', 'Courier New', monospace !important;
+            font-weight: 700 !important;
+        }
+
+        /* Biar Brand Subtitle tetap rapi */
+        .brand-subtitle {
+            font-family: 'JetBrains Mono', 'Courier New', monospace !important;
+            font-weight: 600 !important;
+            letter-spacing: 2px !important;
+        }
+
         /* ============================================================
            ANIMASI DASAR
            ============================================================ */
@@ -55,6 +89,7 @@
 
         .page-nav a {
             transition: all 0.3s ease !important;
+            font-weight: 600 !important;
         }
         .page-nav a:hover {
             transform: translateY(-2px) !important;
@@ -136,6 +171,7 @@
             transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94) !important;
             position: relative;
             overflow: hidden;
+            font-weight: 700 !important;
         }
         .primary:hover, .secondary:hover, .all-button:hover, .report-tab:hover {
             transform: translateY(-3px) scale(1.02) !important;
@@ -174,7 +210,6 @@
             border: none !important;
             padding: 10px 20px !important;
             border-radius: 8px !important;
-            font-family: 'Courier New', monospace !important;
             font-weight: 700 !important;
             font-size: 0.85rem !important;
             cursor: pointer;
@@ -271,17 +306,20 @@
             border: 1px solid rgba(0, 255, 255, 0.15) !important;
             font-size: 0.75rem !important;
             color: #00ffff !important;
+            font-weight: 600 !important;
         }
         .hero h1 {
             font-size: 1.6rem !important;
             margin: 4px 0 !important;
             color: #ffffff !important;
+            font-weight: 700 !important;
         }
         .hero p {
             font-size: 0.8rem !important;
             opacity: 0.6 !important;
             margin: 2px 0 !important;
             color: #8899bb !important;
+            font-weight: 400 !important;
         }
 
         /* ============================================================
@@ -290,8 +328,7 @@
         .glitch-container {
             margin: 8px 0 4px 0;
             text-align: center;
-            font-family: 'Courier New', monospace;
-            font-weight: 700;
+            font-weight: 700 !important;
             font-size: 1.1rem;
             letter-spacing: 4px;
             position: relative;
@@ -347,11 +384,11 @@
         .typing-container {
             text-align: center;
             margin: 4px 0 6px 0;
-            font-family: 'Courier New', monospace;
             font-size: 0.75rem;
             color: #00ff88;
             min-height: 22px;
             opacity: 0.8;
+            font-weight: 400 !important;
         }
         .typing-container .cursor {
             display: inline-block;
@@ -373,11 +410,11 @@
         .clock-container {
             text-align: center !important;
             margin: 4px 0 6px 0 !important;
-            font-family: 'Courier New', monospace;
             font-size: 0.8rem !important;
             color: #00ffff !important;
             letter-spacing: 2px !important;
             opacity: 0.8 !important;
+            font-weight: 400 !important;
         }
 
         .threat-level {
@@ -386,7 +423,6 @@
             padding: 6px 20px !important;
             max-width: 350px !important;
             border-radius: 20px !important;
-            font-family: 'Courier New', monospace !important;
             font-weight: 700 !important;
             font-size: 0.75rem !important;
             letter-spacing: 1px !important;
@@ -437,9 +473,9 @@
         .progress-label {
             display: flex !important;
             justify-content: space-between !important;
-            font-family: 'Courier New', monospace !important;
             font-size: 0.7rem !important;
             color: #8899bb !important;
+            font-weight: 400 !important;
         }
 
         .live-feed {
@@ -450,9 +486,9 @@
             border: 1px solid rgba(0, 255, 255, 0.06) !important;
             max-height: 70px !important;
             overflow-y: auto !important;
-            font-family: 'Courier New', monospace !important;
             font-size: 0.7rem !important;
             color: #6688aa !important;
+            font-weight: 400 !important;
         }
         .live-feed .entry {
             padding: 2px 0 !important;
@@ -482,6 +518,7 @@
             font-size: 0.6rem !important;
             color: #445566 !important;
             letter-spacing: 1px !important;
+            font-weight: 400 !important;
         }
 
         /* ============================================================
@@ -497,14 +534,13 @@
         }
         .report-info strong {
             color: #00ffff;
-            font-family: 'Courier New', monospace;
             font-size: 0.8rem;
             letter-spacing: 1px;
+            font-weight: 700 !important;
         }
         .report-info span {
             color: #00ff88;
-            font-family: 'Courier New', monospace;
-            font-weight: 700;
+            font-weight: 700 !important;
             font-size: 0.9rem;
         }
 
@@ -519,8 +555,7 @@
             border-radius: 20px;
             background: rgba(255, 255, 255, 0.05);
             color: #8899bb;
-            font-family: 'Courier New', monospace;
-            font-weight: 600;
+            font-weight: 600 !important;
             font-size: 0.8rem;
             cursor: pointer;
             transition: all 0.3s ease;
@@ -550,9 +585,9 @@
             border: 1px solid rgba(0, 255, 255, 0.08);
             border-radius: 8px;
             color: #d0e0ff;
-            font-family: 'Courier New', monospace;
             font-size: 0.8rem;
             resize: vertical;
+            font-weight: 400 !important;
         }
 
         .report-list {
@@ -562,10 +597,10 @@
             border: 1px solid rgba(0, 255, 255, 0.08);
             border-radius: 8px;
             color: #d0e0ff;
-            font-family: 'Courier New', monospace;
             font-size: 0.75rem;
             max-height: 150px;
             overflow-y: auto;
+            font-weight: 400 !important;
         }
         .report-list .url-item {
             padding: 3px 0;
@@ -590,6 +625,7 @@
             font-size: 0.7rem;
             color: #8899bb;
             margin-top: 10px;
+            font-weight: 400 !important;
         }
 
         .field-heading {
@@ -599,14 +635,14 @@
             padding: 8px 0 4px 0;
         }
         .field-heading label {
-            font-family: 'Courier New', monospace;
             font-size: 0.8rem;
             color: #00ffff;
-            font-weight: 600;
+            font-weight: 700 !important;
         }
         .field-heading span {
             font-size: 0.7rem;
             color: #6688aa;
+            font-weight: 400 !important;
         }
     </style>
 </head>
@@ -673,7 +709,6 @@
                 background: rgba(0, 255, 255, 0.04);
                 border-radius: 12px;
                 border: 1px solid rgba(0, 255, 255, 0.08);
-                font-family: 'Courier New', monospace;
                 font-size: 0.85rem;
                 text-align: center;
                 color: #88ccff;
@@ -692,7 +727,6 @@
                 margin: 2px auto 10px auto;
                 padding: 6px 18px;
                 max-width: 700px;
-                font-family: 'Courier New', monospace;
                 font-size: 0.8rem;
                 text-align: center;
                 color: #6688aa;
@@ -1117,7 +1151,7 @@
                 updateProgress();
             }, 500);
 
-            console.log('🌍 Report Center — Anti Copy + Partikel aktif!');
+            console.log('🌍 Report Center — Font Kombinasi + Anti Copy + Partikel aktif!');
             console.log('🔥 BASMI PHISING — Perlawanan terhadap penipuan digital.');
         });
     </script>
