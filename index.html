@@ -8,9 +8,6 @@
     <link rel="icon" type="image/svg+xml" href="favicon.svg">
 
     <style>
-        /* ============================================================
-           ANIMASI DASAR (Pakai !important biar dipaksa jalan)
-           ============================================================ */
         .app-shell {
             animation: fadeIn 0.8s ease-out !important;
             opacity: 0 !important;
@@ -61,7 +58,6 @@
             text-shadow: 0 0 15px rgba(0, 255, 255, 0.6) !important;
         }
 
-        /* Container partikel di belakang */
         #tsparticles {
             position: fixed;
             top: 0;
@@ -76,9 +72,6 @@
             z-index: 1;
         }
 
-        /* ============================================================
-           EFEK INTERAKSI (Tombol & Kartu)
-           ============================================================ */
         .primary, .secondary, .all-button {
             transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94) !important;
             position: relative;
@@ -117,9 +110,6 @@
             padding-left: 12px !important;
         }
 
-        /* ============================================================
-           EFEK API UNTUK TOMBOL (LAPORAN.HTML)
-           ============================================================ */
         .report-actions .primary, 
         .all-button,
         .report-actions .secondary {
@@ -186,9 +176,7 @@
             transition: all 0.3s ease !important;
         }
 
-        /* ============================================================
-           STYLE FLAG COUNTER
-           ============================================================ */
+        /* STYLE FLAG COUNTER */
         .flag-counter-wrapper {
             display: flex;
             justify-content: center;
@@ -224,23 +212,17 @@
 </head>
 <body>
 
-    <!-- ===== KONTAINER PARTIKEL ===== -->
     <div id="tsparticles"></div>
-
-    <!-- ===== AMBIENT BACKGROUND ===== -->
     <div class="ambient ambient-a"></div>
     <div class="ambient ambient-b"></div>
 
-    <!-- ===== MAIN APP ===== -->
     <main class="app-shell" id="mainApp">
 
-        <!-- Navigasi -->
         <nav class="page-nav">
             <a href="index.html" class="active">DASHBOARD</a>
             <a href="laporan.html">LAPORAN</a>
         </nav>
 
-        <!-- Hero / Branding -->
         <header class="hero">
             <div class="brand">
                 <div class="brand-shield">◇</div>
@@ -262,7 +244,6 @@
             <div class="status-pill"><i></i> SECURITY CONSOLE · READY</div>
         </header>
 
-        <!-- Stats -->
         <section class="stats">
             <article><small>TOTAL URL</small><strong id="totalUrl">0</strong></article>
             <article><small>VALID</small><strong id="validUrl">0</strong></article>
@@ -271,7 +252,6 @@
             <article><small>STATUS</small><strong class="active">ACTIVE</strong></article>
         </section>
 
-        <!-- Panel Input -->
         <section class="panel">
             <div class="field-heading">
                 <label for="urlInput">▣ URL INPUT</label>
@@ -292,7 +272,6 @@
             </div>
         </section>
 
-        <!-- Results -->
         <section class="results">
             <div class="all-row">
                 <div>
@@ -309,11 +288,11 @@
         </section>
 
         <!-- ============================================================
-             FLAG COUNTER — GLOBAL (SEMUA PENGUNJUNG DARI MANA SAJA)
-             ID: mFbh (dari hasil daftar di Flagcounter.com)
+             FLAG COUNTER — GLOBAL (ID: mFbh)
              ============================================================ -->
         <div class="flag-counter-wrapper">
             <div class="flag-counter-box">
+                <!-- KODE ASLI DARI FLAGCOUNTER -->
                 <a href="https://info.flagcounter.com/mFbh" target="_blank">
                     <img src="https://s01.flagcounter.com/count2/mFbh/bg_FFFFFF/txt_000000/border_CCCCCC/columns_8/maxflags_12/viewers_0/labels_0/" alt="Flag Counter" border="0">
                 </a>
@@ -325,22 +304,15 @@
 
     </main>
 
-    <!-- ===== NOTIFIKASI TOAST ===== -->
     <div id="toast" style="position:fixed;bottom:100px;right:30px;background:rgba(0,255,255,0.15);backdrop-filter:blur(12px);border:1px solid #00ffff;color:#d0e0ff;padding:14px 28px;border-radius:16px;z-index:9999;display:none;font-family:'Courier New',monospace;font-weight:600;font-size:0.95rem;box-shadow:0 8px 32px rgba(0,0,0,0.6);min-width:200px;text-align:center;"></div>
 
-    <!-- ===== SCRIPTS ===== -->
     <script src="app.js"></script>
     <script src="app-detail.js"></script>
     <script src="binary-rain.js"></script>
-
-    <!-- ===== LIBRARY PARTIKEL ===== -->
     <script src="https://cdn.jsdelivr.net/npm/tsparticles@2.12.0/tsparticles.bundle.min.js">
     </script>
 
     <script>
-        // ============================================================
-        // 1. FUNGSI TOAST
-        // ============================================================
         function showToast(message, type = 'info') {
             const toast = document.getElementById('toast');
             toast.textContent = message;
@@ -358,13 +330,9 @@
             setTimeout(() => { toast.style.display = 'none'; }, 3500);
         }
 
-        // ============================================================
-        // 2. FORCE ANIMASI JALAN (Trigger pake JS)
-        // ============================================================
         document.addEventListener('DOMContentLoaded', function() {
             console.log('🚀 BASMI PHISING siap!');
 
-            // Force animasi fade-in
             const app = document.getElementById('mainApp');
             if (app) {
                 app.style.animation = 'none';
@@ -373,94 +341,31 @@
                 app.classList.add('animated');
             }
 
-            // ============================================================
-            // 3. INIT PARTIKEL
-            // ============================================================
             if (typeof tsParticles !== 'undefined') {
                 tsParticles.load({
                     id: 'tsparticles',
                     options: {
                         fpsLimit: 60,
                         particles: {
-                            number: {
-                                value: 50,
-                                density: { enable: true, value_area: 800 }
-                            },
-                            color: {
-                                value: ['#00ffff', '#a855f7', '#ffffff']
-                            },
-                            shape: {
-                                type: 'circle'
-                            },
-                            opacity: {
-                                value: 0.3,
-                                random: true,
-                                anim: { enable: true, speed: 0.5, opacity_min: 0.05 }
-                            },
-                            size: {
-                                value: 3,
-                                random: true,
-                                anim: { enable: true, speed: 1, size_min: 0.5 }
-                            },
-                            move: {
-                                enable: true,
-                                speed: 1.2,
-                                direction: 'none',
-                                random: true,
-                                straight: false,
-                                outModes: { default: 'out' }
-                            }
+                            number: { value: 50, density: { enable: true, value_area: 800 } },
+                            color: { value: ['#00ffff', '#a855f7', '#ffffff'] },
+                            shape: { type: 'circle' },
+                            opacity: { value: 0.3, random: true, anim: { enable: true, speed: 0.5, opacity_min: 0.05 } },
+                            size: { value: 3, random: true, anim: { enable: true, speed: 1, size_min: 0.5 } },
+                            move: { enable: true, speed: 1.2, direction: 'none', random: true, straight: false, outModes: { default: 'out' } }
                         },
                         interactivity: {
-                            events: {
-                                onHover: { enable: true, mode: 'repulse' },
-                                onClick: { enable: true, mode: 'push' }
-                            },
-                            modes: {
-                                repulse: { distance: 100, duration: 0.4 },
-                                push: { particles_nb: 3 }
-                            }
+                            events: { onHover: { enable: true, mode: 'repulse' }, onClick: { enable: true, mode: 'push' } },
+                            modes: { repulse: { distance: 100, duration: 0.4 }, push: { particles_nb: 3 } }
                         },
                         background: { color: 'transparent' }
                     }
                 });
             }
 
-            // ============================================================
-            // 4. EFEK API UNTUK TOMBOL DI LAPORAN
-            // ============================================================
-            console.log('🔥 Efek API aktif untuk tombol laporan!');
-
-            const reportButtons = document.querySelectorAll('.report-actions .secondary, .report-actions .primary, .all-button');
-            
-            reportButtons.forEach(btn => {
-                btn.addEventListener('mouseenter', function() {
-                    console.log('🔥 Tombol disentuh api!');
-                });
-                
-                btn.addEventListener('click', function() {
-                    this.style.transform = 'scale(0.95)';
-                    setTimeout(() => {
-                        this.style.transform = '';
-                    }, 150);
-                });
-            });
-
-            const disabledButtons = document.querySelectorAll('.secondary:disabled');
-            disabledButtons.forEach(btn => {
-                btn.addEventListener('mouseenter', function() {
-                    this.style.border = '2px solid #ff4500';
-                    this.style.boxShadow = '0 0 15px rgba(255, 69, 0, 0.3)';
-                });
-                btn.addEventListener('mouseleave', function() {
-                    this.style.border = '';
-                    this.style.boxShadow = '';
-                });
-            });
-
             console.log('🌍 Flagcounter terpasang dengan ID: mFbh');
-            console.log('🔥 Setiap pengunjung dari mana saja akan tercatat GLOBAL');
             console.log('📌 Cek: https://info.flagcounter.com/mFbh');
+            console.log('🔥 Setiap pengunjung dari mana saja akan tercatat GLOBAL');
         });
     </script>
 
