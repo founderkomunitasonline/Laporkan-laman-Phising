@@ -62,6 +62,24 @@
         }
 
         /* ============================================================
+           ANTI COPY — SEMUA TEKS KECUALI TEXTAREA
+           ============================================================ */
+        .no-select {
+            user-select: none !important;
+            -webkit-user-select: none !important;
+            -moz-user-select: none !important;
+            -ms-user-select: none !important;
+        }
+
+        /* Textarea TETAP BISA DI COPY */
+        textarea, .copyable {
+            user-select: text !important;
+            -webkit-user-select: text !important;
+            -moz-user-select: text !important;
+            -ms-user-select: text !important;
+        }
+
+        /* ============================================================
            PARTIKEL & AMBIENT (Di Belakang)
            ============================================================ */
         #tsparticles {
@@ -416,13 +434,13 @@
     <main class="app-shell" id="mainApp">
 
         <!-- Navigasi -->
-        <nav class="page-nav">
+        <nav class="page-nav no-select">
             <a href="index.html" class="active">DASHBOARD</a>
             <a href="laporan.html">LAPORAN</a>
         </nav>
 
         <!-- Hero / Branding -->
-        <header class="hero">
+        <header class="hero no-select">
             <div class="brand">
                 <div class="brand-shield">◇</div>
                 <div>
@@ -497,7 +515,7 @@
         </header>
 
         <!-- Stats -->
-        <section class="stats">
+        <section class="stats no-select">
             <article><span class="icon">🌐</span><small>TOTAL URL</small><strong id="totalUrl">0</strong></article>
             <article><span class="icon">✅</span><small>VALID</small><strong id="validUrl">0</strong></article>
             <article><span class="icon">❌</span><small>INVALID</small><strong id="invalidUrl">0</strong></article>
@@ -506,7 +524,7 @@
         </section>
 
         <!-- ===== PROGRESS BAR ===== -->
-        <div class="progress-container">
+        <div class="progress-container no-select">
             <div class="progress-label">
                 <span>📊 PROGRES PELAPORAN</span>
                 <span id="progressText">0%</span>
@@ -516,30 +534,30 @@
             </div>
         </div>
 
-        <!-- Panel Input -->
+        <!-- Panel Input (TETAP BISA DI COPY) -->
         <section class="panel">
-            <div class="field-heading">
+            <div class="field-heading no-select">
                 <label for="urlInput">▣ URL INPUT</label>
                 <span>Maksimal 100 URL unik</span>
             </div>
-            <textarea id="urlInput" placeholder="https://contoh-domain.com/\nhttps://contoh-domain.net/"></textarea>
+            <textarea id="urlInput" class="copyable" placeholder="https://contoh-domain.com/\nhttps://contoh-domain.net/"></textarea>
 
-            <div class="field-heading">
+            <div class="field-heading no-select">
                 <label for="detailInput">▧ DETAIL LAPORAN</label>
                 <span>Maksimal 800 karakter</span>
             </div>
-            <textarea id="detailInput" class="detail" maxlength="800" placeholder="Contoh: terindikasi phishing..."></textarea>
-            <div class="counter"><span id="detailCount">0</span>/800</div>
+            <textarea id="detailInput" class="copyable detail" maxlength="800" placeholder="Contoh: terindikasi phishing..."></textarea>
+            <div class="counter no-select"><span id="detailCount">0</span>/800</div>
 
-            <div class="actions">
+            <div class="actions no-select">
                 <button id="processBtn" class="primary">◈ PROSES URL</button>
                 <button id="clearBtn" class="secondary">▣ BERSIHKAN</button>
             </div>
         </section>
 
-        <!-- Results -->
+        <!-- Results (ANTI COPY KECUALI URL DI QUEUE) -->
         <section class="results">
-            <div class="all-row">
+            <div class="all-row no-select">
                 <div>
                     <b>ALL</b>
                     <span><strong id="allCount">0 URL</strong> — buka semua laporan sekaligus</span>
@@ -547,18 +565,19 @@
                 </div>
                 <button id="openAllBtn" class="all-button">↗ BUKA SEMUA</button>
             </div>
-            <div id="queue" class="queue"></div>
-            <div class="note">
+            <!-- QUEUE URL TETAP BISA DI COPY -->
+            <div id="queue" class="queue copyable"></div>
+            <div class="note no-select">
                 URL duplikat otomatis dihapus. Setiap URL memiliki detail laporan sendiri. Gunakan tombol <b>BUKA LAPORAN</b> untuk membuka laporan satu per satu.
             </div>
         </section>
 
-        <!-- ===== LIVE FEED ===== -->
-        <div class="live-feed" id="liveFeed">
+        <!-- ===== LIVE FEED (ANTI COPY) ===== -->
+        <div class="live-feed no-select" id="liveFeed">
             <div class="entry"><span class="time">[SISTEM]</span> Console siap menerima laporan</div>
         </div>
 
-        <footer>
+        <footer class="no-select">
             © BASMI PHISING · SECURITY CONSOLE
             <div class="footer-extra">⚡ Sistem dalam keadaan siaga ⚡</div>
         </footer>
@@ -847,7 +866,7 @@
                 updateProgress();
             }, 500);
 
-            console.log('🌍 Dashboard FINAL — Glitch + Typing + Partikel!');
+            console.log('🌍 Dashboard FINAL — Anti Copy + Partikel!');
             console.log('🔥 BASMI PHISING — Perlawanan terhadap penipuan digital.');
         });
     </script>
