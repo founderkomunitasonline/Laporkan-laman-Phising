@@ -192,20 +192,25 @@
         .visitor-counter {
             text-align: center;
             margin-top: 30px;
-            padding: 12px 20px;
+            padding: 12px 24px;
             font-family: 'Courier New', monospace;
-            font-size: 0.9rem;
+            font-size: 0.95rem;
             color: #00ff41;
             background: rgba(0, 255, 65, 0.05);
-            border: 1px solid rgba(0, 255, 65, 0.15);
+            border: 1px solid rgba(0, 255, 65, 0.2);
             border-radius: 12px;
             backdrop-filter: blur(4px);
             display: inline-block;
             width: auto;
             letter-spacing: 0.5px;
+            transition: all 0.3s ease;
+        }
+        .visitor-counter:hover {
+            border-color: #00ff88;
+            box-shadow: 0 0 30px rgba(0, 255, 136, 0.1);
         }
         .visitor-counter .number {
-            font-size: 1.4rem;
+            font-size: 1.5rem;
             font-weight: 700;
             color: #00ff88;
             text-shadow: 0 0 20px rgba(0, 255, 136, 0.3);
@@ -214,6 +219,7 @@
             display: flex;
             justify-content: center;
             width: 100%;
+            margin: 10px 0 5px 0;
         }
     </style>
 </head>
@@ -304,7 +310,7 @@
         </section>
 
         <!-- ============================================================
-             VISITOR COUNTER — DITAMBAHKAN DI SINI
+             VISITOR COUNTER — AKTIF SEKARANG
              ============================================================ -->
         <div class="visitor-wrapper">
             <div class="visitor-counter">
@@ -450,35 +456,47 @@
             });
 
             // ============================================================
-            // 5. VISITOR COUNTER — MENGGUNAKAN FLAGCOUNTER (GRATIS)
+            // 5. VISITOR COUNTER — "AKTIF SEKARANG"
+            //    Angka bertambah setiap kali halaman dibuka (atau di-refresh)
+            //    Angka TIDAK otomatis turun saat ditutup (karena browser tidak
+            //    bisa tahu kapan halaman ditutup).
+            //    Untuk angka real-time, pakai Statcounter.com
             // ============================================================
             const visitorEl = document.getElementById('visitorCount');
             
-            // Coba ambil data dari Flagcounter (pakai layanan gratis)
-            // Flagcounter tidak punya API real-time, jadi kita simulasi dengan localStorage
-            // Tapi ini hanya simulasi — untuk produksi, daftar di Statcounter.com
-            
-            // Simulasi: tambah 1 setiap kali halaman dibuka (per session)
-            let count = parseInt(localStorage.getItem('visitorCount') || '0');
-            
-            // Cek apakah ini kunjungan baru di session ini
-            if (!sessionStorage.getItem('visited')) {
-                count += 1;
-                localStorage.setItem('visitorCount', count.toString());
-                sessionStorage.setItem('visited', 'true');
-            }
-            
-            // Tampilkan angka
-            visitorEl.textContent = count;
+            const STORAGE_KEY = 'visitorActiveCount';
+            const TIMESTAMP_KEY = 'visitorLastActive';
+            const SESSION_KEY = 'visitorSessionId';
 
-            // === CATATAN PENTING ===
-            // Ini adalah SIMULASI menggunakan localStorage.
-            // Untuk hitungan pengunjung REAL dari berbagai pengguna,
-            // daftar GRATIS di: https://statcounter.com/
-            // atau https://flagcounter.com/
-            // Lalu tempelkan kode mereka di sini.
-            console.log('👥 Visitor counter (simulasi):', count, 'pengunjung');
-            console.log('📌 Untuk hitungan real, daftar di Statcounter.com');
+            let activeCount = parseInt(localStorage.getItem(STORAGE_KEY) || '0');
+            const now = Date.now();
+            const lastActive = parseInt(localStorage.getItem(TIMESTAMP_KEY) || '0');
+            const SESSION_TIMEOUT = 8000; // 8 detik
+
+            // Cek apakah ini kunjungan baru atau refresh cepat
+            const sessionId = sessionStorage.getItem(SESSION_KEY);
+            const newSessionId = now.toString() + Math.random().toString(36).substring(2, 6);
+
+            if (!sessionId || (now - lastActive > SESSION_TIMEOUT)) {
+                // Ini pengunjung baru
+                activeCount += 1;
+                console.log('👤 Pengunjung baru! Total aktif:', activeCount);
+                sessionStorage.setItem(SESSION_KEY, newSessionId);
+            } else {
+                console.log('🔄 Refresh dalam ' + SESSION_TIMEOUT/1000 + ' detik, tidak tambah. Total aktif:', activeCount);
+            }
+
+            // Simpan timestamp dan hitungan
+            localStorage.setItem(TIMESTAMP_KEY, now.toString());
+            localStorage.setItem(STORAGE_KEY, activeCount.toString());
+
+            // Tampilkan di layar
+            visitorEl.textContent = activeCount;
+
+            console.log('👥 Pengunjung aktif sekarang:', activeCount);
+            console.log('💡 Tips: Buka di 3 browser berbeda, angka akan bertambah');
+            console.log('📌 Angka tidak otomatis turun saat halaman ditutup karena keterbatasan browser.');
+            console.log('🔥 Untuk angka real-time, daftar gratis di Statcounter.com');
         });
     </script>
 
