@@ -784,4 +784,37 @@
                 const input = document.getElementById('urlInput');
                 const urls = input.value.split('\n').filter(u => u.trim());
                 if (urls.length > 0) {
-                    addFeedEntry('
+                    addFeedEntry('📥 ' + urls.length + ' URL diterima untuk diproses', 'info');
+                    setTimeout(() => {
+                        const total = parseInt(document.getElementById('totalUrl').textContent) || 0;
+                        if (total > 0) {
+                            addFeedEntry('✅ ' + total + ' URL berhasil diproses', 'success');
+                        }
+                    }, 1500);
+                }
+            });
+
+            document.getElementById('openAllBtn').addEventListener('click', function() {
+                const total = parseInt(document.getElementById('totalUrl').textContent) || 0;
+                if (total > 0) {
+                    addFeedEntry('📤 Membuka ' + total + ' laporan ke Google Safe Browsing', 'warning');
+                }
+            });
+
+            // Feed awal
+            addFeedEntry('🟢 Console siap menerima laporan', 'success');
+            addFeedEntry('📡 Menunggu input URL...', 'info');
+
+            // Update awal
+            setTimeout(() => {
+                updateThreatLevel();
+                updateProgress();
+            }, 500);
+
+            console.log('🌍 Dashboard FINAL — Glitch + Typing + Himbauan Gerakan!');
+            console.log('🔥 BASMI PHISING — Perlawanan terhadap penipuan digital.');
+        });
+    </script>
+
+</body>
+</html>
