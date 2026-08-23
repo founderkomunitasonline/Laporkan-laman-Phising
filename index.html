@@ -185,40 +185,6 @@
             transform: scale(1.05) !important;
             transition: all 0.3s ease !important;
         }
-
-        /* ============================================================
-           STYLE COUNTER
-           ============================================================ */
-        .visitor-wrapper {
-            display: flex;
-            justify-content: center;
-            width: 100%;
-            margin: 20px 0 10px 0;
-        }
-        .visitor-counter {
-            text-align: center;
-            padding: 12px 24px;
-            background: rgba(0, 255, 65, 0.04);
-            border: 1px solid rgba(0, 255, 65, 0.15);
-            border-radius: 12px;
-            backdrop-filter: blur(4px);
-            transition: all 0.3s ease;
-            font-family: 'Courier New', monospace;
-        }
-        .visitor-counter:hover {
-            border-color: #00ff88;
-            box-shadow: 0 0 30px rgba(0, 255, 136, 0.08);
-        }
-        .visitor-counter .number {
-            font-size: 1.8rem;
-            font-weight: 700;
-            color: #00ff88;
-            text-shadow: 0 0 20px rgba(0, 255, 136, 0.3);
-        }
-        .visitor-counter .label {
-            color: #00ff41;
-            font-size: 0.9rem;
-        }
     </style>
 </head>
 <body>
@@ -306,20 +272,6 @@
                 URL duplikat otomatis dihapus. Setiap URL memiliki detail laporan sendiri. Gunakan tombol <b>BUKA LAPORAN</b> untuk membuka laporan satu per satu.
             </div>
         </section>
-
-        <!-- ============================================================
-             VISITOR COUNTER — SESSION STORAGE
-             ============================================================ -->
-        <div class="visitor-wrapper">
-            <div class="visitor-counter">
-                <span class="number" id="visitorCount">0</span>
-                <span class="label">Aktif sekarang</span>
-                <br>
-                <span style="font-size:0.7rem;color:#00ff88;display:block;margin-top:4px;">
-                    🌍 Total pengunjung: <span id="totalCount">0</span>
-                </span>
-            </div>
-        </div>
 
         <footer>© BASMI PHISING · SECURITY CONSOLE</footer>
 
@@ -457,38 +409,6 @@
                     this.style.boxShadow = '';
                 });
             });
-
-            // ============================================================
-            // 5. VISITOR COUNTER — PAKE SESSION STORAGE
-            //    Angka cuma nambah 1x per session (sampe browser ditutup)
-            // ============================================================
-            const visitorEl = document.getElementById('visitorCount');
-            const totalEl = document.getElementById('totalCount');
-
-            // Cek apakah ini session baru (bukan refresh)
-            if (!sessionStorage.getItem('visited')) {
-                // Ini pengunjung baru
-                let count = parseInt(localStorage.getItem('visitorActiveCount') || '0');
-                count += 1;
-                localStorage.setItem('visitorActiveCount', count.toString());
-                
-                let total = parseInt(localStorage.getItem('visitorTotalCount') || '0');
-                total += 1;
-                localStorage.setItem('visitorTotalCount', total.toString());
-                
-                // Tandai session ini udah dicatat
-                sessionStorage.setItem('visited', 'true');
-            }
-
-            // Tampilkan angka
-            const activeCount = parseInt(localStorage.getItem('visitorActiveCount') || '0');
-            const totalCount = parseInt(localStorage.getItem('visitorTotalCount') || '0');
-            visitorEl.textContent = activeCount;
-            totalEl.textContent = totalCount;
-
-            console.log('👥 Aktif sekarang:', activeCount);
-            console.log('🌍 Total pengunjung:', totalCount);
-            console.log('💡 Refresh gak nambah. Tutup browser baru nambah.');
         });
     </script>
 
