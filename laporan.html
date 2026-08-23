@@ -61,6 +61,27 @@
             text-shadow: 0 0 15px rgba(0, 255, 255, 0.6) !important;
         }
 
+        /* ============================================================
+           ANTI COPY — SEMUA TEKS KECUALI TEXTAREA
+           ============================================================ */
+        .no-select {
+            user-select: none !important;
+            -webkit-user-select: none !important;
+            -moz-user-select: none !important;
+            -ms-user-select: none !important;
+        }
+
+        /* Textarea TETAP BISA DI COPY */
+        textarea, .copyable, .report-list, .report-preview {
+            user-select: text !important;
+            -webkit-user-select: text !important;
+            -moz-user-select: text !important;
+            -ms-user-select: text !important;
+        }
+
+        /* ============================================================
+           PARTIKEL & AMBIENT
+           ============================================================ */
         #tsparticles {
             position: fixed;
             top: 0;
@@ -73,6 +94,39 @@
         .app-shell {
             position: relative;
             z-index: 1;
+        }
+
+        .ambient {
+            position: fixed;
+            border-radius: 50%;
+            filter: blur(80px);
+            opacity: 0.2;
+            pointer-events: none;
+            z-index: 0;
+        }
+        .ambient-a {
+            width: 400px;
+            height: 400px;
+            top: -100px;
+            right: -100px;
+            background: #a855f7;
+            animation: floatA 12s ease-in-out infinite alternate;
+        }
+        .ambient-b {
+            width: 500px;
+            height: 500px;
+            bottom: -150px;
+            left: -150px;
+            background: #00ffff;
+            animation: floatB 15s ease-in-out infinite alternate;
+        }
+        @keyframes floatA {
+            0% { transform: translate(0, 0) scale(1); }
+            100% { transform: translate(-50px, 50px) scale(1.2); }
+        }
+        @keyframes floatB {
+            0% { transform: translate(0, 0) scale(1); }
+            100% { transform: translate(50px, -50px) scale(1.3); }
         }
 
         /* ============================================================
@@ -569,13 +623,13 @@
     <main class="app-shell" id="mainApp">
 
         <!-- Navigasi -->
-        <nav class="page-nav">
+        <nav class="page-nav no-select">
             <a href="index.html">DASHBOARD</a>
             <a href="laporan.html" class="active">LAPORAN</a>
         </nav>
 
         <!-- Hero / Branding -->
-        <header class="hero">
+        <header class="hero no-select">
             <div class="brand">
                 <div class="brand-shield">◇</div>
                 <div>
@@ -650,7 +704,7 @@
         </header>
 
         <!-- ===== PROGRESS BAR ===== -->
-        <div class="progress-container">
+        <div class="progress-container no-select">
             <div class="progress-label">
                 <span>📊 PROGRES PELAPORAN</span>
                 <span id="progressText">0%</span>
@@ -662,25 +716,25 @@
 
         <!-- Panel Laporan -->
         <section class="panel">
-            <div class="report-info">
+            <div class="report-info no-select">
                 <strong>📋 REPORT DESTINATION</strong>
                 <span id="reportCount">0 URL SIAP DILAPORKAN</span>
             </div>
 
             <!-- Tabs -->
-            <div class="report-tabs">
+            <div class="report-tabs no-select">
                 <button id="emailTab" class="report-tab active">📧 EMAIL</button>
                 <button id="netcraftTab" class="report-tab">🌐 NETCRAFT</button>
             </div>
 
             <!-- Panel Email -->
             <div id="emailPanel" class="report-panel active">
-                <div class="field-heading">
+                <div class="field-heading no-select">
                     <label for="emailPreview">▧ TEMPLATE LAPORAN EMAIL</label>
                     <span>Otomatis dari Dashboard</span>
                 </div>
-                <textarea id="emailPreview" class="report-preview" spellcheck="false" placeholder="Belum ada URL. Masukkan URL di Dashboard lalu tekan PROSES URL."></textarea>
-                <div class="report-actions">
+                <textarea id="emailPreview" class="report-preview copyable" spellcheck="false" placeholder="Belum ada URL. Masukkan URL di Dashboard lalu tekan PROSES URL."></textarea>
+                <div class="report-actions no-select">
                     <button id="copyEmail" class="primary">▣ SALIN LAPORAN</button>
                     <button id="refreshReports" class="secondary">↻ PERBARUI DATA</button>
                 </div>
@@ -688,18 +742,18 @@
 
             <!-- Panel Netcraft -->
             <div id="netcraftPanel" class="report-panel">
-                <div class="field-heading">
+                <div class="field-heading no-select">
                     <label>▧ URL UNTUK NETCRAFT</label>
                     <span>Bulk report</span>
                 </div>
-                <div id="netcraftUrls" class="report-list">
+                <div id="netcraftUrls" class="report-list copyable">
                     <div style="opacity:0.5;">Belum ada URL. Masukkan URL di Dashboard lalu tekan PROSES URL.</div>
                 </div>
-                <div class="report-actions">
+                <div class="report-actions no-select">
                     <button id="copyUrls" class="primary">▣ SALIN SEMUA URL</button>
                     <button id="openNetcraft" class="all-button">↗ BUKA NETCRAFT</button>
                 </div>
-                <div class="notice">
+                <div class="notice no-select">
                     ⚡ Saat <b>BUKA NETCRAFT</b> ditekan, daftar URL akan disalin ke clipboard terlebih dahulu. 
                     Setelah halaman Netcraft terbuka, tempel daftar URL tersebut ke kolom pelaporan bulk.
                 </div>
@@ -707,11 +761,11 @@
         </section>
 
         <!-- ===== LIVE FEED ===== -->
-        <div class="live-feed" id="liveFeed">
+        <div class="live-feed no-select" id="liveFeed">
             <div class="entry"><span class="time">[SISTEM]</span> Report Center siap digunakan</div>
         </div>
 
-        <footer>
+        <footer class="no-select">
             © BASMI PHISING · REPORT CENTER
             <div class="footer-extra">⚡ Sistem dalam keadaan siaga ⚡</div>
         </footer>
@@ -766,7 +820,7 @@
             }
 
             // ============================================================
-            // 3. INIT PARTIKEL
+            // 3. INIT PARTIKEL (Lebih rame dari dashboard)
             // ============================================================
             if (typeof tsParticles !== 'undefined') {
                 tsParticles.load({
@@ -775,17 +829,17 @@
                         fpsLimit: 60,
                         particles: {
                             number: {
-                                value: 50,
+                                value: 80,
                                 density: { enable: true, value_area: 800 }
                             },
                             color: {
-                                value: ['#00ffff', '#a855f7', '#ffffff']
+                                value: ['#00ffff', '#a855f7', '#ffffff', '#ff8800']
                             },
                             shape: {
                                 type: 'circle'
                             },
                             opacity: {
-                                value: 0.3,
+                                value: 0.4,
                                 random: true,
                                 anim: { enable: true, speed: 0.5, opacity_min: 0.05 }
                             },
@@ -885,7 +939,7 @@
             setTimeout(typeEffect, 500);
 
             // ============================================================
-            // 7. THREAT LEVEL — SIMULASI DARI URL
+            // 7. THREAT LEVEL
             // ============================================================
             function updateThreatLevel() {
                 const total = parseInt(localStorage.getItem('totalUrl') || '0');
@@ -1014,7 +1068,6 @@
                 const valid = parseInt(localStorage.getItem('validUrl') || '0');
                 const data = JSON.parse(localStorage.getItem('reportData') || '[]');
                 
-                // Update preview
                 const preview = document.getElementById('emailPreview');
                 const netcraftList = document.getElementById('netcraftUrls');
                 
@@ -1045,7 +1098,7 @@
             });
 
             // ============================================================
-            // 12. UPDATE OTOMATIS DARI DASHBOARD
+            // 12. UPDATE OTOMATIS
             // ============================================================
             function autoUpdate() {
                 const data = JSON.parse(localStorage.getItem('reportData') || '[]');
@@ -1053,21 +1106,18 @@
                     document.getElementById('refreshReports').click();
                 }
             }
-
-            // Update awal setelah 1 detik
             setTimeout(autoUpdate, 1000);
 
             // Feed awal
             addFeedEntry('🟢 Report Center siap digunakan', 'success');
             addFeedEntry('📡 Menunggu data dari Dashboard...', 'info');
 
-            // Update awal
             setTimeout(() => {
                 updateThreatLevel();
                 updateProgress();
             }, 500);
 
-            console.log('🌍 Report Center — semua fitur visual aktif!');
+            console.log('🌍 Report Center — Anti Copy + Partikel aktif!');
             console.log('🔥 BASMI PHISING — Perlawanan terhadap penipuan digital.');
         });
     </script>
