@@ -61,6 +61,9 @@
             text-shadow: 0 0 15px rgba(0, 255, 255, 0.6) !important;
         }
 
+        /* ============================================================
+           PARTIKEL & AMBIENT (Di Belakang)
+           ============================================================ */
         #tsparticles {
             position: fixed;
             top: 0;
@@ -73,6 +76,39 @@
         .app-shell {
             position: relative;
             z-index: 1;
+        }
+
+        .ambient {
+            position: fixed;
+            border-radius: 50%;
+            filter: blur(80px);
+            opacity: 0.2;
+            pointer-events: none;
+            z-index: 0;
+        }
+        .ambient-a {
+            width: 400px;
+            height: 400px;
+            top: -100px;
+            right: -100px;
+            background: #a855f7;
+            animation: floatA 12s ease-in-out infinite alternate;
+        }
+        .ambient-b {
+            width: 500px;
+            height: 500px;
+            bottom: -150px;
+            left: -150px;
+            background: #00ffff;
+            animation: floatB 15s ease-in-out infinite alternate;
+        }
+        @keyframes floatA {
+            0% { transform: translate(0, 0) scale(1); }
+            100% { transform: translate(-50px, 50px) scale(1.2); }
+        }
+        @keyframes floatB {
+            0% { transform: translate(0, 0) scale(1); }
+            100% { transform: translate(50px, -50px) scale(1.3); }
         }
 
         /* ============================================================
@@ -416,7 +452,7 @@
             <div class="threat-level" id="threatLevel">🟢 LEVEL AMAN — 0 URL terverifikasi</div>
 
             <!-- ============================================================
-                 HIMBAUAN GERAKAN — PILIHAN 4
+                 HIMBAUAN GERAKAN
                  ============================================================ -->
             <div style="
                 display: flex;
@@ -578,7 +614,7 @@
             }
 
             // ============================================================
-            // 3. INIT PARTIKEL
+            // 3. INIT PARTIKEL (TSPARTICLES)
             // ============================================================
             if (typeof tsParticles !== 'undefined') {
                 tsParticles.load({
@@ -587,7 +623,7 @@
                         fpsLimit: 60,
                         particles: {
                             number: {
-                                value: 50,
+                                value: 80,
                                 density: { enable: true, value_area: 800 }
                             },
                             color: {
@@ -597,7 +633,7 @@
                                 type: 'circle'
                             },
                             opacity: {
-                                value: 0.3,
+                                value: 0.4,
                                 random: true,
                                 anim: { enable: true, speed: 0.5, opacity_min: 0.05 }
                             },
@@ -754,7 +790,7 @@
             }
 
             // ============================================================
-            // 10. HOOK
+            // 10. HOOK — PANTAU PERUBAHAN
             // ============================================================
             const observer = new MutationObserver(function() {
                 updateProgress();
@@ -811,7 +847,7 @@
                 updateProgress();
             }, 500);
 
-            console.log('🌍 Dashboard FINAL — Glitch + Typing + Himbauan Gerakan!');
+            console.log('🌍 Dashboard FINAL — Glitch + Typing + Partikel!');
             console.log('🔥 BASMI PHISING — Perlawanan terhadap penipuan digital.');
         });
     </script>
