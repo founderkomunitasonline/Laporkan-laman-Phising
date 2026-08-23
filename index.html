@@ -187,39 +187,38 @@
         }
 
         /* ============================================================
-           STYLE COUNTER VISITOR
+           STYLE FLAG COUNTER
            ============================================================ */
-        .visitor-counter {
-            text-align: center;
-            margin-top: 30px;
-            padding: 12px 24px;
-            font-family: 'Courier New', monospace;
-            font-size: 0.95rem;
-            color: #00ff41;
-            background: rgba(0, 255, 65, 0.05);
-            border: 1px solid rgba(0, 255, 65, 0.2);
-            border-radius: 12px;
-            backdrop-filter: blur(4px);
-            display: inline-block;
-            width: auto;
-            letter-spacing: 0.5px;
-            transition: all 0.3s ease;
-        }
-        .visitor-counter:hover {
-            border-color: #00ff88;
-            box-shadow: 0 0 30px rgba(0, 255, 136, 0.1);
-        }
-        .visitor-counter .number {
-            font-size: 1.5rem;
-            font-weight: 700;
-            color: #00ff88;
-            text-shadow: 0 0 20px rgba(0, 255, 136, 0.3);
-        }
-        .visitor-wrapper {
+        .flag-counter-wrapper {
             display: flex;
             justify-content: center;
             width: 100%;
-            margin: 10px 0 5px 0;
+            margin: 20px 0 10px 0;
+        }
+        .flag-counter-box {
+            text-align: center;
+            padding: 16px 24px;
+            background: rgba(0, 255, 65, 0.04);
+            border: 1px solid rgba(0, 255, 65, 0.15);
+            border-radius: 12px;
+            backdrop-filter: blur(4px);
+            transition: all 0.3s ease;
+        }
+        .flag-counter-box:hover {
+            border-color: #00ff88;
+            box-shadow: 0 0 30px rgba(0, 255, 136, 0.08);
+        }
+        .flag-counter-box img {
+            max-width: 100%;
+            height: auto;
+        }
+        .flag-counter-box .label {
+            display: block;
+            margin-top: 10px;
+            font-family: 'Courier New', monospace;
+            font-size: 0.85rem;
+            color: #00ff88;
+            letter-spacing: 0.5px;
         }
     </style>
 </head>
@@ -310,11 +309,20 @@
         </section>
 
         <!-- ============================================================
-             VISITOR COUNTER — AKTIF SEKARANG
+             FLAG COUNTER — GLOBAL (SEMUA PENGUNJUNG DARI MANA SAJA)
              ============================================================ -->
-        <div class="visitor-wrapper">
-            <div class="visitor-counter">
-                👥 <span class="number" id="visitorCount">0</span> pengunjung aktif sekarang
+        <div class="flag-counter-wrapper">
+            <div class="flag-counter-box">
+                <!--
+                    =====================================================
+                    TEMPELKAN KODE DARI FLAGCOUNTER.COM DI SINI
+                    GANTI "XXXXXXXX" DENGAN ID COUNTER KAMU
+                    =====================================================
+                -->
+                <a href="https://www.flagcounter.com/" target="_blank">
+                    <img src="https://www.flagcounter.com/count2/XXXXXXXX/bg=FFFFFF/txt=000000/border=CCCCCC/columns=8/maxflags=12/viewers=0/labels=0/" alt="Flag Counter" border="0">
+                </a>
+                <span class="label">🌍 Total pengunjung global</span>
             </div>
         </div>
 
@@ -455,48 +463,9 @@
                 });
             });
 
-            // ============================================================
-            // 5. VISITOR COUNTER — "AKTIF SEKARANG"
-            //    Angka bertambah setiap kali halaman dibuka (atau di-refresh)
-            //    Angka TIDAK otomatis turun saat ditutup (karena browser tidak
-            //    bisa tahu kapan halaman ditutup).
-            //    Untuk angka real-time, pakai Statcounter.com
-            // ============================================================
-            const visitorEl = document.getElementById('visitorCount');
-            
-            const STORAGE_KEY = 'visitorActiveCount';
-            const TIMESTAMP_KEY = 'visitorLastActive';
-            const SESSION_KEY = 'visitorSessionId';
-
-            let activeCount = parseInt(localStorage.getItem(STORAGE_KEY) || '0');
-            const now = Date.now();
-            const lastActive = parseInt(localStorage.getItem(TIMESTAMP_KEY) || '0');
-            const SESSION_TIMEOUT = 8000; // 8 detik
-
-            // Cek apakah ini kunjungan baru atau refresh cepat
-            const sessionId = sessionStorage.getItem(SESSION_KEY);
-            const newSessionId = now.toString() + Math.random().toString(36).substring(2, 6);
-
-            if (!sessionId || (now - lastActive > SESSION_TIMEOUT)) {
-                // Ini pengunjung baru
-                activeCount += 1;
-                console.log('👤 Pengunjung baru! Total aktif:', activeCount);
-                sessionStorage.setItem(SESSION_KEY, newSessionId);
-            } else {
-                console.log('🔄 Refresh dalam ' + SESSION_TIMEOUT/1000 + ' detik, tidak tambah. Total aktif:', activeCount);
-            }
-
-            // Simpan timestamp dan hitungan
-            localStorage.setItem(TIMESTAMP_KEY, now.toString());
-            localStorage.setItem(STORAGE_KEY, activeCount.toString());
-
-            // Tampilkan di layar
-            visitorEl.textContent = activeCount;
-
-            console.log('👥 Pengunjung aktif sekarang:', activeCount);
-            console.log('💡 Tips: Buka di 3 browser berbeda, angka akan bertambah');
-            console.log('📌 Angka tidak otomatis turun saat halaman ditutup karena keterbatasan browser.');
-            console.log('🔥 Untuk angka real-time, daftar gratis di Statcounter.com');
+            console.log('🌍 Flagcounter terpasang!');
+            console.log('📌 Ganti XXXXXXX dengan ID dari Flagcounter.com');
+            console.log('🔥 Setiap pengunjung dari mana saja akan tercatat GLOBAL');
         });
     </script>
 
