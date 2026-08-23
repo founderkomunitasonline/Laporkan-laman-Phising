@@ -185,6 +185,36 @@
             transform: scale(1.05) !important;
             transition: all 0.3s ease !important;
         }
+
+        /* ============================================================
+           STYLE COUNTER VISITOR
+           ============================================================ */
+        .visitor-counter {
+            text-align: center;
+            margin-top: 30px;
+            padding: 12px 20px;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
+            color: #00ff41;
+            background: rgba(0, 255, 65, 0.05);
+            border: 1px solid rgba(0, 255, 65, 0.15);
+            border-radius: 12px;
+            backdrop-filter: blur(4px);
+            display: inline-block;
+            width: auto;
+            letter-spacing: 0.5px;
+        }
+        .visitor-counter .number {
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: #00ff88;
+            text-shadow: 0 0 20px rgba(0, 255, 136, 0.3);
+        }
+        .visitor-wrapper {
+            display: flex;
+            justify-content: center;
+            width: 100%;
+        }
     </style>
 </head>
 <body>
@@ -272,6 +302,15 @@
                 URL duplikat otomatis dihapus. Setiap URL memiliki detail laporan sendiri. Gunakan tombol <b>BUKA LAPORAN</b> untuk membuka laporan satu per satu.
             </div>
         </section>
+
+        <!-- ============================================================
+             VISITOR COUNTER — DITAMBAHKAN DI SINI
+             ============================================================ -->
+        <div class="visitor-wrapper">
+            <div class="visitor-counter">
+                👥 <span class="number" id="visitorCount">0</span> pengunjung aktif sekarang
+            </div>
+        </div>
 
         <footer>© BASMI PHISING · SECURITY CONSOLE</footer>
 
@@ -409,6 +448,37 @@
                     this.style.boxShadow = '';
                 });
             });
+
+            // ============================================================
+            // 5. VISITOR COUNTER — MENGGUNAKAN FLAGCOUNTER (GRATIS)
+            // ============================================================
+            const visitorEl = document.getElementById('visitorCount');
+            
+            // Coba ambil data dari Flagcounter (pakai layanan gratis)
+            // Flagcounter tidak punya API real-time, jadi kita simulasi dengan localStorage
+            // Tapi ini hanya simulasi — untuk produksi, daftar di Statcounter.com
+            
+            // Simulasi: tambah 1 setiap kali halaman dibuka (per session)
+            let count = parseInt(localStorage.getItem('visitorCount') || '0');
+            
+            // Cek apakah ini kunjungan baru di session ini
+            if (!sessionStorage.getItem('visited')) {
+                count += 1;
+                localStorage.setItem('visitorCount', count.toString());
+                sessionStorage.setItem('visited', 'true');
+            }
+            
+            // Tampilkan angka
+            visitorEl.textContent = count;
+
+            // === CATATAN PENTING ===
+            // Ini adalah SIMULASI menggunakan localStorage.
+            // Untuk hitungan pengunjung REAL dari berbagai pengguna,
+            // daftar GRATIS di: https://statcounter.com/
+            // atau https://flagcounter.com/
+            // Lalu tempelkan kode mereka di sini.
+            console.log('👥 Visitor counter (simulasi):', count, 'pengunjung');
+            console.log('📌 Untuk hitungan real, daftar di Statcounter.com');
         });
     </script>
 
