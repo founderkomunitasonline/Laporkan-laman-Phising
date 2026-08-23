@@ -163,7 +163,7 @@
         }
 
         /* ============================================================
-           GLITCH TEXT — KEREN ABIS
+           GLITCH TEXT
            ============================================================ */
         .glitch-container {
             margin: 8px 0 4px 0;
@@ -220,7 +220,7 @@
         }
 
         /* ============================================================
-           TYPING EFFECT — TERMINAL
+           TYPING EFFECT
            ============================================================ */
         .typing-container {
             text-align: center;
@@ -260,7 +260,7 @@
 
         .threat-level {
             text-align: center !important;
-            margin: 6px auto 10px auto !important;
+            margin: 6px auto 4px auto !important;
             padding: 6px 20px !important;
             max-width: 350px !important;
             border-radius: 20px !important;
@@ -414,6 +414,50 @@
 
             <!-- ===== THREAT LEVEL ===== -->
             <div class="threat-level" id="threatLevel">🟢 LEVEL AMAN — 0 URL terverifikasi</div>
+
+            <!-- ============================================================
+                 HIMBAUAN GERAKAN — PILIHAN 4
+                 ============================================================ -->
+            <div style="
+                display: flex;
+                flex-wrap: wrap;
+                gap: 8px 14px;
+                justify-content: center;
+                align-items: center;
+                margin: 12px auto 6px auto;
+                padding: 10px 18px;
+                max-width: 700px;
+                background: rgba(0, 255, 255, 0.04);
+                border-radius: 12px;
+                border: 1px solid rgba(0, 255, 255, 0.08);
+                font-family: 'Courier New', monospace;
+                font-size: 0.85rem;
+                text-align: center;
+                color: #88ccff;
+            ">
+                <span style="color:#ff4444; font-weight:700;">🔥 BASMI PHISING ADALAH GERAKAN</span>
+                <span style="color:#445566;">|</span>
+                <span>Bukan sekadar website. Ini perlawanan terhadap penipuan digital.</span>
+            </div>
+
+            <div style="
+                display: flex;
+                flex-wrap: wrap;
+                gap: 8px 14px;
+                justify-content: center;
+                align-items: center;
+                margin: 2px auto 10px auto;
+                padding: 6px 18px;
+                max-width: 700px;
+                font-family: 'Courier New', monospace;
+                font-size: 0.8rem;
+                text-align: center;
+                color: #6688aa;
+            ">
+                <span>🤝 SATU LAPORAN, DAMPAK BESAR</span>
+                <span style="color:#445566;">·</span>
+                <span>⭐ KAMU ADALAH PAHLAWAN DIGITAL</span>
+            </div>
         </header>
 
         <!-- Stats -->
@@ -611,7 +655,7 @@
             setInterval(updateClock, 1000);
 
             // ============================================================
-            // 6. TYPING EFFECT — TERMINAL STYLE
+            // 6. TYPING EFFECT
             // ============================================================
             const messages = [
                 '> SCANNING TARGETS...',
@@ -740,37 +784,4 @@
                 const input = document.getElementById('urlInput');
                 const urls = input.value.split('\n').filter(u => u.trim());
                 if (urls.length > 0) {
-                    addFeedEntry('📥 ' + urls.length + ' URL diterima untuk diproses', 'info');
-                    setTimeout(() => {
-                        const total = parseInt(document.getElementById('totalUrl').textContent) || 0;
-                        if (total > 0) {
-                            addFeedEntry('✅ ' + total + ' URL berhasil diproses', 'success');
-                        }
-                    }, 1500);
-                }
-            });
-
-            document.getElementById('openAllBtn').addEventListener('click', function() {
-                const total = parseInt(document.getElementById('totalUrl').textContent) || 0;
-                if (total > 0) {
-                    addFeedEntry('📤 Membuka ' + total + ' laporan ke Google Safe Browsing', 'warning');
-                }
-            });
-
-            // Feed awal
-            addFeedEntry('🟢 Console siap menerima laporan', 'success');
-            addFeedEntry('📡 Menunggu input URL...', 'info');
-
-            // Update awal
-            setTimeout(() => {
-                updateThreatLevel();
-                updateProgress();
-            }, 500);
-
-            console.log('🌍 Dashboard siap — dengan GLITCH + TYPING EFFECT!');
-            console.log('🔥 Sekarang keliatan lebih hidup dan keren!');
-        });
-    </script>
-
-</body>
-</html>
+                    addFeedEntry('
