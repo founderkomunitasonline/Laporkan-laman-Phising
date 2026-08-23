@@ -187,7 +187,7 @@
         }
 
         /* ============================================================
-           STYLE COUNTER WHOS.AMUNG.US
+           STYLE COUNTER
            ============================================================ */
         .visitor-wrapper {
             display: flex;
@@ -308,7 +308,7 @@
         </section>
 
         <!-- ============================================================
-             VISITOR COUNTER — WHOS.AMUNG.US (Langsung Jalan, No Daftar)
+             VISITOR COUNTER — SESSION STORAGE
              ============================================================ -->
         <div class="visitor-wrapper">
             <div class="visitor-counter">
@@ -337,9 +337,6 @@
     <script src="https://cdn.jsdelivr.net/npm/tsparticles@2.12.0/tsparticles.bundle.min.js">
     </script>
 
-    <!-- ============================================================
-         WHOS.AMUNG.US — VISITOR COUNTER REAL-TIME
-         ============================================================ -->
     <script>
         // ============================================================
         // 1. FUNGSI TOAST
@@ -462,46 +459,36 @@
             });
 
             // ============================================================
-            // 5. VISITOR COUNTER — WHOS.AMUNG.US (Langsung Jalan)
-            //    Gak perlu daftar, gak perlu API key, tinggal tempel!
+            // 5. VISITOR COUNTER — PAKE SESSION STORAGE
+            //    Angka cuma nambah 1x per session (sampe browser ditutup)
             // ============================================================
-            console.log('🌍 Visitor counter aktif!');
-            console.log('🔥 Angka bertambah global dari semua pengunjung');
-            console.log('📌 Gak perlu daftar, langsung jalan!');
-
-            // Ambil data dari whos.amung.us pake widget mereka
-            // Kita pake cara simpel: tampilkan angka dari localStorage dulu
-            // Nanti whos.amung.us yang update otomatis
-
             const visitorEl = document.getElementById('visitorCount');
             const totalEl = document.getElementById('totalCount');
 
-            // Simulasi dulu pake localStorage (biar keliatan angkanya)
-            // Nanti kalo whos.amung.us aktif, angkanya bakal keganti otomatis
-            let count = parseInt(localStorage.getItem('visitorActiveCount') || '0');
-            count += 1;
-            localStorage.setItem('visitorActiveCount', count.toString());
-            visitorEl.textContent = count;
+            // Cek apakah ini session baru (bukan refresh)
+            if (!sessionStorage.getItem('visited')) {
+                // Ini pengunjung baru
+                let count = parseInt(localStorage.getItem('visitorActiveCount') || '0');
+                count += 1;
+                localStorage.setItem('visitorActiveCount', count.toString());
+                
+                let total = parseInt(localStorage.getItem('visitorTotalCount') || '0');
+                total += 1;
+                localStorage.setItem('visitorTotalCount', total.toString());
+                
+                // Tandai session ini udah dicatat
+                sessionStorage.setItem('visited', 'true');
+            }
 
-            // Total pengunjung (simulasi)
-            let total = parseInt(localStorage.getItem('visitorTotalCount') || '0');
-            total += 1;
-            localStorage.setItem('visitorTotalCount', total.toString());
-            totalEl.textContent = total;
+            // Tampilkan angka
+            const activeCount = parseInt(localStorage.getItem('visitorActiveCount') || '0');
+            const totalCount = parseInt(localStorage.getItem('visitorTotalCount') || '0');
+            visitorEl.textContent = activeCount;
+            totalEl.textContent = totalCount;
 
-            console.log('👥 Aktif sekarang:', count);
-            console.log('🌍 Total pengunjung:', total);
-
-            // ============================================================
-            // 6. WHOS.AMUNG.US WIDGET (Embed)
-            //    Ini yang bikin angka real-time global!
-            //    Tapi karena kita pake pages.dev, kita pake cara alternatif
-            // ============================================================
-            // Sebenernya whos.amung.us tinggal tempel <script> doang
-            // Tapi karena kita udah pake ini, nanti kalo mau pake yang asli
-            // tinggal buka whos.amung.us, copy kode mereka, tempel di sini
-
-            console.log('💡 Tips: Buka whos.amung.us buat dapet widget asli');
+            console.log('👥 Aktif sekarang:', activeCount);
+            console.log('🌍 Total pengunjung:', totalCount);
+            console.log('💡 Refresh gak nambah. Tutup browser baru nambah.');
         });
     </script>
 
