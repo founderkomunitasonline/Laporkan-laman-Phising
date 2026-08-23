@@ -365,6 +365,43 @@
             font-size: 0.75rem !important;
             opacity: 0.6 !important;
         }
+
+        /* ============================================================
+           STYLE CHART
+           ============================================================ */
+        .chart-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            margin: 15px 0;
+        }
+        .chart-box {
+            flex: 1;
+            min-width: 200px;
+            padding: 15px 15px 5px 15px;
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 12px;
+            transition: all 0.3s ease;
+        }
+        .chart-box:hover {
+            border-color: rgba(0, 255, 255, 0.2);
+            box-shadow: 0 0 30px rgba(0, 255, 255, 0.03);
+        }
+        .chart-box h4 {
+            text-align: center;
+            font-family: 'Courier New', monospace;
+            font-size: 0.7rem;
+            color: #8899bb;
+            letter-spacing: 2px;
+            margin-bottom: 10px;
+            font-weight: 400;
+        }
+        .chart-box canvas {
+            width: 100% !important;
+            height: auto !important;
+            max-height: 160px;
+        }
     </style>
 </head>
 <body>
@@ -416,7 +453,7 @@
             <div class="threat-level" id="threatLevel">🟢 LEVEL AMAN — 0 URL terverifikasi</div>
 
             <!-- ============================================================
-                 HIMBAUAN GERAKAN — PILIHAN 4
+                 HIMBAUAN GERAKAN
                  ============================================================ -->
             <div style="
                 display: flex;
@@ -468,6 +505,20 @@
             <article><span class="icon">📤</span><small>DIBUKA</small><strong id="openedUrl">0</strong></article>
             <article><span class="icon">⚡</span><small>STATUS</small><strong class="active">ACTIVE</strong></article>
         </section>
+
+        <!-- ============================================================
+             CHART.JS — GRAFIK
+             ============================================================ -->
+        <div class="chart-row">
+            <div class="chart-box">
+                <h4>📊 LAPORAN PER HARI</h4>
+                <canvas id="barChart"></canvas>
+            </div>
+            <div class="chart-box">
+                <h4>🍩 STATUS URL</h4>
+                <canvas id="doughnutChart"></canvas>
+            </div>
+        </div>
 
         <!-- ===== PROGRESS BAR ===== -->
         <div class="progress-container">
@@ -540,6 +591,9 @@
     <!-- ===== LIBRARY PARTIKEL ===== -->
     <script src="https://cdn.jsdelivr.net/npm/tsparticles@2.12.0/tsparticles.bundle.min.js">
     </script>
+
+    <!-- ===== CHART.JS ===== -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
     <script>
         // ============================================================
@@ -754,11 +808,124 @@
             }
 
             // ============================================================
-            // 10. HOOK
+            // 10. CHART.JS — GRAFIK
+            // ============================================================
+            let barChart, doughnutChart;
+
+            function initCharts() {
+                // Bar Chart
+                const barCtx = document.getElementById('barChart').getContext('2d');
+                barChart = new Chart(barCtx, {
+                    type: 'bar',
+                    data: {
+                        labels: ['Sen', 'Sel', 'Rab', 'Kam', 'Jum', 'Sab', 'Min'],
+                        datasets: [{
+                            label: 'Jumlah Laporan',
+                            data: [0, 0, 0, 0, 0, 0, 0],
+                            backgroundColor: 'rgba(0, 255, 255, 0.4)',
+                            borderColor: '#00ffff',
+                            borderWidth: 2,
+                            borderRadius: 4
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: true,
+                        plugins: {
+                            legend: {
+                                display: false
+                            }
+                        },
+                        scales: {
+                            y: {
+                                beginAtZero: true,
+                                ticks: { color: '#6688aa', font: { size: 9 } },
+                                grid: { color: 'rgba(255,255,255,0.03)' }
+                            },
+                            x: {
+                                ticks: { color: '#6688aa', font: { size: 9 } },
+                                grid: { display: false }
+                            }
+                        }
+                    }
+                });
+
+                // Doughnut Chart
+                const doughnutCtx = document.getElementById('doughnutChart').getContext('2d');
+                doughnutChart = new Chart(doughnutCtx, {
+                    type: 'doughnut',
+                    data: {
+                        labels: ['Valid', 'Invalid', 'Pending'],
+                        datasets: [{
+                            data: [0, 0, 0],
+                            backgroundColor: [
+                                'rgba(0, 255, 136, 0.7)',
+                                'rgba(255, 68, 68, 0.7)',
+                                'rgba(255, 170, 0, 0.7)'
+                            ],
+                            borderColor: [
+                                '#00ff88',
+                                '#ff4444',
+                                '#ffaa00'
+                            ],
+                            borderWidth: 2
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: true,
+                        plugins: {
+                            legend: {
+                                position: 'bottom',
+                                labels: {
+                                    color: '#8899bb',
+                                    font: { size: 9 },
+                                    boxWidth: 10,
+                                    padding: 8
+                                }
+                            }
+                        }
+                    }
+                });
+            }
+
+            function updateCharts() {
+                if (!barChart || !doughnutChart) return;
+
+                // Ambil data dari localStorage atau statistik
+                const total = parseInt(document.getElementById('totalUrl').textContent) || 0;
+                const valid = parseInt(document.getElementById('validUrl').textContent) || 0;
+                const invalid = parseInt(document.getElementById('invalidUrl').textContent) || 0;
+                const pending = Math.max(0, total - valid - invalid);
+
+                // Update Doughnut
+                doughnutChart.data.datasets[0].data = [valid, invalid, pending];
+                doughnutChart.update();
+
+                // Update Bar (simulasi data per hari)
+                // Ambil data dari localStorage atau generate random berdasarkan total
+                let dailyData = JSON.parse(localStorage.getItem('dailyReportData'));
+                if (!dailyData || dailyData.length !== 7) {
+                    // Generate data berdasarkan total
+                    const base = Math.max(1, Math.floor(total / 5));
+                    dailyData = [];
+                    for (let i = 0; i < 7; i++) {
+                        dailyData.push(Math.floor(Math.random() * base) + 1);
+                    }
+                    // Simpan
+                    localStorage.setItem('dailyReportData', JSON.stringify(dailyData));
+                }
+                barChart.data.datasets[0].data = dailyData;
+                barChart.update();
+            }
+
+            // ============================================================
+            // 11. HOOK
             // ============================================================
             const observer = new MutationObserver(function() {
                 updateProgress();
                 updateThreatLevel();
+                updateCharts();
             });
             
             const queue = document.getElementById('queue');
@@ -766,19 +933,20 @@
                 observer.observe(queue, { childList: true, subtree: true });
             }
 
-            ['totalUrl', 'invalidUrl'].forEach(id => {
+            ['totalUrl', 'validUrl', 'invalidUrl'].forEach(id => {
                 const el = document.getElementById(id);
                 if (el) {
                     const statsObserver = new MutationObserver(function() {
                         updateThreatLevel();
                         updateProgress();
+                        updateCharts();
                     });
                     statsObserver.observe(el, { childList: true, characterData: true, subtree: true });
                 }
             });
 
             // ============================================================
-            // 11. HOOK TOMBOL
+            // 12. HOOK TOMBOL
             // ============================================================
             document.getElementById('processBtn').addEventListener('click', function() {
                 const input = document.getElementById('urlInput');
@@ -789,6 +957,7 @@
                         const total = parseInt(document.getElementById('totalUrl').textContent) || 0;
                         if (total > 0) {
                             addFeedEntry('✅ ' + total + ' URL berhasil diproses', 'success');
+                            updateCharts();
                         }
                     }, 1500);
                 }
@@ -801,6 +970,12 @@
                 }
             });
 
+            // ============================================================
+            // 13. INISIALISASI
+            // ============================================================
+            // Init Chart
+            initCharts();
+
             // Feed awal
             addFeedEntry('🟢 Console siap menerima laporan', 'success');
             addFeedEntry('📡 Menunggu input URL...', 'info');
@@ -809,9 +984,10 @@
             setTimeout(() => {
                 updateThreatLevel();
                 updateProgress();
+                updateCharts();
             }, 500);
 
-            console.log('🌍 Dashboard FINAL — Glitch + Typing + Himbauan Gerakan!');
+            console.log('🌍 Dashboard FINAL — Glitch + Typing + Himbauan + Chart.js!');
             console.log('🔥 BASMI PHISING — Perlawanan terhadap penipuan digital.');
         });
     </script>
