@@ -6,7 +6,7 @@
     <title>BASMI PHISING — Security Console</title>
     
     <!-- ============================================================
-         FONT KOMBINASI TERBAIK: JetBrains Mono + Orbitron
+         FONT KOMBINASI: JetBrains Mono + Orbitron
          ============================================================ -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -19,23 +19,20 @@
         /* ============================================================
            FONT KOMBINASI — JetBrains Mono + Orbitron
            ============================================================ */
-        /* Untuk SEMUA teks biasa (body, console, feed, queue, tombol) */
         body, .app-shell, .typing-container, .clock-container, 
         .live-feed, .queue-item, .note, .status-pill, .progress-label,
-        .report-info, .field-heading, .notice, .footer-extra,
-        .primary, .secondary, .all-button, .report-tab,
+        .field-heading, .footer-extra,
+        .primary, .secondary, .all-button,
         .stats article, .counter, .hero p, .page-nav a {
             font-family: 'JetBrains Mono', 'Courier New', monospace !important;
         }
 
-        /* Untuk JUDUL BESAR (BASMI PHISING, SECURE SYSTEM, GLITCH, H1) */
         .brand-title, .glitch, .hero h1, .brand-shield,
         .glitch-container, .brand {
             font-family: 'Orbitron', 'Courier New', monospace !important;
             font-weight: 700 !important;
         }
 
-        /* Biar Brand Subtitle tetap rapi */
         .brand-subtitle {
             font-family: 'JetBrains Mono', 'Courier New', monospace !important;
             font-weight: 600 !important;
@@ -97,7 +94,7 @@
         }
 
         /* ============================================================
-           ANTI COPY — SEMUA TEKS KECUALI TEXTAREA
+           ANTI COPY
            ============================================================ */
         .no-select {
             user-select: none !important;
@@ -106,7 +103,6 @@
             -ms-user-select: none !important;
         }
 
-        /* Textarea TETAP BISA DI COPY */
         textarea, .copyable {
             user-select: text !important;
             -webkit-user-select: text !important;
@@ -115,7 +111,7 @@
         }
 
         /* ============================================================
-           PARTIKEL & AMBIENT (Di Belakang)
+           PARTIKEL & AMBIENT
            ============================================================ */
         #tsparticles {
             position: fixed;
@@ -165,13 +161,52 @@
         }
 
         /* ============================================================
-           EFEK TOMBOL & KARTU
+           TOMBOL SCROLL TO TOP
+           ============================================================ */
+        #scrollTopBtn {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            z-index: 9999;
+            background: rgba(0, 255, 255, 0.12);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(0, 255, 255, 0.25);
+            border-radius: 50%;
+            width: 48px;
+            height: 48px;
+            font-size: 1.3rem;
+            color: #00ffff;
+            cursor: pointer;
+            box-shadow: 0 0 30px rgba(0, 255, 255, 0.1);
+            transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(30px) scale(0.8);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        #scrollTopBtn.show {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0) scale(1);
+        }
+        #scrollTopBtn:hover {
+            background: rgba(0, 255, 255, 0.25);
+            box-shadow: 0 0 50px rgba(0, 255, 255, 0.3);
+            transform: scale(1.12);
+            border-color: #00ffff;
+        }
+
+        /* ============================================================
+           EFEK TOMBOL
            ============================================================ */
         .primary, .secondary, .all-button {
             transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94) !important;
             position: relative;
             overflow: hidden;
             font-weight: 700 !important;
+            cursor: pointer;
         }
         .primary:hover, .secondary:hover, .all-button:hover {
             transform: translateY(-3px) scale(1.02) !important;
@@ -180,34 +215,71 @@
         .primary:active, .secondary:active, .all-button:active {
             transform: scale(0.96) !important;
         }
+        .primary:disabled, .secondary:disabled, .all-button:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none !important;
+        }
+
+        .spinner {
+            display: inline-block;
+            width: 16px;
+            height: 16px;
+            border: 2px solid rgba(255,255,255,0.2);
+            border-top-color: #fff;
+            border-radius: 50%;
+            animation: spin 0.6s linear infinite;
+            margin-right: 8px;
+            vertical-align: middle;
+        }
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
 
         textarea:focus {
             border-color: #00ffff !important;
             box-shadow: 0 0 30px rgba(0, 255, 255, 0.15) !important;
         }
 
+        /* ============================================================
+           KARTU STATISTIK — RESPONSIF
+           ============================================================ */
+        .stats {
+            display: grid !important;
+            grid-template-columns: repeat(auto-fit, minmax(90px, 1fr)) !important;
+            gap: 10px !important;
+            margin: 12px 0 !important;
+        }
         .stats article {
             transition: all 0.3s ease !important;
             cursor: default;
-            padding: 12px 16px !important;
+            padding: 10px 6px !important;
             border-radius: 8px !important;
             background: rgba(255, 255, 255, 0.03) !important;
             border: 1px solid rgba(255, 255, 255, 0.05) !important;
             text-align: center !important;
         }
         .stats article:hover {
-            transform: translateY(-5px) !important;
+            transform: translateY(-4px) !important;
             background: rgba(0, 255, 255, 0.08) !important;
             border-color: #00ffff !important;
             box-shadow: 0 8px 25px rgba(0, 255, 255, 0.1) !important;
         }
         .stats article .icon {
             display: block;
-            font-size: 1.5rem;
-            margin-bottom: 4px;
+            font-size: 1.3rem;
+            margin-bottom: 2px;
         }
         .stats article strong {
             font-weight: 700 !important;
+            font-size: 1.2rem !important;
+            display: block;
+        }
+        .stats article small {
+            font-size: 0.55rem !important;
+            opacity: 0.7;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
         }
 
         .queue-item {
@@ -220,7 +292,7 @@
         }
 
         /* ============================================================
-           LAYOUT HERO — RAPI
+           LAYOUT HERO
            ============================================================ */
         .hero {
             text-align: center !important;
@@ -240,7 +312,7 @@
             border-radius: 20px !important;
             background: rgba(0, 255, 255, 0.08) !important;
             border: 1px solid rgba(0, 255, 255, 0.15) !important;
-            font-size: 0.75rem !important;
+            font-size: 0.7rem !important;
             color: #00ffff !important;
             font-weight: 600 !important;
         }
@@ -251,7 +323,7 @@
             font-weight: 700 !important;
         }
         .hero p {
-            font-size: 0.8rem !important;
+            font-size: 0.75rem !important;
             opacity: 0.6 !important;
             margin: 2px 0 !important;
             color: #8899bb !important;
@@ -265,7 +337,7 @@
             margin: 8px 0 4px 0;
             text-align: center;
             font-weight: 700 !important;
-            font-size: 1.1rem;
+            font-size: 1rem;
             letter-spacing: 4px;
             position: relative;
             display: inline-block;
@@ -320,9 +392,9 @@
         .typing-container {
             text-align: center;
             margin: 4px 0 6px 0;
-            font-size: 0.75rem;
+            font-size: 0.7rem;
             color: #00ff88;
-            min-height: 22px;
+            min-height: 20px;
             opacity: 0.8;
             font-weight: 400 !important;
         }
@@ -346,21 +418,24 @@
         .clock-container {
             text-align: center !important;
             margin: 4px 0 6px 0 !important;
-            font-size: 0.8rem !important;
+            font-size: 0.75rem !important;
             color: #00ffff !important;
             letter-spacing: 2px !important;
             opacity: 0.8 !important;
             font-weight: 400 !important;
         }
 
+        /* ============================================================
+           THREAT LEVEL — DOT BERKEDIP
+           ============================================================ */
         .threat-level {
             text-align: center !important;
             margin: 6px auto 4px auto !important;
-            padding: 6px 20px !important;
+            padding: 5px 18px !important;
             max-width: 350px !important;
             border-radius: 20px !important;
             font-weight: 700 !important;
-            font-size: 0.75rem !important;
+            font-size: 0.7rem !important;
             letter-spacing: 1px !important;
             background: rgba(0, 255, 65, 0.08) !important;
             border: 1px solid rgba(0, 255, 65, 0.2) !important;
@@ -368,20 +443,38 @@
             display: inline-block !important;
             transition: all 0.5s ease !important;
         }
-        .threat-level.warning {
-            border-color: #ffaa00 !important;
-            color: #ffaa00 !important;
-            box-shadow: 0 0 20px rgba(255, 170, 0, 0.15) !important;
+        .threat-level .dot {
+            display: inline-block;
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            margin-right: 6px;
+            background: #00ff88;
+            animation: threatDot 1.2s infinite alternate;
+            vertical-align: middle;
         }
-        .threat-level.danger {
-            border-color: #ff4444 !important;
-            color: #ff4444 !important;
-            box-shadow: 0 0 30px rgba(255, 68, 68, 0.2) !important;
-            animation: threatPulse 0.8s infinite alternate !important;
+        .threat-level.warning .dot {
+            background: #ffaa00;
+            animation: threatDotWarning 0.8s infinite alternate;
         }
-        @keyframes threatPulse {
-            0% { box-shadow: 0 0 10px rgba(255, 68, 68, 0.2); }
-            100% { box-shadow: 0 0 40px rgba(255, 68, 68, 0.5); }
+        .threat-level.danger .dot {
+            background: #ff4444;
+            animation: threatDotDanger 0.5s infinite alternate;
+        }
+        @keyframes threatDot {
+            0% { opacity: 0.3; transform: scale(0.8); }
+            100% { opacity: 1; transform: scale(1.2); }
+        }
+        @keyframes threatDotWarning {
+            0% { opacity: 0.4; transform: scale(0.8); box-shadow: 0 0 5px #ffaa00; }
+            100% { opacity: 1; transform: scale(1.3); box-shadow: 0 0 20px #ffaa00; }
+        }
+        @keyframes threatDotDanger {
+            0% { opacity: 0.5; transform: scale(0.8); box-shadow: 0 0 10px #ff4444; }
+            100% { opacity: 1; transform: scale(1.4); box-shadow: 0 0 30px #ff4444; }
+        }
+        .threat-level .threat-text {
+            vertical-align: middle;
         }
 
         .progress-container {
@@ -409,21 +502,24 @@
         .progress-label {
             display: flex !important;
             justify-content: space-between !important;
-            font-size: 0.7rem !important;
+            font-size: 0.65rem !important;
             color: #8899bb !important;
             font-weight: 400 !important;
         }
 
+        /* ============================================================
+           LIVE FEED — WARNA LEBIH TERANG
+           ============================================================ */
         .live-feed {
             margin-top: 12px !important;
             padding: 10px 14px !important;
             background: rgba(0, 0, 0, 0.3) !important;
             border-radius: 8px !important;
-            border: 1px solid rgba(0, 255, 255, 0.06) !important;
-            max-height: 70px !important;
+            border: 1px solid rgba(0, 255, 255, 0.08) !important;
+            max-height: 65px !important;
             overflow-y: auto !important;
-            font-size: 0.7rem !important;
-            color: #6688aa !important;
+            font-size: 0.65rem !important;
+            color: #88ccdd !important;
             font-weight: 400 !important;
         }
         .live-feed .entry {
@@ -451,23 +547,34 @@
         .footer-extra {
             text-align: center !important;
             margin-top: 6px !important;
-            font-size: 0.6rem !important;
+            font-size: 0.55rem !important;
             color: #445566 !important;
             letter-spacing: 1px !important;
             font-weight: 400 !important;
         }
         .results .note {
-            font-size: 0.75rem !important;
+            font-size: 0.7rem !important;
             opacity: 0.6 !important;
             font-weight: 400 !important;
         }
-
-        /* Tombol & Input */
-        .primary, .secondary, .all-button {
+        .panel .field-heading {
+            font-size: 0.7rem !important;
+        }
+        .panel .field-heading label {
             font-weight: 700 !important;
         }
+        .panel .counter {
+            font-size: 0.7rem !important;
+        }
+        .all-row {
+            font-size: 0.75rem !important;
+        }
+
         textarea, input, button {
             font-family: 'JetBrains Mono', 'Courier New', monospace !important;
+        }
+        .primary, .secondary, .all-button {
+            font-weight: 700 !important;
         }
     </style>
 </head>
@@ -517,7 +624,10 @@
             <div class="clock-container" id="clockDisplay">🕒 SISTEM AKTIF · 00:00:00</div>
 
             <!-- ===== THREAT LEVEL ===== -->
-            <div class="threat-level" id="threatLevel">🟢 LEVEL AMAN — 0 URL terverifikasi</div>
+            <div class="threat-level" id="threatLevel">
+                <span class="dot"></span>
+                <span class="threat-text" id="threatText">LEVEL AMAN — 0 URL terverifikasi</span>
+            </div>
 
             <!-- ============================================================
                  HIMBAUAN GERAKAN
@@ -534,7 +644,7 @@
                 background: rgba(0, 255, 255, 0.04);
                 border-radius: 12px;
                 border: 1px solid rgba(0, 255, 255, 0.08);
-                font-size: 0.85rem;
+                font-size: 0.8rem;
                 text-align: center;
                 color: #88ccff;
             ">
@@ -552,7 +662,7 @@
                 margin: 2px auto 10px auto;
                 padding: 6px 18px;
                 max-width: 700px;
-                font-size: 0.8rem;
+                font-size: 0.75rem;
                 text-align: center;
                 color: #6688aa;
             ">
@@ -564,11 +674,11 @@
 
         <!-- Stats -->
         <section class="stats no-select">
-            <article><span class="icon">🌐</span><small>TOTAL URL</small><strong id="totalUrl">0</strong></article>
-            <article><span class="icon">✅</span><small>VALID</small><strong id="validUrl">0</strong></article>
-            <article><span class="icon">❌</span><small>INVALID</small><strong id="invalidUrl">0</strong></article>
-            <article><span class="icon">📤</span><small>DIBUKA</small><strong id="openedUrl">0</strong></article>
-            <article><span class="icon">⚡</span><small>STATUS</small><strong class="active">ACTIVE</strong></article>
+            <article><span class="icon">🌐</span><strong id="totalUrl">0</strong><small>TOTAL URL</small></article>
+            <article><span class="icon">✅</span><strong id="validUrl">0</strong><small>VALID</small></article>
+            <article><span class="icon">❌</span><strong id="invalidUrl">0</strong><small>INVALID</small></article>
+            <article><span class="icon">📤</span><strong id="openedUrl">0</strong><small>DIBUKA</small></article>
+            <article><span class="icon">⚡</span><strong class="active">ACTIVE</strong><small>STATUS</small></article>
         </section>
 
         <!-- ===== PROGRESS BAR ===== -->
@@ -582,7 +692,7 @@
             </div>
         </div>
 
-        <!-- Panel Input (TETAP BISA DI COPY) -->
+        <!-- Panel Input -->
         <section class="panel">
             <div class="field-heading no-select">
                 <label for="urlInput">▣ URL INPUT</label>
@@ -603,7 +713,7 @@
             </div>
         </section>
 
-        <!-- Results (ANTI COPY KECUALI URL DI QUEUE) -->
+        <!-- Results -->
         <section class="results">
             <div class="all-row no-select">
                 <div>
@@ -613,14 +723,13 @@
                 </div>
                 <button id="openAllBtn" class="all-button">↗ BUKA SEMUA</button>
             </div>
-            <!-- QUEUE URL TETAP BISA DI COPY -->
             <div id="queue" class="queue copyable"></div>
             <div class="note no-select">
                 URL duplikat otomatis dihapus. Setiap URL memiliki detail laporan sendiri. Gunakan tombol <b>BUKA LAPORAN</b> untuk membuka laporan satu per satu.
             </div>
         </section>
 
-        <!-- ===== LIVE FEED (ANTI COPY) ===== -->
+        <!-- ===== LIVE FEED ===== -->
         <div class="live-feed no-select" id="liveFeed">
             <div class="entry"><span class="time">[SISTEM]</span> Console siap menerima laporan</div>
         </div>
@@ -631,6 +740,9 @@
         </footer>
 
     </main>
+
+    <!-- ===== SCROLL TO TOP BUTTON ===== -->
+    <button id="scrollTopBtn" aria-label="Scroll to top">⬆</button>
 
     <!-- ===== NOTIFIKASI TOAST ===== -->
     <div id="toast" style="position:fixed;bottom:100px;right:30px;background:rgba(0,255,255,0.15);backdrop-filter:blur(12px);border:1px solid #00ffff;color:#d0e0ff;padding:14px 28px;border-radius:16px;z-index:9999;display:none;font-family:'Courier New',monospace;font-weight:600;font-size:0.95rem;box-shadow:0 8px 32px rgba(0,0,0,0.6);min-width:200px;text-align:center;"></div>
@@ -666,7 +778,22 @@
         }
 
         // ============================================================
-        // 2. FORCE ANIMASI + SEMUA FITUR VISUAL
+        // 2. SCROLL TO TOP
+        // ============================================================
+        const scrollBtn = document.getElementById('scrollTopBtn');
+        window.addEventListener('scroll', function() {
+            if (window.scrollY > 300) {
+                scrollBtn.classList.add('show');
+            } else {
+                scrollBtn.classList.remove('show');
+            }
+        });
+        scrollBtn.addEventListener('click', function() {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+
+        // ============================================================
+        // 3. FORCE ANIMASI + SEMUA FITUR VISUAL
         // ============================================================
         document.addEventListener('DOMContentLoaded', function() {
             console.log('🚀 BASMI PHISING siap!');
@@ -681,7 +808,7 @@
             }
 
             // ============================================================
-            // 3. INIT PARTIKEL (TSPARTICLES)
+            // 4. INIT PARTIKEL
             // ============================================================
             if (typeof tsParticles !== 'undefined') {
                 tsParticles.load({
@@ -734,7 +861,7 @@
             }
 
             // ============================================================
-            // 4. EFEK API UNTUK TOMBOL
+            // 5. EFEK API UNTUK TOMBOL
             // ============================================================
             const reportButtons = document.querySelectorAll('.report-actions .secondary, .report-actions .primary, .all-button');
             reportButtons.forEach(btn => {
@@ -747,7 +874,7 @@
             });
 
             // ============================================================
-            // 5. JAM DIGITAL
+            // 6. JAM DIGITAL
             // ============================================================
             function updateClock() {
                 const now = new Date();
@@ -758,7 +885,7 @@
             setInterval(updateClock, 1000);
 
             // ============================================================
-            // 6. TYPING EFFECT
+            // 7. TYPING EFFECT
             // ============================================================
             const messages = [
                 '> SCANNING TARGETS...',
@@ -800,30 +927,31 @@
             setTimeout(typeEffect, 500);
 
             // ============================================================
-            // 7. THREAT LEVEL
+            // 8. THREAT LEVEL
             // ============================================================
             function updateThreatLevel() {
                 const total = parseInt(document.getElementById('totalUrl').textContent) || 0;
                 const invalid = parseInt(document.getElementById('invalidUrl').textContent) || 0;
                 const el = document.getElementById('threatLevel');
+                const textEl = document.getElementById('threatText');
                 
                 if (total === 0) {
-                    el.textContent = '🟢 LEVEL AMAN — Belum ada URL';
+                    textEl.textContent = 'LEVEL AMAN — Belum ada URL';
                     el.className = 'threat-level';
                 } else if (invalid === 0) {
-                    el.textContent = '🟢 LEVEL AMAN — ' + total + ' URL terverifikasi';
+                    textEl.textContent = 'LEVEL AMAN — ' + total + ' URL terverifikasi';
                     el.className = 'threat-level';
                 } else if (invalid <= 3) {
-                    el.textContent = '🟡 LEVEL MENENGAH — ' + invalid + ' URL mencurigakan';
+                    textEl.textContent = 'LEVEL MENENGAH — ' + invalid + ' URL mencurigakan';
                     el.className = 'threat-level warning';
                 } else {
-                    el.textContent = '🔴 LEVEL BAHAYA — ' + invalid + ' URL terindikasi PHISHING!';
+                    textEl.textContent = 'LEVEL BAHAYA — ' + invalid + ' URL terindikasi PHISHING!';
                     el.className = 'threat-level danger';
                 }
             }
 
             // ============================================================
-            // 8. PROGRESS BAR
+            // 9. PROGRESS BAR
             // ============================================================
             function updateProgress() {
                 const queueItems = document.querySelectorAll('.queue-item').length;
@@ -835,10 +963,12 @@
             }
 
             // ============================================================
-            // 9. LIVE FEED
+            // 10. LIVE FEED — PAKE INI BIAR JALAN
             // ============================================================
             function addFeedEntry(message, type = 'info') {
                 const feed = document.getElementById('liveFeed');
+                if (!feed) return;
+                
                 const time = new Date().toLocaleTimeString('id-ID', { hour12: false });
                 const colors = {
                     info: '#6688aa',
@@ -846,18 +976,28 @@
                     warning: '#ffaa00',
                     danger: '#ff4444'
                 };
+                
+                // Hapus placeholder "Console siap menerima laporan"
+                if (feed.children.length === 1) {
+                    const firstChild = feed.children[0];
+                    if (firstChild.textContent.includes('Console siap menerima laporan')) {
+                        feed.innerHTML = '';
+                    }
+                }
+                
                 const entry = document.createElement('div');
                 entry.className = 'entry';
                 entry.innerHTML = `<span class="time">[${time}]</span> <span style="color:${colors[type] || '#6688aa'}">${message}</span>`;
                 feed.appendChild(entry);
                 feed.scrollTop = feed.scrollHeight;
+                
                 if (feed.children.length > 20) {
                     feed.removeChild(feed.firstChild);
                 }
             }
 
             // ============================================================
-            // 10. HOOK — PANTAU PERUBAHAN
+            // 11. HOOK — PANTAU PERUBAHAN
             // ============================================================
             const observer = new MutationObserver(function() {
                 updateProgress();
@@ -881,130 +1021,96 @@
             });
 
             // ============================================================
-            // 11. HOOK TOMBOL
+            // 12. TOMBOL PROSES — LOADING STATE + KONFIRMASI
             // ============================================================
-            document.getElementById('processBtn').addEventListener('click', function() {
+            const processBtn = document.getElementById('processBtn');
+            processBtn.addEventListener('click', function() {
                 const input = document.getElementById('urlInput');
                 const urls = input.value.split('\n').filter(u => u.trim());
-                if (urls.length > 0) {
-                    addFeedEntry('📥 ' + urls.length + ' URL diterima untuk diproses', 'info');
-                    setTimeout(() => {
-                        const total = parseInt(document.getElementById('totalUrl').textContent) || 0;
-                        if (total > 0) {
-                            addFeedEntry('✅ ' + total + ' URL berhasil diproses', 'success');
-                        }
-                    }, 1500);
+                
+                if (urls.length === 0) {
+                    addFeedEntry('⚠️ Masukkan URL terlebih dahulu!', 'warning');
+                    showToast('⚠️ Masukkan URL terlebih dahulu!', 'warning');
+                    return;
+                }
+
+                // Loading state
+                this.disabled = true;
+                this.innerHTML = '<span class="spinner"></span> MEMPROSES...';
+                
+                addFeedEntry('📥 ' + urls.length + ' URL diterima untuk diproses', 'info');
+                showToast('📥 ' + urls.length + ' URL diproses...', 'info');
+                
+                setTimeout(() => {
+                    const total = parseInt(document.getElementById('totalUrl').textContent) || 0;
+                    if (total > 0) {
+                        addFeedEntry('✅ ' + total + ' URL berhasil diproses', 'success');
+                        showToast('✅ ' + total + ' URL berhasil diproses!', 'success');
+                    }
+                    // Reset tombol
+                    this.disabled = false;
+                    this.innerHTML = '◈ PROSES URL';
+                }, 2000);
+            });
+
+            // ============================================================
+            // 13. TOMBOL CLEAR — KONFIRMASI
+            // ============================================================
+            document.getElementById('clearBtn').addEventListener('click', function() {
+                const input = document.getElementById('urlInput');
+                const detail = document.getElementById('detailInput');
+                
+                if (input.value.trim() === '' && detail.value.trim() === '') {
+                    addFeedEntry('⚠️ Tidak ada data untuk dibersihkan', 'warning');
+                    showToast('⚠️ Tidak ada data untuk dibersihkan', 'warning');
+                    return;
+                }
+                
+                if (confirm('⚠️ Yakin mau menghapus semua URL dan detail laporan?')) {
+                    input.value = '';
+                    detail.value = '';
+                    document.getElementById('detailCount').textContent = '0';
+                    addFeedEntry('🧹 Semua data berhasil dibersihkan', 'info');
+                    showToast('✅ Data berhasil dibersihkan!', 'success');
                 }
             });
 
+            // ============================================================
+            // 14. TOMBOL BUKA SEMUA
+            // ============================================================
             document.getElementById('openAllBtn').addEventListener('click', function() {
                 const total = parseInt(document.getElementById('totalUrl').textContent) || 0;
                 if (total > 0) {
                     addFeedEntry('📤 Membuka ' + total + ' laporan ke Google Safe Browsing', 'warning');
+                    showToast('📤 Membuka ' + total + ' laporan...', 'info');
+                } else {
+                    addFeedEntry('⚠️ Belum ada URL untuk dibuka', 'warning');
+                    showToast('⚠️ Belum ada URL untuk dibuka', 'warning');
                 }
             });
 
-            // Feed awal
-            addFeedEntry('🟢 Console siap menerima laporan', 'success');
-            addFeedEntry('📡 Menunggu input URL...', 'info');
+            // ============================================================
+            // 15. FEED AWAL
+            // ============================================================
+            // Tambah feed awal setelah halaman load
+            setTimeout(() => {
+                addFeedEntry('🟢 Sistem dalam keadaan siaga', 'success');
+                addFeedEntry('📡 Menunggu input URL...', 'info');
+            }, 500);
 
-            // Update awal
+            // ============================================================
+            // 16. UPDATE AWAL
+            // ============================================================
             setTimeout(() => {
                 updateThreatLevel();
                 updateProgress();
             }, 500);
 
-            console.log('🌍 Dashboard FINAL — Font Kombinasi + Anti Copy + Partikel!');
+            console.log('🌍 Dashboard FINAL — Semua perbaikan sudah masuk!');
             console.log('🔥 BASMI PHISING — Perlawanan terhadap penipuan digital.');
+            console.log('✅ Scroll to Top, Loading State, Konfirmasi Clear, Threat Dot, Live Feed aktif!');
         });
     </script>
-    <!-- ============================================================
-         TAMBAHAN FIX: LIVE FEED & TYPING
-         ============================================================ -->
-    <script>
-    document.addEventListener('DOMContentLoaded', function() {
-        console.log('🔥 Fix Live Feed & Typing Applied!');
 
-        // 1. FIX LIVE FEED — tambah aktivitas
-        const feed = document.getElementById('liveFeed');
-        if (feed) {
-            // Bersihin dulu
-            feed.innerHTML = '';
-            
-            // Tambah aktivitas awal
-            const colors = {
-                info: '#6688aa',
-                success: '#00ff88',
-                warning: '#ffaa00',
-                danger: '#ff4444'
-            };
-            
-            function addFeedEntry(message, type = 'info') {
-                const time = new Date().toLocaleTimeString('id-ID', { hour12: false });
-                const entry = document.createElement('div');
-                entry.className = 'entry';
-                entry.innerHTML = `<span class="time">[${time}]</span> <span style="color:${colors[type] || '#6688aa'}">${message}</span>`;
-                feed.appendChild(entry);
-                feed.scrollTop = feed.scrollHeight;
-                if (feed.children.length > 20) {
-                    feed.removeChild(feed.firstChild);
-                }
-            }
-            
-            // Tambah pesan awal
-            addFeedEntry('🟢 Sistem dalam keadaan siaga', 'success');
-            addFeedEntry('📡 Menunggu input URL...', 'info');
-            
-            // Simpan fungsi ke window biar bisa dipanggil dari mana aja
-            window.addFeedEntry = addFeedEntry;
-        }
-
-        // 2. FIX TYPING — pastiin teks lengkap
-        const typingEl = document.getElementById('typingText');
-        if (typingEl) {
-            // Hapus semua child
-            typingEl.textContent = '';
-            
-            // Pesan typing yang bener
-            const messages = [
-                '> SCANNING TARGETS...',
-                '> 5 URL DETECTED',
-                '> SECURE CONSOLE ACTIVE',
-                '> SYSTEM READY',
-                '> MONITORING TRAFFIC...',
-                '> 0 THREATS FOUND',
-                '> ALL SYSTEMS NOMINAL'
-            ];
-            let msgIndex = 0, charIndex = 0, isDeleting = false;
-            
-            function typeEffect() {
-                const currentMsg = messages[msgIndex];
-                if (!isDeleting) {
-                    typingEl.textContent = currentMsg.substring(0, charIndex + 1);
-                    charIndex++;
-                    if (charIndex === currentMsg.length) {
-                        isDeleting = true;
-                        setTimeout(typeEffect, 2500);
-                        return;
-                    }
-                    setTimeout(typeEffect, 60 + Math.random() * 40);
-                } else {
-                    typingEl.textContent = currentMsg.substring(0, charIndex - 1);
-                    charIndex--;
-                    if (charIndex === 0) {
-                        isDeleting = false;
-                        msgIndex = (msgIndex + 1) % messages.length;
-                        setTimeout(typeEffect, 500);
-                        return;
-                    }
-                    setTimeout(typeEffect, 30 + Math.random() * 20);
-                }
-            }
-            setTimeout(typeEffect, 500);
-        }
-        
-        console.log('✅ Live Feed & Typing berhasil diperbaiki!');
-    });
-    </script>
 </body>
 </html>
