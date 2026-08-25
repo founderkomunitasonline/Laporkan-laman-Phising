@@ -918,6 +918,95 @@
             console.log('🔥 BASMI PHISING — Perlawanan terhadap penipuan digital.');
         });
     </script>
+    <!-- ============================================================
+         TAMBAHAN FIX: LIVE FEED & TYPING
+         ============================================================ -->
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        console.log('🔥 Fix Live Feed & Typing Applied!');
 
+        // 1. FIX LIVE FEED — tambah aktivitas
+        const feed = document.getElementById('liveFeed');
+        if (feed) {
+            // Bersihin dulu
+            feed.innerHTML = '';
+            
+            // Tambah aktivitas awal
+            const colors = {
+                info: '#6688aa',
+                success: '#00ff88',
+                warning: '#ffaa00',
+                danger: '#ff4444'
+            };
+            
+            function addFeedEntry(message, type = 'info') {
+                const time = new Date().toLocaleTimeString('id-ID', { hour12: false });
+                const entry = document.createElement('div');
+                entry.className = 'entry';
+                entry.innerHTML = `<span class="time">[${time}]</span> <span style="color:${colors[type] || '#6688aa'}">${message}</span>`;
+                feed.appendChild(entry);
+                feed.scrollTop = feed.scrollHeight;
+                if (feed.children.length > 20) {
+                    feed.removeChild(feed.firstChild);
+                }
+            }
+            
+            // Tambah pesan awal
+            addFeedEntry('🟢 Sistem dalam keadaan siaga', 'success');
+            addFeedEntry('📡 Menunggu input URL...', 'info');
+            
+            // Simpan fungsi ke window biar bisa dipanggil dari mana aja
+            window.addFeedEntry = addFeedEntry;
+        }
+
+        // 2. FIX TYPING — pastiin teks lengkap
+        const typingEl = document.getElementById('typingText');
+        if (typingEl) {
+            // Hapus semua child
+            typingEl.textContent = '';
+            
+            // Pesan typing yang bener
+            const messages = [
+                '> SCANNING TARGETS...',
+                '> 5 URL DETECTED',
+                '> SECURE CONSOLE ACTIVE',
+                '> SYSTEM READY',
+                '> MONITORING TRAFFIC...',
+                '> 0 THREATS FOUND',
+                '> ALL SYSTEMS NOMINAL'
+            ];
+            let msgIndex = 0, charIndex = 0, isDeleting = false;
+            
+            function typeEffect() {
+                const currentMsg = messages[msgIndex];
+                if (!isDeleting) {
+                    typingEl.textContent = currentMsg.substring(0, charIndex + 1);
+                    charIndex++;
+                    if (charIndex === currentMsg.length) {
+                        isDeleting = true;
+                        setTimeout(typeEffect, 2500);
+                        return;
+                    }
+                    setTimeout(typeEffect, 60 + Math.random() * 40);
+                } else {
+                    typingEl.textContent = currentMsg.substring(0, charIndex - 1);
+                    charIndex--;
+                    if (charIndex === 0) {
+                        isDeleting = false;
+                        msgIndex = (msgIndex + 1) % messages.length;
+                        setTimeout(typeEffect, 500);
+                        return;
+                    }
+                    setTimeout(typeEffect, 30 + Math.random() * 20);
+                }
+            }
+            setTimeout(typeEffect, 500);
+        }
+        
+        console.log('✅ Live Feed & Typing berhasil diperbaiki!');
+    });
+    </script>
+</body>
+</html>
 </body>
 </html>
