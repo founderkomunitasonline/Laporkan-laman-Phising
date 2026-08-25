@@ -161,6 +161,46 @@
         }
 
         /* ============================================================
+           ANIMASI: FLOATING STATS CARDS
+           ============================================================ */
+        .stats article {
+            animation: floatCard 3s ease-in-out infinite !important;
+        }
+        .stats article:nth-child(2) { animation-delay: 0.3s !important; }
+        .stats article:nth-child(3) { animation-delay: 0.6s !important; }
+        .stats article:nth-child(4) { animation-delay: 0.9s !important; }
+        .stats article:nth-child(5) { animation-delay: 1.2s !important; }
+
+        @keyframes floatCard {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-6px); }
+        }
+
+        /* ============================================================
+           ANIMASI: SHIMMER PROGRESS BAR
+           ============================================================ */
+        .progress-bar-fill {
+            background: linear-gradient(90deg, #00ffff, #a855f7, #00ffff) !important;
+            background-size: 200% 100% !important;
+            animation: shimmerProgress 2s linear infinite !important;
+        }
+        @keyframes shimmerProgress {
+            0% { background-position: 200% 0; }
+            100% { background-position: -200% 0; }
+        }
+
+        /* ============================================================
+           ANIMASI: PULSE TOMBOL
+           ============================================================ */
+        #processBtn {
+            animation: pulseButton 2s ease-in-out infinite !important;
+        }
+        @keyframes pulseButton {
+            0%, 100% { box-shadow: 0 0 0 0 rgba(0, 255, 255, 0.2); }
+            50% { box-shadow: 0 0 20px 5px rgba(0, 255, 255, 0.1); }
+        }
+
+        /* ============================================================
            TOMBOL SCROLL TO TOP
            ============================================================ */
         #scrollTopBtn {
@@ -508,7 +548,7 @@
         }
 
         /* ============================================================
-           LIVE FEED — WARNA LEBIH TERANG
+           LIVE FEED
            ============================================================ */
         .live-feed {
             margin-top: 12px !important;
@@ -575,6 +615,268 @@
         }
         .primary, .secondary, .all-button {
             font-weight: 700 !important;
+        }
+
+        /* ============================================================
+           HP — RESPONSIF
+           ============================================================ */
+        @media (max-width: 768px) {
+            html, body {
+                padding: 0 !important;
+                margin: 0 !important;
+                height: auto !important;
+                overflow-x: hidden !important;
+                overflow-y: auto !important;
+            }
+            .app-shell, .container {
+                padding: 10px !important;
+                max-width: 100% !important;
+                min-height: 100vh !important;
+                height: auto !important;
+                overflow: visible !important;
+            }
+            #tsparticles {
+                position: fixed !important;
+                top: 0 !important;
+                left: 0 !important;
+                width: 100% !important;
+                height: 100% !important;
+                pointer-events: none !important;
+                z-index: 0 !important;
+            }
+            .ambient {
+                position: fixed !important;
+                pointer-events: none !important;
+                z-index: 0 !important;
+            }
+            .app-shell, .container, .app-shell * {
+                position: relative !important;
+                z-index: 1 !important;
+            }
+            #scrollTopBtn {
+                position: fixed !important;
+                z-index: 9999 !important;
+            }
+            .hero {
+                padding: 8px 5px !important;
+            }
+            .brand-title {
+                font-size: 1.2rem !important;
+            }
+            .hero h1 {
+                font-size: 1.1rem !important;
+            }
+            .status-pill {
+                font-size: 0.55rem !important;
+                padding: 4px 12px !important;
+            }
+            .threat-level {
+                font-size: 0.55rem !important;
+                padding: 4px 12px !important;
+                max-width: 100% !important;
+            }
+            .typing-container {
+                font-size: 0.55rem !important;
+            }
+            .clock-container {
+                font-size: 0.6rem !important;
+            }
+            .glitch {
+                font-size: 0.7rem !important;
+                letter-spacing: 2px !important;
+            }
+            .glitch-container {
+                margin: 4px 0 !important;
+            }
+            .himbauan-box {
+                font-size: 0.6rem !important;
+                padding: 6px 10px !important;
+                margin: 8px auto 4px auto !important;
+            }
+            .himbauan-sub {
+                font-size: 0.55rem !important;
+                padding: 4px 10px !important;
+            }
+            .stats {
+                grid-template-columns: repeat(2, 1fr) !important;
+                gap: 6px !important;
+                margin: 8px 0 !important;
+            }
+            .stats article {
+                padding: 8px 4px !important;
+            }
+            .stats article .icon {
+                font-size: 1rem !important;
+            }
+            .stats article strong {
+                font-size: 1rem !important;
+            }
+            .stats article small {
+                font-size: 0.45rem !important;
+            }
+            .panel, .results {
+                padding: 10px !important;
+                margin: 6px 0 !important;
+            }
+            textarea {
+                min-height: 80px !important;
+                font-size: 0.7rem !important;
+                padding: 8px !important;
+            }
+            .detail {
+                min-height: 60px !important;
+            }
+            .queue .item {
+                grid-template-columns: 1fr !important;
+                gap: 6px !important;
+                padding: 8px !important;
+            }
+            .queue .item .num {
+                width: 24px !important;
+                height: 24px !important;
+                font-size: 0.7rem !important;
+            }
+            .queue .item .url {
+                font-size: 0.6rem !important;
+            }
+            .queue .item .detail-line {
+                font-size: 0.5rem !important;
+            }
+            .item-actions {
+                display: flex !important;
+                flex-wrap: wrap !important;
+                gap: 4px !important;
+            }
+            .item-actions button {
+                flex: 1 !important;
+                min-width: 60px !important;
+                font-size: 0.55rem !important;
+                padding: 5px 8px !important;
+            }
+            .all-row {
+                flex-direction: column !important;
+                align-items: stretch !important;
+                padding: 8px !important;
+            }
+            .all-row button {
+                width: 100% !important;
+            }
+            .all-row b {
+                font-size: 0.8rem !important;
+            }
+            .all-row span {
+                font-size: 0.6rem !important;
+            }
+            .all-row small {
+                font-size: 0.5rem !important;
+                margin-left: 0 !important;
+            }
+            .actions {
+                grid-template-columns: 1fr !important;
+                gap: 6px !important;
+            }
+            .actions button {
+                padding: 8px !important;
+                font-size: 0.7rem !important;
+            }
+            .progress-container {
+                padding: 8px 10px !important;
+                margin: 6px 0 !important;
+            }
+            .progress-label {
+                font-size: 0.55rem !important;
+            }
+            .live-feed {
+                max-height: 50px !important;
+                font-size: 0.55rem !important;
+                padding: 6px 10px !important;
+                margin-top: 8px !important;
+            }
+            .report-tabs {
+                flex-wrap: wrap !important;
+                gap: 4px !important;
+            }
+            .report-tab {
+                flex: 1 !important;
+                text-align: center !important;
+                padding: 6px 8px !important;
+                font-size: 0.6rem !important;
+            }
+            .report-actions {
+                flex-direction: column !important;
+            }
+            .report-actions .primary,
+            .report-actions .secondary,
+            .report-actions .all-button {
+                width: 100% !important;
+                text-align: center !important;
+                padding: 8px !important;
+                font-size: 0.65rem !important;
+            }
+            .report-preview {
+                min-height: 80px !important;
+                font-size: 0.65rem !important;
+                padding: 8px !important;
+            }
+            .report-info {
+                font-size: 0.6rem !important;
+                flex-wrap: wrap !important;
+                gap: 4px !important;
+            }
+            .report-info strong {
+                font-size: 0.6rem !important;
+            }
+            .report-info span {
+                font-size: 0.6rem !important;
+            }
+            .report-list {
+                font-size: 0.6rem !important;
+                padding: 8px !important;
+                max-height: 100px !important;
+            }
+            .notice {
+                font-size: 0.5rem !important;
+                padding: 6px 8px !important;
+            }
+            .field-heading {
+                font-size: 0.55rem !important;
+                flex-wrap: wrap !important;
+            }
+            .field-heading label {
+                font-size: 0.6rem !important;
+            }
+            .field-heading span {
+                font-size: 0.5rem !important;
+            }
+            .counter {
+                font-size: 0.55rem !important;
+            }
+            .results .note {
+                font-size: 0.55rem !important;
+            }
+            footer {
+                font-size: 0.5rem !important;
+                padding: 10px 0 !important;
+                margin-top: 10px !important;
+            }
+            .footer-extra {
+                font-size: 0.4rem !important;
+            }
+            #toast {
+                bottom: 60px !important;
+                right: 10px !important;
+                left: 10px !important;
+                font-size: 0.65rem !important;
+                padding: 8px 14px !important;
+                min-width: auto !important;
+            }
+            #scrollTopBtn {
+                bottom: 15px !important;
+                right: 15px !important;
+                width: 38px !important;
+                height: 38px !important;
+                font-size: 0.9rem !important;
+            }
         }
     </style>
 </head>
@@ -963,7 +1265,7 @@
             }
 
             // ============================================================
-            // 10. LIVE FEED — PAKE INI BIAR JALAN
+            // 10. LIVE FEED
             // ============================================================
             function addFeedEntry(message, type = 'info') {
                 const feed = document.getElementById('liveFeed');
@@ -977,10 +1279,9 @@
                     danger: '#ff4444'
                 };
                 
-                // Hapus placeholder "Console siap menerima laporan"
                 if (feed.children.length === 1) {
-                    const firstChild = feed.children[0];
-                    if (firstChild.textContent.includes('Console siap menerima laporan')) {
+                    const first = feed.children[0];
+                    if (first.textContent.includes('Console siap menerima laporan')) {
                         feed.innerHTML = '';
                     }
                 }
@@ -1021,7 +1322,7 @@
             });
 
             // ============================================================
-            // 12. TOMBOL PROSES — LOADING STATE + KONFIRMASI
+            // 12. TOMBOL PROSES
             // ============================================================
             const processBtn = document.getElementById('processBtn');
             processBtn.addEventListener('click', function() {
@@ -1029,17 +1330,14 @@
                 const urls = input.value.split('\n').filter(u => u.trim());
                 
                 if (urls.length === 0) {
-                    addFeedEntry('⚠️ Masukkan URL terlebih dahulu!', 'warning');
                     showToast('⚠️ Masukkan URL terlebih dahulu!', 'warning');
                     return;
                 }
 
-                // Loading state
                 this.disabled = true;
                 this.innerHTML = '<span class="spinner"></span> MEMPROSES...';
                 
                 addFeedEntry('📥 ' + urls.length + ' URL diterima untuk diproses', 'info');
-                showToast('📥 ' + urls.length + ' URL diproses...', 'info');
                 
                 setTimeout(() => {
                     const total = parseInt(document.getElementById('totalUrl').textContent) || 0;
@@ -1047,21 +1345,19 @@
                         addFeedEntry('✅ ' + total + ' URL berhasil diproses', 'success');
                         showToast('✅ ' + total + ' URL berhasil diproses!', 'success');
                     }
-                    // Reset tombol
                     this.disabled = false;
                     this.innerHTML = '◈ PROSES URL';
                 }, 2000);
             });
 
             // ============================================================
-            // 13. TOMBOL CLEAR — KONFIRMASI
+            // 13. TOMBOL CLEAR
             // ============================================================
             document.getElementById('clearBtn').addEventListener('click', function() {
                 const input = document.getElementById('urlInput');
                 const detail = document.getElementById('detailInput');
                 
                 if (input.value.trim() === '' && detail.value.trim() === '') {
-                    addFeedEntry('⚠️ Tidak ada data untuk dibersihkan', 'warning');
                     showToast('⚠️ Tidak ada data untuk dibersihkan', 'warning');
                     return;
                 }
@@ -1084,7 +1380,6 @@
                     addFeedEntry('📤 Membuka ' + total + ' laporan ke Google Safe Browsing', 'warning');
                     showToast('📤 Membuka ' + total + ' laporan...', 'info');
                 } else {
-                    addFeedEntry('⚠️ Belum ada URL untuk dibuka', 'warning');
                     showToast('⚠️ Belum ada URL untuk dibuka', 'warning');
                 }
             });
@@ -1092,7 +1387,6 @@
             // ============================================================
             // 15. FEED AWAL
             // ============================================================
-            // Tambah feed awal setelah halaman load
             setTimeout(() => {
                 addFeedEntry('🟢 Sistem dalam keadaan siaga', 'success');
                 addFeedEntry('📡 Menunggu input URL...', 'info');
@@ -1106,9 +1400,9 @@
                 updateProgress();
             }, 500);
 
-            console.log('🌍 Dashboard FINAL — Semua perbaikan sudah masuk!');
+            console.log('🌍 Dashboard FINAL — Animasi aktif!');
             console.log('🔥 BASMI PHISING — Perlawanan terhadap penipuan digital.');
-            console.log('✅ Scroll to Top, Loading State, Konfirmasi Clear, Threat Dot, Live Feed aktif!');
+            console.log('✅ Floating Stats, Shimmer Progress, Pulse Button aktif!');
         });
     </script>
 
