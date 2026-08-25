@@ -4,584 +4,118 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>BASMI PHISING — Report Center</title>
+    
+    <!-- ============================================================
+         FONT KOMBINASI TERBAIK: JetBrains Mono + Orbitron
+         ============================================================ -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&family=Orbitron:wght@400;700;900&display=swap" rel="stylesheet">
+    
     <link rel="stylesheet" href="styles.css">
     <link rel="icon" type="image/svg+xml" href="favicon.svg">
+
     <style>
         /* ============================================================
-           RESET & GLOBAL
+           FONT KOMBINASI — JetBrains Mono + Orbitron
            ============================================================ */
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        body {
-            background: #0a0a0f;
-            color: #d0e0ff;
-            font-family: 'JetBrains Mono', 'Courier New', monospace;
-            padding: 20px;
-            min-height: 100vh;
-            display: flex;
-            justify-content: center;
+        /* Untuk SEMUA teks biasa (body, console, feed, queue, tombol) */
+        body, .app-shell, .typing-container, .clock-container, 
+        .live-feed, .queue-item, .note, .status-pill, .progress-label,
+        .report-info, .field-heading, .notice, .footer-extra,
+        .primary, .secondary, .all-button, .report-tab,
+        .hero p, .page-nav a, .report-preview, .report-list {
+            font-family: 'JetBrains Mono', 'Courier New', monospace !important;
         }
+
+        /* Untuk JUDUL BESAR (BASMI PHISING, REPORT CENTER, GLITCH, H1) */
+        .brand-title, .glitch, .hero h1, .brand-shield,
+        .glitch-container, .brand {
+            font-family: 'Orbitron', 'Courier New', monospace !important;
+            font-weight: 700 !important;
+        }
+
+        /* Biar Brand Subtitle tetap rapi */
+        .brand-subtitle {
+            font-family: 'JetBrains Mono', 'Courier New', monospace !important;
+            font-weight: 600 !important;
+            letter-spacing: 2px !important;
+        }
+
+        /* ============================================================
+           ANIMASI DASAR
+           ============================================================ */
         .app-shell {
-            max-width: 1000px;
-            width: 100%;
-            animation: fadeIn 0.8s ease-out;
-            position: relative;
-            z-index: 1;
+            animation: fadeIn 0.8s ease-out !important;
+            opacity: 0 !important;
         }
+        .app-shell.animated {
+            opacity: 1 !important;
+        }
+
         @keyframes fadeIn {
             0% { opacity: 0; transform: scale(0.96) translateY(20px); }
             100% { opacity: 1; transform: scale(1) translateY(0); }
         }
 
-        /* ============================================================
-           NAVIGASI
-           ============================================================ */
-        .page-nav {
-            display: flex;
-            gap: 20px;
-            justify-content: center;
-            padding: 15px 0;
-            border-bottom: 1px solid rgba(0, 255, 255, 0.05);
-            margin-bottom: 20px;
-        }
-        .page-nav a {
-            color: #6688aa;
-            text-decoration: none;
-            font-weight: 600;
-            font-size: 0.8rem;
-            transition: all 0.3s ease;
-            padding: 6px 16px;
-            border-radius: 20px;
-        }
-        .page-nav a:hover { color: #00ffff; text-shadow: 0 0 15px rgba(0,255,255,0.3); }
-        .page-nav a.active { color: #00ffff; background: rgba(0,255,255,0.06); }
-
-        /* ============================================================
-           HERO
-           ============================================================ */
-        .hero { text-align: center; padding: 10px 10px 5px 10px; }
-        .brand {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 12px;
-            margin-bottom: 6px;
-        }
         .brand-shield {
-            font-size: 2rem;
-            animation: pulseGlow 2.5s infinite alternate;
+            animation: pulseGlow 2.5s infinite alternate !important;
         }
         @keyframes pulseGlow {
             0% { filter: drop-shadow(0 0 5px #00ffff); }
             100% { filter: drop-shadow(0 0 25px #00ffff); }
         }
+
         .brand-title {
-            font-family: 'Orbitron', sans-serif;
-            font-size: 1.8rem;
-            font-weight: 700;
-            background: linear-gradient(90deg, #00ffff, #a855f7, #00ffff);
-            background-size: 200% auto;
-            -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent;
-            animation: textShimmer 4s linear infinite;
+            background: linear-gradient(90deg, #00ffff, #a855f7, #00ffff) !important;
+            background-size: 200% auto !important;
+            -webkit-background-clip: text !important;
+            background-clip: text !important;
+            color: transparent !important;
+            animation: textShimmer 4s linear infinite !important;
         }
         @keyframes textShimmer {
             0% { background-position: 0% center; }
             100% { background-position: 200% center; }
         }
+
         .brand-subtitle {
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 0.7rem;
-            font-weight: 600;
-            letter-spacing: 3px;
-            color: #6688aa;
+            animation: slideIn 0.8s ease-out 0.3s both !important;
         }
-        .glitch-container {
-            margin: 8px 0 4px 0;
-            text-align: center;
-            font-weight: 700;
-            font-size: 0.9rem;
-            letter-spacing: 4px;
-            position: relative;
-            display: inline-block;
-            width: 100%;
+        @keyframes slideIn {
+            0% { opacity: 0; transform: translateX(-20px); }
+            100% { opacity: 1; transform: translateX(0); }
         }
-        .glitch {
-            color: #00ffff;
-            text-shadow: 0 0 10px rgba(0, 255, 255, 0.3);
-            position: relative;
-            display: inline-block;
-            font-family: 'Orbitron', sans-serif;
+
+        .page-nav a {
+            transition: all 0.3s ease !important;
+            font-weight: 600 !important;
         }
-        .glitch::before {
-            content: attr(data-text);
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            color: #ff00ff;
-            text-shadow: 0 0 10px rgba(255, 0, 255, 0.5);
-            animation: glitch1 2s infinite;
-            z-index: -1;
-        }
-        .glitch::after {
-            content: attr(data-text);
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            color: #00ffff;
-            text-shadow: 0 0 10px rgba(0, 255, 255, 0.5);
-            animation: glitch2 3s infinite;
-            z-index: -1;
-        }
-        @keyframes glitch1 {
-            0%,90%,100% { transform: translate(0); opacity: 0; }
-            92% { transform: translate(-3px, 2px); opacity: 0.8; }
-            94% { transform: translate(3px, -2px); opacity: 0.8; }
-            96% { transform: translate(-2px, 1px); opacity: 0.6; }
-        }
-        @keyframes glitch2 {
-            0%,85%,100% { transform: translate(0); opacity: 0; }
-            87% { transform: translate(4px, -1px); opacity: 0.7; }
-            89% { transform: translate(-4px, 3px); opacity: 0.7; }
-            91% { transform: translate(2px, -3px); opacity: 0.5; }
-        }
-        .hero h1 {
-            font-family: 'Orbitron', sans-serif;
-            font-size: 1.4rem;
-            margin: 4px 0;
-            color: #ffffff;
-        }
-        .hero p {
-            font-size: 0.7rem;
-            opacity: 0.6;
-            color: #8899bb;
-            letter-spacing: 2px;
-        }
-        .status-pill {
-            display: inline-block;
-            margin: 6px auto;
-            padding: 4px 16px;
-            border-radius: 20px;
-            background: rgba(0, 255, 255, 0.06);
-            border: 1px solid rgba(0, 255, 255, 0.1);
-            font-size: 0.65rem;
-            color: #00ffff;
-            font-weight: 600;
+        .page-nav a:hover {
+            transform: translateY(-2px) !important;
+            text-shadow: 0 0 15px rgba(0, 255, 255, 0.6) !important;
         }
 
         /* ============================================================
-           TYPING
+           ANTI COPY — SEMUA TEKS KECUALI TEXTAREA
            ============================================================ */
-        .typing-container {
-            text-align: center;
-            margin: 4px 0 6px 0;
-            font-size: 0.65rem;
-            color: #00ff88;
-            min-height: 20px;
-            opacity: 0.8;
+        .no-select {
+            user-select: none !important;
+            -webkit-user-select: none !important;
+            -moz-user-select: none !important;
+            -ms-user-select: none !important;
         }
-        .typing-container .cursor {
-            display: inline-block;
-            width: 8px;
-            height: 14px;
-            background: #00ff88;
-            animation: blinkCursor 0.8s infinite;
-            vertical-align: text-bottom;
-            margin-left: 2px;
-        }
-        @keyframes blinkCursor {
-            0%,100% { opacity: 1; }
-            50% { opacity: 0; }
+
+        /* Textarea TETAP BISA DI COPY */
+        textarea, .copyable, .report-list, .report-preview {
+            user-select: text !important;
+            -webkit-user-select: text !important;
+            -moz-user-select: text !important;
+            -ms-user-select: text !important;
         }
 
         /* ============================================================
-           CLOCK & THREAT
-           ============================================================ */
-        .clock-container {
-            text-align: center;
-            margin: 4px 0 6px 0;
-            font-size: 0.7rem;
-            color: #00ffff;
-            letter-spacing: 2px;
-            opacity: 0.8;
-        }
-        .threat-level {
-            text-align: center;
-            margin: 6px auto 4px auto;
-            padding: 4px 16px;
-            max-width: 350px;
-            border-radius: 20px;
-            font-weight: 700;
-            font-size: 0.65rem;
-            letter-spacing: 1px;
-            background: rgba(0, 255, 65, 0.06);
-            border: 1px solid rgba(0, 255, 65, 0.15);
-            color: #00ff88;
-            display: inline-block;
-            transition: all 0.5s ease;
-        }
-        .threat-level .dot {
-            display: inline-block;
-            width: 8px;
-            height: 8px;
-            border-radius: 50%;
-            margin-right: 6px;
-            background: #00ff88;
-            animation: threatDot 1.2s infinite alternate;
-            vertical-align: middle;
-        }
-        @keyframes threatDot {
-            0% { opacity: 0.3; transform: scale(0.8); }
-            100% { opacity: 1; transform: scale(1.2); }
-        }
-        .threat-level.warning .dot { background: #ffaa00; animation: threatDotWarning 0.8s infinite alternate; }
-        .threat-level.danger .dot { background: #ff4444; animation: threatDotDanger 0.5s infinite alternate; }
-        @keyframes threatDotWarning {
-            0% { opacity: 0.4; transform: scale(0.8); box-shadow: 0 0 5px #ffaa00; }
-            100% { opacity: 1; transform: scale(1.3); box-shadow: 0 0 20px #ffaa00; }
-        }
-        @keyframes threatDotDanger {
-            0% { opacity: 0.5; transform: scale(0.8); box-shadow: 0 0 10px #ff4444; }
-            100% { opacity: 1; transform: scale(1.4); box-shadow: 0 0 30px #ff4444; }
-        }
-
-        /* ============================================================
-           HIMBAUAN
-           ============================================================ */
-        .himbauan-box {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 8px 14px;
-            justify-content: center;
-            align-items: center;
-            margin: 12px auto 6px auto;
-            padding: 10px 18px;
-            max-width: 700px;
-            background: rgba(0, 255, 255, 0.03);
-            border-radius: 12px;
-            border: 1px solid rgba(0, 255, 255, 0.06);
-            font-size: 0.7rem;
-            text-align: center;
-            color: #88ccff;
-        }
-        .himbauan-box .highlight { color: #ff4444; font-weight: 700; }
-        .himbauan-sub {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 8px 14px;
-            justify-content: center;
-            align-items: center;
-            margin: 2px auto 10px auto;
-            padding: 4px 18px;
-            max-width: 700px;
-            font-size: 0.65rem;
-            text-align: center;
-            color: #6688aa;
-        }
-
-        /* ============================================================
-           PROGRESS
-           ============================================================ */
-        .progress-container {
-            margin: 10px 0;
-            padding: 10px 16px;
-            background: rgba(255, 255, 255, 0.01);
-            border-radius: 10px;
-            border: 1px solid rgba(255, 255, 255, 0.04);
-        }
-        .progress-label {
-            display: flex;
-            justify-content: space-between;
-            font-size: 0.6rem;
-            color: #8899bb;
-        }
-        .progress-bar-bg {
-            width: 100%;
-            height: 4px;
-            background: rgba(255, 255, 255, 0.05);
-            border-radius: 10px;
-            overflow: hidden;
-            margin-top: 4px;
-        }
-        .progress-bar-fill {
-            height: 100%;
-            width: 0%;
-            background: linear-gradient(90deg, #00ffff, #a855f7);
-            border-radius: 10px;
-            transition: width 0.8s ease;
-        }
-
-        /* ============================================================
-           PANEL
-           ============================================================ */
-        .panel {
-            background: rgba(255, 255, 255, 0.01);
-            border: 1px solid rgba(255, 255, 255, 0.04);
-            border-radius: 12px;
-            padding: 16px;
-            margin: 10px 0;
-        }
-        .report-info {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 4px 0 8px 0;
-            border-bottom: 1px solid rgba(0, 255, 255, 0.05);
-            margin-bottom: 12px;
-        }
-        .report-info strong { color: #00ffff; font-size: 0.7rem; letter-spacing: 1px; }
-        .report-info span { color: #00ff88; font-weight: 700; font-size: 0.75rem; }
-
-        /* ============================================================
-           STATS & URL LIST
-           ============================================================ */
-        .report-stats {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));
-            gap: 8px;
-            margin: 10px 0;
-        }
-        .report-stats .stat {
-            text-align: center;
-            padding: 8px;
-            background: rgba(255,255,255,0.02);
-            border-radius: 8px;
-            border: 1px solid rgba(255,255,255,0.03);
-        }
-        .report-stats .stat .number {
-            font-size: 1.2rem;
-            font-weight: 700;
-            color: #00ffff;
-            display: block;
-        }
-        .report-stats .stat .label { font-size: 0.5rem; color: #6688aa; text-transform: uppercase; letter-spacing: 0.5px; }
-        .report-stats .stat .number.valid { color: #00ff88; }
-        .report-stats .stat .number.invalid { color: #ff4444; }
-        .report-stats .stat .number.opened { color: #ffaa00; }
-
-        .url-list {
-            max-height: 200px;
-            overflow-y: auto;
-            margin: 8px 0;
-            background: rgba(0,0,0,0.2);
-            border-radius: 8px;
-            padding: 4px 0;
-        }
-        .url-list .item {
-            padding: 4px 10px;
-            border-bottom: 1px solid rgba(255,255,255,0.02);
-            font-size: 0.65rem;
-            color: #88ccdd;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-        .url-list .item:last-child { border-bottom: none; }
-        .url-list .badge {
-            font-size: 0.5rem;
-            padding: 1px 8px;
-            border-radius: 10px;
-            font-weight: 700;
-            background: rgba(255,170,0,0.12);
-            color: #ffaa00;
-        }
-        .detail-box {
-            background: rgba(0,0,0,0.3);
-            padding: 10px;
-            border-radius: 8px;
-            border-left: 3px solid #00ffff;
-            font-size: 0.7rem;
-            color: #88ccdd;
-            margin: 8px 0;
-        }
-
-        /* ============================================================
-           TABS
-           ============================================================ */
-        .report-tabs {
-            display: flex;
-            gap: 6px;
-            margin: 12px 0 8px 0;
-        }
-        .report-tab {
-            padding: 6px 16px;
-            border: none;
-            border-radius: 16px;
-            background: rgba(255,255,255,0.04);
-            color: #8899bb;
-            font-family: 'JetBrains Mono', monospace;
-            font-weight: 600;
-            font-size: 0.65rem;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-        .report-tab.active { background: rgba(0,255,255,0.1); color: #00ffff; }
-        .report-tab:hover { background: rgba(0,255,255,0.06); }
-        .report-panel { display: none; margin-top: 6px; }
-        .report-panel.active { display: block; }
-
-        .report-preview {
-            width: 100%;
-            min-height: 100px;
-            padding: 10px;
-            background: rgba(0,0,0,0.3);
-            border: 1px solid rgba(0,255,255,0.06);
-            border-radius: 8px;
-            color: #d0e0ff;
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 0.7rem;
-            resize: vertical;
-        }
-        .report-list {
-            min-height: 50px;
-            padding: 10px;
-            background: rgba(0,0,0,0.3);
-            border: 1px solid rgba(0,255,255,0.06);
-            border-radius: 8px;
-            color: #d0e0ff;
-            font-size: 0.65rem;
-            max-height: 120px;
-            overflow-y: auto;
-        }
-        .report-list .url-item { padding: 2px 0; border-bottom: 1px solid rgba(255,255,255,0.02); }
-        .report-list .url-item:last-child { border-bottom: none; }
-        .notice {
-            padding: 8px 12px;
-            background: rgba(255,170,0,0.04);
-            border: 1px solid rgba(255,170,0,0.08);
-            border-radius: 8px;
-            font-size: 0.6rem;
-            color: #8899bb;
-            margin-top: 8px;
-        }
-
-        /* ============================================================
-           BUTTONS
-           ============================================================ */
-        .report-actions {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 8px;
-            margin: 10px 0 4px 0;
-        }
-        .btn {
-            padding: 8px 18px;
-            border: none;
-            border-radius: 8px;
-            font-family: 'JetBrains Mono', monospace;
-            font-weight: 700;
-            font-size: 0.65rem;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            color: #fff;
-        }
-        .btn-primary {
-            background: linear-gradient(135deg, #00ffff, #0088ff);
-            box-shadow: 0 0 20px rgba(0,255,255,0.1);
-        }
-        .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 0 30px rgba(0,255,255,0.25); }
-        .btn-secondary {
-            background: linear-gradient(135deg, #ff4500, #ff8c00);
-            box-shadow: 0 0 20px rgba(255,69,0,0.1);
-        }
-        .btn-secondary:hover { transform: translateY(-2px); box-shadow: 0 0 30px rgba(255,69,0,0.25); }
-        .btn-danger {
-            background: rgba(255,68,68,0.12);
-            border: 1px solid rgba(255,68,68,0.15);
-            color: #ff4444;
-        }
-        .btn-danger:hover { background: rgba(255,68,68,0.2); transform: translateY(-2px); }
-        .btn-copy {
-            background: linear-gradient(135deg, #00ff88, #00cc77);
-            box-shadow: 0 0 20px rgba(0,255,136,0.1);
-        }
-        .btn-copy:hover { transform: translateY(-2px); box-shadow: 0 0 30px rgba(0,255,136,0.25); }
-
-        /* ============================================================
-           EMPTY STATE
-           ============================================================ */
-        .empty-state {
-            text-align: center;
-            padding: 30px 20px;
-            color: #445566;
-        }
-        .empty-state .icon { font-size: 2.5rem; display: block; margin-bottom: 8px; }
-        .empty-state .sub { font-size: 0.65rem; color: #6688aa; }
-        .empty-state .btn-dashboard {
-            display: inline-block;
-            margin-top: 12px;
-            padding: 8px 20px;
-            background: rgba(0,255,255,0.08);
-            border: 1px solid rgba(0,255,255,0.12);
-            border-radius: 8px;
-            color: #00ffff;
-            text-decoration: none;
-            font-weight: 700;
-            font-size: 0.7rem;
-            transition: all 0.3s ease;
-        }
-        .empty-state .btn-dashboard:hover { background: rgba(0,255,255,0.15); transform: translateY(-2px); }
-
-        /* ============================================================
-           LIVE FEED
-           ============================================================ */
-        .live-feed {
-            margin-top: 10px;
-            padding: 8px 12px;
-            background: rgba(0,0,0,0.2);
-            border-radius: 8px;
-            border: 1px solid rgba(0,255,255,0.04);
-            max-height: 55px;
-            overflow-y: auto;
-            font-size: 0.6rem;
-            color: #88ccdd;
-        }
-        .live-feed .entry { padding: 2px 0; border-bottom: 1px solid rgba(255,255,255,0.01); }
-        .live-feed .entry .time { color: #00ffff; margin-right: 8px; }
-        .live-feed::-webkit-scrollbar { width: 3px; }
-        .live-feed::-webkit-scrollbar-track { background: transparent; }
-        .live-feed::-webkit-scrollbar-thumb { background: #00ffff; border-radius: 10px; }
-
-        /* ============================================================
-           FOOTER & TOAST
-           ============================================================ */
-        footer {
-            text-align: center;
-            font-size: 0.55rem;
-            color: #445566;
-            padding: 15px 0 5px;
-            border-top: 1px solid rgba(255,255,255,0.02);
-            margin-top: 10px;
-        }
-        #toast {
-            position: fixed;
-            bottom: 80px;
-            right: 20px;
-            background: rgba(0,255,255,0.1);
-            backdrop-filter: blur(12px);
-            border: 1px solid #00ffff;
-            color: #d0e0ff;
-            padding: 10px 20px;
-            border-radius: 12px;
-            z-index: 9999;
-            display: none;
-            font-family: 'JetBrains Mono', monospace;
-            font-weight: 600;
-            font-size: 0.8rem;
-            box-shadow: 0 8px 32px rgba(0,0,0,0.6);
-            min-width: 150px;
-            text-align: center;
-        }
-
-        /* ============================================================
-           PARTIKEL
+           PARTIKEL & AMBIENT
            ============================================================ */
         #tsparticles {
             position: fixed;
@@ -592,12 +126,16 @@
             z-index: 0;
             pointer-events: none;
         }
-        .app-shell { position: relative; z-index: 1; }
+        .app-shell {
+            position: relative;
+            z-index: 1;
+        }
+
         .ambient {
             position: fixed;
             border-radius: 50%;
             filter: blur(80px);
-            opacity: 0.15;
+            opacity: 0.2;
             pointer-events: none;
             z-index: 0;
         }
@@ -626,32 +164,508 @@
             100% { transform: translate(50px, -50px) scale(1.3); }
         }
 
-        @media (max-width: 600px) {
-            body { padding: 10px; }
-            .brand-title { font-size: 1.4rem; }
-            .hero h1 { font-size: 1.1rem; }
-            .report-stats { grid-template-columns: repeat(2, 1fr); }
-            .panel { padding: 12px; }
+        /* ============================================================
+           EFEK INTERAKSI
+           ============================================================ */
+        .primary, .secondary, .all-button, .report-tab {
+            transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94) !important;
+            position: relative;
+            overflow: hidden;
+            font-weight: 700 !important;
+        }
+        .primary:hover, .secondary:hover, .all-button:hover, .report-tab:hover {
+            transform: translateY(-3px) scale(1.02) !important;
+            box-shadow: 0 10px 30px rgba(0, 255, 255, 0.25) !important;
+        }
+        .primary:active, .secondary:active, .all-button:active, .report-tab:active {
+            transform: scale(0.96) !important;
+        }
+
+        textarea:focus {
+            border-color: #00ffff !important;
+            box-shadow: 0 0 30px rgba(0, 255, 255, 0.15) !important;
+        }
+
+        .report-panel {
+            animation: fadeIn 0.5s ease-out !important;
+        }
+
+        .status-pill i {
+            animation: pulseDot 1.5s ease-in-out infinite !important;
+        }
+        @keyframes pulseDot {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.3; }
+        }
+
+        /* ============================================================
+           EFEK API UNTUK TOMBOL (ORANGE)
+           ============================================================ */
+        .report-actions .primary, 
+        .all-button,
+        .report-actions .secondary {
+            transition: all 0.3s ease !important;
+            position: relative !important;
+            overflow: hidden !important;
+            border: none !important;
+            padding: 10px 20px !important;
+            border-radius: 8px !important;
+            font-weight: 700 !important;
+            font-size: 0.85rem !important;
+            cursor: pointer;
+            color: #fff !important;
+        }
+
+        .report-actions .primary {
+            background: linear-gradient(135deg, #00ffff, #0088ff) !important;
+            box-shadow: 0 0 20px rgba(0, 255, 255, 0.2) !important;
+        }
+        .report-actions .primary:hover {
+            box-shadow: 0 0 30px rgba(0, 255, 255, 0.4) !important;
+        }
+
+        .report-actions .secondary, .all-button {
+            background: linear-gradient(135deg, #ff4500, #ff8c00) !important;
+            box-shadow: 0 0 20px rgba(255, 69, 0, 0.2) !important;
+        }
+        .report-actions .secondary:hover, .all-button:hover {
+            box-shadow: 0 0 30px rgba(255, 69, 0, 0.4) !important;
+            animation: firePulse 0.8s infinite alternate !important;
+        }
+
+        @keyframes firePulse {
+            0% { box-shadow: 0 0 20px rgba(255, 69, 0, 0.6), 0 0 40px rgba(255, 69, 0, 0.3); }
+            100% { box-shadow: 0 0 40px rgba(255, 69, 0, 0.9), 0 0 80px rgba(255, 69, 0, 0.5), 0 0 120px rgba(255, 165, 0, 0.3); }
+        }
+
+        .report-actions .primary:hover::before, 
+        .all-button:hover::before,
+        .report-actions .secondary:hover::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle at 30% 30%, rgba(255, 69, 0, 0.3), transparent 60%);
+            animation: fireSparks 0.6s ease-out forwards;
+            pointer-events: none;
+        }
+
+        @keyframes fireSparks {
+            0% { transform: scale(0.5) rotate(0deg); opacity: 1; }
+            100% { transform: scale(1.5) rotate(20deg); opacity: 0; }
+        }
+
+        .report-actions .secondary:disabled:hover {
+            background: #2a2a2a !important;
+            box-shadow: none !important;
+            transform: none !important;
+            animation: none !important;
+            cursor: not-allowed;
+        }
+
+        .queue-item:hover {
+            transform: translateX(8px) !important;
+            border-left: 4px solid #ff4500 !important;
+            box-shadow: 0 0 20px rgba(255, 69, 0, 0.2) !important;
+            transition: all 0.3s ease !important;
+        }
+
+        .queue-item .btn-open:hover {
+            background: linear-gradient(135deg, #ff4500, #ff8c00) !important;
+            color: #fff !important;
+            box-shadow: 0 0 20px rgba(255, 69, 0, 0.6) !important;
+            transform: scale(1.05) !important;
+            transition: all 0.3s ease !important;
+        }
+
+        /* ============================================================
+           LAYOUT HERO — RAPI
+           ============================================================ */
+        .hero {
+            text-align: center !important;
+            padding: 10px 10px 5px 10px !important;
+        }
+        .brand {
+            display: flex !important;
+            align-items: center !important;
+            justify-content: center !important;
+            gap: 12px !important;
+            margin-bottom: 6px !important;
+        }
+        .floating-words {
+            display: none !important;
+        }
+        .status-pill {
+            display: inline-block !important;
+            margin: 6px auto !important;
+            padding: 6px 18px !important;
+            border-radius: 20px !important;
+            background: rgba(0, 255, 255, 0.08) !important;
+            border: 1px solid rgba(0, 255, 255, 0.15) !important;
+            font-size: 0.75rem !important;
+            color: #00ffff !important;
+            font-weight: 600 !important;
+        }
+        .hero h1 {
+            font-size: 1.6rem !important;
+            margin: 4px 0 !important;
+            color: #ffffff !important;
+            font-weight: 700 !important;
+        }
+        .hero p {
+            font-size: 0.8rem !important;
+            opacity: 0.6 !important;
+            margin: 2px 0 !important;
+            color: #8899bb !important;
+            font-weight: 400 !important;
+        }
+
+        /* ============================================================
+           GLITCH TEXT
+           ============================================================ */
+        .glitch-container {
+            margin: 8px 0 4px 0;
+            text-align: center;
+            font-weight: 700 !important;
+            font-size: 1.1rem;
+            letter-spacing: 4px;
+            position: relative;
+            display: inline-block;
+            width: 100%;
+        }
+        .glitch {
+            color: #00ffff;
+            text-shadow: 0 0 10px rgba(0, 255, 255, 0.3);
+            position: relative;
+            display: inline-block;
+        }
+        .glitch::before {
+            content: attr(data-text);
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            color: #ff00ff;
+            text-shadow: 0 0 10px rgba(255, 0, 255, 0.5);
+            animation: glitch1 2s infinite;
+            z-index: -1;
+        }
+        .glitch::after {
+            content: attr(data-text);
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            color: #00ffff;
+            text-shadow: 0 0 10px rgba(0, 255, 255, 0.5);
+            animation: glitch2 3s infinite;
+            z-index: -1;
+        }
+        @keyframes glitch1 {
+            0%, 90%, 100% { transform: translate(0); opacity: 0; }
+            92% { transform: translate(-3px, 2px); opacity: 0.8; }
+            94% { transform: translate(3px, -2px); opacity: 0.8; }
+            96% { transform: translate(-2px, 1px); opacity: 0.6; }
+        }
+        @keyframes glitch2 {
+            0%, 85%, 100% { transform: translate(0); opacity: 0; }
+            87% { transform: translate(4px, -1px); opacity: 0.7; }
+            89% { transform: translate(-4px, 3px); opacity: 0.7; }
+            91% { transform: translate(2px, -3px); opacity: 0.5; }
+        }
+
+        /* ============================================================
+           TYPING EFFECT
+           ============================================================ */
+        .typing-container {
+            text-align: center;
+            margin: 4px 0 6px 0;
+            font-size: 0.75rem;
+            color: #00ff88;
+            min-height: 22px;
+            opacity: 0.8;
+            font-weight: 400 !important;
+        }
+        .typing-container .cursor {
+            display: inline-block;
+            width: 8px;
+            height: 14px;
+            background: #00ff88;
+            animation: blinkCursor 0.8s infinite;
+            vertical-align: text-bottom;
+            margin-left: 2px;
+        }
+        @keyframes blinkCursor {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0; }
+        }
+
+        /* ============================================================
+           VISUAL LAINNYA
+           ============================================================ */
+        .clock-container {
+            text-align: center !important;
+            margin: 4px 0 6px 0 !important;
+            font-size: 0.8rem !important;
+            color: #00ffff !important;
+            letter-spacing: 2px !important;
+            opacity: 0.8 !important;
+            font-weight: 400 !important;
+        }
+
+        .threat-level {
+            text-align: center !important;
+            margin: 6px auto 4px auto !important;
+            padding: 6px 20px !important;
+            max-width: 350px !important;
+            border-radius: 20px !important;
+            font-weight: 700 !important;
+            font-size: 0.75rem !important;
+            letter-spacing: 1px !important;
+            background: rgba(0, 255, 65, 0.08) !important;
+            border: 1px solid rgba(0, 255, 65, 0.2) !important;
+            color: #00ff88 !important;
+            display: inline-block !important;
+            transition: all 0.5s ease !important;
+        }
+        .threat-level.warning {
+            border-color: #ffaa00 !important;
+            color: #ffaa00 !important;
+            box-shadow: 0 0 20px rgba(255, 170, 0, 0.15) !important;
+        }
+        .threat-level.danger {
+            border-color: #ff4444 !important;
+            color: #ff4444 !important;
+            box-shadow: 0 0 30px rgba(255, 68, 68, 0.2) !important;
+            animation: threatPulse 0.8s infinite alternate !important;
+        }
+        @keyframes threatPulse {
+            0% { box-shadow: 0 0 10px rgba(255, 68, 68, 0.2); }
+            100% { box-shadow: 0 0 40px rgba(255, 68, 68, 0.5); }
+        }
+
+        .progress-container {
+            margin: 10px 0 !important;
+            padding: 10px 16px !important;
+            background: rgba(255, 255, 255, 0.02) !important;
+            border-radius: 10px !important;
+            border: 1px solid rgba(255, 255, 255, 0.05) !important;
+        }
+        .progress-bar-bg {
+            width: 100% !important;
+            height: 5px !important;
+            background: rgba(255, 255, 255, 0.06) !important;
+            border-radius: 10px !important;
+            overflow: hidden !important;
+            margin-top: 4px !important;
+        }
+        .progress-bar-fill {
+            height: 100% !important;
+            width: 0% !important;
+            background: linear-gradient(90deg, #00ffff, #a855f7) !important;
+            border-radius: 10px !important;
+            transition: width 0.8s ease !important;
+        }
+        .progress-label {
+            display: flex !important;
+            justify-content: space-between !important;
+            font-size: 0.7rem !important;
+            color: #8899bb !important;
+            font-weight: 400 !important;
+        }
+
+        .live-feed {
+            margin-top: 12px !important;
+            padding: 10px 14px !important;
+            background: rgba(0, 0, 0, 0.3) !important;
+            border-radius: 8px !important;
+            border: 1px solid rgba(0, 255, 255, 0.06) !important;
+            max-height: 70px !important;
+            overflow-y: auto !important;
+            font-size: 0.7rem !important;
+            color: #6688aa !important;
+            font-weight: 400 !important;
+        }
+        .live-feed .entry {
+            padding: 2px 0 !important;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.02) !important;
+        }
+        .live-feed .entry .time {
+            color: #00ffff !important;
+            margin-right: 8px !important;
+        }
+        .live-feed .entry .highlight {
+            color: #00ff88 !important;
+        }
+        .live-feed::-webkit-scrollbar {
+            width: 3px !important;
+        }
+        .live-feed::-webkit-scrollbar-track {
+            background: transparent !important;
+        }
+        .live-feed::-webkit-scrollbar-thumb {
+            background: #00ffff !important;
+            border-radius: 10px !important;
+        }
+
+        .footer-extra {
+            text-align: center !important;
+            margin-top: 6px !important;
+            font-size: 0.6rem !important;
+            color: #445566 !important;
+            letter-spacing: 1px !important;
+            font-weight: 400 !important;
+        }
+
+        /* ============================================================
+           STYLE KHUSUS LAPORAN
+           ============================================================ */
+        .report-info {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 8px 4px;
+            margin-bottom: 10px;
+            border-bottom: 1px solid rgba(0, 255, 255, 0.05);
+        }
+        .report-info strong {
+            color: #00ffff;
+            font-size: 0.8rem;
+            letter-spacing: 1px;
+            font-weight: 700 !important;
+        }
+        .report-info span {
+            color: #00ff88;
+            font-weight: 700 !important;
+            font-size: 0.9rem;
+        }
+
+        .report-tabs {
+            display: flex;
+            gap: 8px;
+            margin: 10px 0;
+        }
+        .report-tab {
+            padding: 8px 20px;
+            border: none;
+            border-radius: 20px;
+            background: rgba(255, 255, 255, 0.05);
+            color: #8899bb;
+            font-weight: 600 !important;
+            font-size: 0.8rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        .report-tab.active {
+            background: rgba(0, 255, 255, 0.12);
+            color: #00ffff;
+            box-shadow: 0 0 20px rgba(0, 255, 255, 0.05);
+        }
+        .report-tab:hover {
+            background: rgba(0, 255, 255, 0.08);
+        }
+
+        .report-panel {
+            display: none;
+            margin-top: 10px;
+        }
+        .report-panel.active {
+            display: block;
+        }
+
+        .report-preview {
+            width: 100%;
+            min-height: 120px;
+            padding: 12px;
+            background: rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(0, 255, 255, 0.08);
+            border-radius: 8px;
+            color: #d0e0ff;
+            font-size: 0.8rem;
+            resize: vertical;
+            font-weight: 400 !important;
+        }
+
+        .report-list {
+            min-height: 60px;
+            padding: 12px;
+            background: rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(0, 255, 255, 0.08);
+            border-radius: 8px;
+            color: #d0e0ff;
+            font-size: 0.75rem;
+            max-height: 150px;
+            overflow-y: auto;
+            font-weight: 400 !important;
+        }
+        .report-list .url-item {
+            padding: 3px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+        }
+        .report-list .url-item:last-child {
+            border-bottom: none;
+        }
+
+        .report-actions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin: 12px 0 8px 0;
+        }
+
+        .notice {
+            padding: 10px 14px;
+            background: rgba(255, 170, 0, 0.05);
+            border: 1px solid rgba(255, 170, 0, 0.1);
+            border-radius: 8px;
+            font-size: 0.7rem;
+            color: #8899bb;
+            margin-top: 10px;
+            font-weight: 400 !important;
+        }
+
+        .field-heading {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 8px 0 4px 0;
+        }
+        .field-heading label {
+            font-size: 0.8rem;
+            color: #00ffff;
+            font-weight: 700 !important;
+        }
+        .field-heading span {
+            font-size: 0.7rem;
+            color: #6688aa;
+            font-weight: 400 !important;
         }
     </style>
 </head>
 <body>
 
+    <!-- ===== KONTAINER PARTIKEL ===== -->
     <div id="tsparticles"></div>
+
+    <!-- Ambient Background -->
     <div class="ambient ambient-a"></div>
     <div class="ambient ambient-b"></div>
-    <div id="toast"></div>
 
-    <main class="app-shell">
+    <!-- ===== MAIN APP ===== -->
+    <main class="app-shell" id="mainApp">
 
-        <!-- NAVIGASI -->
-        <nav class="page-nav">
+        <!-- Navigasi -->
+        <nav class="page-nav no-select">
             <a href="index.html">DASHBOARD</a>
             <a href="laporan.html" class="active">LAPORAN</a>
         </nav>
 
-        <!-- HERO -->
-        <header class="hero">
+        <!-- Hero / Branding -->
+        <header class="hero no-select">
             <div class="brand">
                 <div class="brand-shield">◇</div>
                 <div>
@@ -660,40 +674,71 @@
                 </div>
             </div>
 
+            <!-- ===== GLITCH TEXT ===== -->
             <div class="glitch-container">
                 <span class="glitch" data-text="▶ REPORT CENTER">▶ REPORT CENTER</span>
             </div>
 
             <h1>Reporting Center</h1>
             <p>PREPARE · COPY · REPORT</p>
-            <div class="status-pill"><i></i> <span id="reportStatus">LAPORAN SIAP</span></div>
+            <div class="status-pill"><i></i> <span id="reportStatus">DATA TERSEDIA DARI DASHBOARD</span></div>
 
+            <!-- ===== TYPING EFFECT ===== -->
             <div class="typing-container">
                 <span id="typingText"></span><span class="cursor"></span>
             </div>
-
+            
+            <!-- ===== JAM DIGITAL ===== -->
             <div class="clock-container" id="clockDisplay">🕒 SISTEM AKTIF · 00:00:00</div>
 
-            <div class="threat-level" id="threatLevel">
-                <span class="dot"></span>
-                <span class="threat-text" id="threatText">LEVEL AMAN — 0 URL terverifikasi</span>
-            </div>
+            <!-- ===== THREAT LEVEL ===== -->
+            <div class="threat-level" id="threatLevel">🟢 LEVEL AMAN — 0 URL terverifikasi</div>
 
-            <div class="himbauan-box">
-                <span class="highlight">🔥 BASMI PHISING ADALAH GERAKAN</span>
+            <!-- ============================================================
+                 HIMBAUAN GERAKAN
+                 ============================================================ -->
+            <div style="
+                display: flex;
+                flex-wrap: wrap;
+                gap: 8px 14px;
+                justify-content: center;
+                align-items: center;
+                margin: 12px auto 6px auto;
+                padding: 10px 18px;
+                max-width: 700px;
+                background: rgba(0, 255, 255, 0.04);
+                border-radius: 12px;
+                border: 1px solid rgba(0, 255, 255, 0.08);
+                font-size: 0.85rem;
+                text-align: center;
+                color: #88ccff;
+            ">
+                <span style="color:#ff4444; font-weight:700;">🔥 BASMI PHISING ADALAH GERAKAN</span>
                 <span style="color:#445566;">|</span>
                 <span>Bukan sekadar website. Ini perlawanan terhadap penipuan digital.</span>
             </div>
 
-            <div class="himbauan-sub">
+            <div style="
+                display: flex;
+                flex-wrap: wrap;
+                gap: 8px 14px;
+                justify-content: center;
+                align-items: center;
+                margin: 2px auto 10px auto;
+                padding: 6px 18px;
+                max-width: 700px;
+                font-size: 0.8rem;
+                text-align: center;
+                color: #6688aa;
+            ">
                 <span>🤝 SATU LAPORAN, DAMPAK BESAR</span>
                 <span style="color:#445566;">·</span>
                 <span>⭐ KAMU ADALAH PAHLAWAN DIGITAL</span>
             </div>
         </header>
 
-        <!-- PROGRESS -->
-        <div class="progress-container">
+        <!-- ===== PROGRESS BAR ===== -->
+        <div class="progress-container no-select">
             <div class="progress-label">
                 <span>📊 PROGRES PELAPORAN</span>
                 <span id="progressText">0%</span>
@@ -703,341 +748,411 @@
             </div>
         </div>
 
-        <!-- MAIN PANEL -->
+        <!-- Panel Laporan -->
         <section class="panel">
-            <div class="report-info">
+            <div class="report-info no-select">
                 <strong>📋 REPORT DESTINATION</strong>
                 <span id="reportCount">0 URL SIAP DILAPORKAN</span>
             </div>
 
-            <!-- KONTEN DINAMIS -->
-            <div id="reportContent"></div>
-
-            <!-- TABS EMAIL & NETCRAFT -->
-            <div class="report-tabs" id="tabContainer" style="display:none;">
-                <button class="report-tab active" data-tab="email">📧 EMAIL</button>
-                <button class="report-tab" data-tab="netcraft">🌐 NETCRAFT</button>
+            <!-- Tabs -->
+            <div class="report-tabs no-select">
+                <button id="emailTab" class="report-tab active">📧 EMAIL</button>
+                <button id="netcraftTab" class="report-tab">🌐 NETCRAFT</button>
             </div>
 
-            <!-- PANEL EMAIL -->
+            <!-- Panel Email -->
             <div id="emailPanel" class="report-panel active">
-                <div style="display:flex;justify-content:space-between;align-items:center;padding:4px 0;">
-                    <label style="color:#00ffff;font-size:0.7rem;font-weight:700;">▧ TEMPLATE LAPORAN EMAIL</label>
-                    <span style="font-size:0.55rem;color:#6688aa;">Otomatis dari Dashboard</span>
+                <div class="field-heading no-select">
+                    <label for="emailPreview">▧ TEMPLATE LAPORAN EMAIL</label>
+                    <span>Otomatis dari Dashboard</span>
                 </div>
-                <textarea id="emailPreview" class="report-preview" spellcheck="false" placeholder="Belum ada URL. Masukkan URL di Dashboard lalu tekan PROSES URL."></textarea>
-                <div class="report-actions">
-                    <button id="copyEmail" class="btn btn-copy">▣ SALIN LAPORAN</button>
-                    <button id="refreshData" class="btn btn-primary">↻ PERBARUI DATA</button>
+                <textarea id="emailPreview" class="report-preview copyable" spellcheck="false" placeholder="Belum ada URL. Masukkan URL di Dashboard lalu tekan PROSES URL."></textarea>
+                <div class="report-actions no-select">
+                    <button id="copyEmail" class="primary">▣ SALIN LAPORAN</button>
+                    <button id="refreshReports" class="secondary">↻ PERBARUI DATA</button>
                 </div>
             </div>
 
-            <!-- PANEL NETCRAFT -->
+            <!-- Panel Netcraft -->
             <div id="netcraftPanel" class="report-panel">
-                <div style="display:flex;justify-content:space-between;align-items:center;padding:4px 0;">
-                    <label style="color:#00ffff;font-size:0.7rem;font-weight:700;">▧ URL UNTUK NETCRAFT</label>
-                    <span style="font-size:0.55rem;color:#6688aa;">Bulk report</span>
+                <div class="field-heading no-select">
+                    <label>▧ URL UNTUK NETCRAFT</label>
+                    <span>Bulk report</span>
                 </div>
-                <div id="netcraftUrls" class="report-list">
+                <div id="netcraftUrls" class="report-list copyable">
                     <div style="opacity:0.5;">Belum ada URL. Masukkan URL di Dashboard lalu tekan PROSES URL.</div>
                 </div>
-                <div class="report-actions">
-                    <button id="copyUrls" class="btn btn-copy">▣ SALIN SEMUA URL</button>
-                    <button id="openNetcraft" class="btn btn-secondary">↗ BUKA NETCRAFT</button>
+                <div class="report-actions no-select">
+                    <button id="copyUrls" class="primary">▣ SALIN SEMUA URL</button>
+                    <button id="openNetcraft" class="all-button">↗ BUKA NETCRAFT</button>
                 </div>
-                <div class="notice">
-                    ⚡ Saat <b>BUKA NETCRAFT</b> ditekan, daftar URL akan disalin ke clipboard terlebih dahulu.
+                <div class="notice no-select">
+                    ⚡ Saat <b>BUKA NETCRAFT</b> ditekan, daftar URL akan disalin ke clipboard terlebih dahulu. 
                     Setelah halaman Netcraft terbuka, tempel daftar URL tersebut ke kolom pelaporan bulk.
                 </div>
             </div>
         </section>
 
-        <!-- LIVE FEED -->
-        <div class="live-feed" id="liveFeed">
+        <!-- ===== LIVE FEED ===== -->
+        <div class="live-feed no-select" id="liveFeed">
             <div class="entry"><span class="time">[SISTEM]</span> Report Center siap digunakan</div>
         </div>
 
-        <footer>
+        <footer class="no-select">
             © BASMI PHISING · REPORT CENTER
-            <div style="font-size:0.5rem;color:#445566;margin-top:4px;">⚡ Sistem dalam keadaan siaga ⚡</div>
+            <div class="footer-extra">⚡ Sistem dalam keadaan siaga ⚡</div>
         </footer>
 
     </main>
 
+    <!-- ===== NOTIFIKASI TOAST ===== -->
+    <div id="toast" style="position:fixed;bottom:100px;right:30px;background:rgba(0,255,255,0.15);backdrop-filter:blur(12px);border:1px solid #00ffff;color:#d0e0ff;padding:14px 28px;border-radius:16px;z-index:9999;display:none;font-family:'Courier New',monospace;font-weight:600;font-size:0.95rem;box-shadow:0 8px 32px rgba(0,0,0,0.6);min-width:200px;text-align:center;"></div>
+
+    <!-- ===== SCRIPTS ===== -->
+    <script src="laporan.js"></script>
     <script src="binary-rain.js"></script>
+
+    <!-- ===== LIBRARY PARTIKEL ===== -->
     <script src="https://cdn.jsdelivr.net/npm/tsparticles@2.12.0/tsparticles.bundle.min.js">
     </script>
+
     <script>
         // ============================================================
-        // TOAST
+        // 1. FUNGSI TOAST
         // ============================================================
-        function showToast(msg, type = 'info') {
-            const t = document.getElementById('toast');
-            t.textContent = msg;
-            t.style.borderColor = type === 'success' ? '#00ff88' : type === 'error' ? '#ff4444' : '#00ffff';
-            t.style.color = type === 'success' ? '#00ff88' : type === 'error' ? '#ff4444' : '#d0e0ff';
-            t.style.display = 'block';
-            clearTimeout(t._hide);
-            t._hide = setTimeout(() => t.style.display = 'none', 3500);
-        }
-
-        // ============================================================
-        // LIVE FEED
-        // ============================================================
-        function addFeed(msg, type = 'info') {
-            const feed = document.getElementById('liveFeed');
-            const time = new Date().toLocaleTimeString('id-ID', { hour12: false });
-            const colors = { info: '#88ccdd', success: '#00ff88', warning: '#ffaa00', danger: '#ff4444' };
-            const entry = document.createElement('div');
-            entry.className = 'entry';
-            entry.innerHTML =
-                `<span class="time">[${time}]</span> <span style="color:${colors[type] || '#88ccdd'}">${msg}</span>`;
-            feed.appendChild(entry);
-            feed.scrollTop = feed.scrollHeight;
-            if (feed.children.length > 20) feed.removeChild(feed.firstChild);
-        }
-
-        // ============================================================
-        // JAM
-        // ============================================================
-        function updateClock() {
-            const now = new Date();
-            document.getElementById('clockDisplay').textContent = '🕒 SISTEM AKTIF · ' + now.toLocaleTimeString('id-ID', {
-                hour12: false
-            });
-        }
-        updateClock();
-        setInterval(updateClock, 1000);
-
-        // ============================================================
-        // TYPING
-        // ============================================================
-        const msgs = ['> PREPARE REPORT...', '> COPY URL TO CLIPBOARD', '> REPORT CENTER ACTIVE', '> READY TO SUBMIT',
-            '> VERIFYING TARGETS...', '> ALL SYSTEMS NOMINAL'
-        ];
-        let mi = 0,
-            ci = 0,
-            del = false;
-
-        function typeEffect() {
-            const cur = msgs[mi];
-            const el = document.getElementById('typingText');
-            if (!del) {
-                el.textContent = cur.substring(0, ci + 1);
-                ci++;
-                if (ci === cur.length) { del = true;
-                    setTimeout(typeEffect, 2500); return; }
-                setTimeout(typeEffect, 60 + Math.random() * 40);
+        function showToast(message, type = 'info') {
+            const toast = document.getElementById('toast');
+            toast.textContent = message;
+            if (type === 'success') {
+                toast.style.borderColor = '#00ff88';
+                toast.style.color = '#00ff88';
+            } else if (type === 'error') {
+                toast.style.borderColor = '#ff4444';
+                toast.style.color = '#ff4444';
             } else {
-                el.textContent = cur.substring(0, ci - 1);
-                ci--;
-                if (ci === 0) { del = false;
-                    mi = (mi + 1) % msgs.length;
-                    setTimeout(typeEffect, 500); return; }
-                setTimeout(typeEffect, 30 + Math.random() * 20);
+                toast.style.borderColor = '#00ffff';
+                toast.style.color = '#d0e0ff';
             }
-        }
-        setTimeout(typeEffect, 500);
-
-        // ============================================================
-        // PARTIKEL
-        // ============================================================
-        if (typeof tsParticles !== 'undefined') {
-            tsParticles.load({
-                id: 'tsparticles',
-                options: {
-                    fpsLimit: 60,
-                    particles: {
-                        number: { value: 70, density: { enable: true, value_area: 800 } },
-                        color: { value: ['#00ffff', '#a855f7', '#ffffff', '#ff8800'] },
-                        shape: { type: 'circle' },
-                        opacity: { value: 0.35, random: true, anim: { enable: true, speed: 0.5, opacity_min: 0.05 } },
-                        size: { value: 3, random: true, anim: { enable: true, speed: 1, size_min: 0.5 } },
-                        move: { enable: true, speed: 1.2, direction: 'none', random: true, straight: false,
-                            outModes: { default: 'out' } }
-                    },
-                    interactivity: {
-                        events: { onHover: { enable: true, mode: 'repulse' }, onClick: { enable: true,
-                            mode: 'push' } },
-                        modes: { repulse: { distance: 100, duration: 0.4 }, push: { particles_nb: 3 } }
-                    },
-                    background: { color: 'transparent' }
-                }
-            });
+            toast.style.display = 'block';
+            setTimeout(() => { toast.style.display = 'none'; }, 3500);
         }
 
         // ============================================================
-        // TAB SWITCH
-        // ============================================================
-        document.addEventListener('click', function(e) {
-            if (e.target.classList.contains('report-tab')) {
-                document.querySelectorAll('.report-tab').forEach(t => t.classList.remove('active'));
-                e.target.classList.add('active');
-                const target = e.target.dataset.tab;
-                document.querySelectorAll('.report-panel').forEach(p => p.classList.remove('active'));
-                document.getElementById(target + 'Panel').classList.add('active');
-            }
-        });
-
-        // ============================================================
-        // LOAD DATA DARI DASHBOARD
-        // ============================================================
-        function loadReportData() {
-            const total = parseInt(localStorage.getItem('totalUrl') || '0');
-            const valid = parseInt(localStorage.getItem('validUrl') || '0');
-            const invalid = parseInt(localStorage.getItem('invalidUrl') || '0');
-            const opened = parseInt(localStorage.getItem('openedUrl') || '0');
-            const detail = localStorage.getItem('detailReport') || '';
-            const reportData = JSON.parse(localStorage.getItem('reportData') || '[]');
-
-            // THREAT LEVEL
-            const threatEl = document.getElementById('threatText');
-            const threatLevelEl = document.getElementById('threatLevel');
-            if (total === 0) {
-                threatEl.textContent = 'LEVEL AMAN — Belum ada URL';
-                threatLevelEl.className = 'threat-level';
-            } else if (invalid === 0) {
-                threatEl.textContent = 'LEVEL AMAN — ' + total + ' URL terverifikasi';
-                threatLevelEl.className = 'threat-level';
-            } else if (invalid <= 3) {
-                threatEl.textContent = 'LEVEL MENENGAH — ' + invalid + ' URL mencurigakan';
-                threatLevelEl.className = 'threat-level warning';
-            } else {
-                threatEl.textContent = 'LEVEL BAHAYA — ' + invalid + ' URL terindikasi PHISHING!';
-                threatLevelEl.className = 'threat-level danger';
-            }
-
-            // REPORT COUNT & PROGRESS
-            document.getElementById('reportCount').textContent = total + ' URL SIAP DILAPORKAN';
-            const pct = total === 0 ? 0 : Math.min(100, Math.round(((valid + invalid) / total) * 100));
-            document.getElementById('progressFill').style.width = pct + '%';
-            document.getElementById('progressText').textContent = pct + '%';
-
-            // CONTENT
-            const container = document.getElementById('reportContent');
-            const hasData = reportData.length > 0 || total > 0;
-
-            if (!hasData) {
-                container.innerHTML = `
-                    <div class="empty-state">
-                        <span class="icon">📭</span>
-                        <p>Belum ada data laporan</p>
-                        <p class="sub">Masukkan URL di Dashboard lalu tekan <b>PROSES URL</b></p>
-                        <a href="index.html" class="btn-dashboard">⬅ KE DASHBOARD</a>
-                    </div>
-                `;
-                document.getElementById('reportStatus').textContent = 'BELUM ADA DATA';
-                document.getElementById('tabContainer').style.display = 'none';
-                document.getElementById('emailPreview').value = '';
-                document.getElementById('netcraftUrls').innerHTML = '<div style="opacity:0.5;">Belum ada URL.</div>';
-                return;
-            }
-
-            document.getElementById('reportStatus').textContent = 'DATA TERSEDIA DARI DASHBOARD';
-            document.getElementById('tabContainer').style.display = 'flex';
-
-            // STATS
-            let html = `
-                <div class="report-stats">
-                    <div class="stat"><span class="number">${total}</span><span class="label">Total URL</span></div>
-                    <div class="stat"><span class="number valid">${valid}</span><span class="label">Valid</span></div>
-                    <div class="stat"><span class="number invalid">${invalid}</span><span class="label">Invalid</span></div>
-                    <div class="stat"><span class="number opened">${opened}</span><span class="label">Dibuka</span></div>
-                </div>
-            `;
-
-            if (detail) {
-                html += `
-                    <div class="detail-box">
-                        <strong style="color:#00ffff;">📝 Detail Laporan:</strong><br>
-                        ${detail}
-                    </div>
-                `;
-            }
-
-            if (reportData.length > 0) {
-                html += `
-                    <div style="margin:8px 0 4px;color:#6688aa;font-size:0.6rem;text-transform:uppercase;letter-spacing:1px;">🔗 Daftar URL (${reportData.length})</div>
-                    <div class="url-list">
-                        ${reportData.map((url, i) => `
-                            <div class="item">
-                                <span>${i+1}. ${url}</span>
-                                <span class="badge">⏳ Pending</span>
-                            </div>
-                        `).join('')}
-                    </div>
-                `;
-            }
-
-            container.innerHTML = html;
-
-            // UPDATE EMAIL PREVIEW & NETCRAFT LIST
-            const preview = document.getElementById('emailPreview');
-            const netcraftList = document.getElementById('netcraftUrls');
-
-            if (reportData.length > 0) {
-                const detailText = localStorage.getItem('detailReport') || 'URL ini diduga terkait aktivitas phishing yang berpotensi menipu pengguna atau mengumpulkan informasi sensitif secara tidak sah. Mohon dilakukan pemeriksaan lebih lanjut.';
-                preview.value = '📢 LAPORAN PHISHING\n\n' +
-                    'Detail Laporan:\n' + detailText + '\n\n' +
-                    'Daftar URL:\n' + reportData.map((u, i) => (i + 1) + '. ' + u).join('\n') + '\n\n' +
-                    'Total URL: ' + reportData.length + '\n' +
-                    'Valid: ' + valid + '\n' +
-                    'Invalid: ' + invalid + '\n\n' +
-                    '— BASMI PHISING · Security Console';
-
-                netcraftList.innerHTML = reportData.map(u =>
-                    `<div class="url-item">• ${u}</div>`
-                ).join('');
-            }
-        }
-
-        // ============================================================
-        // BUTTONS
-        // ============================================================
-        document.getElementById('copyEmail').addEventListener('click', function() {
-            const text = document.getElementById('emailPreview').value;
-            if (!text || text.trim() === '') { showToast('⚠️ Belum ada data laporan', 'warning'); return; }
-            navigator.clipboard.writeText(text).then(() => {
-                showToast('✅ Template laporan disalin!', 'success');
-                addFeed('📋 Template laporan disalin ke clipboard', 'success');
-            }).catch(() => showToast('❌ Gagal menyalin', 'error'));
-        });
-
-        document.getElementById('copyUrls').addEventListener('click', function() {
-            const items = document.querySelectorAll('#netcraftUrls .url-item');
-            if (items.length === 0) { showToast('⚠️ Belum ada URL', 'warning'); return; }
-            const text = Array.from(items).map(el => el.textContent.replace('• ', '')).join('\n');
-            navigator.clipboard.writeText(text).then(() => {
-                showToast('✅ ' + items.length + ' URL disalin!', 'success');
-                addFeed('📋 ' + items.length + ' URL disalin ke clipboard', 'success');
-            }).catch(() => showToast('❌ Gagal menyalin', 'error'));
-        });
-
-        document.getElementById('openNetcraft').addEventListener('click', function() {
-            const items = document.querySelectorAll('#netcraftUrls .url-item');
-            if (items.length === 0) { showToast('⚠️ Belum ada URL', 'warning'); return; }
-            const text = Array.from(items).map(el => el.textContent.replace('• ', '')).join('\n');
-            navigator.clipboard.writeText(text).then(() => {
-                showToast('✅ URL disalin! Membuka Netcraft...', 'success');
-                addFeed('📤 Membuka Netcraft dengan ' + items.length + ' URL', 'warning');
-                window.open('https://safebrowsing.google.com/', '_blank');
-            }).catch(() => showToast('❌ Gagal menyalin', 'error'));
-        });
-
-        document.getElementById('refreshData').addEventListener('click', function() {
-            loadReportData();
-            showToast('✅ Data diperbarui!', 'success');
-            addFeed('🔄 Data laporan diperbarui', 'success');
-        });
-
-        // ============================================================
-        // INIT
+        // 2. FORCE ANIMASI + SEMUA FITUR VISUAL
         // ============================================================
         document.addEventListener('DOMContentLoaded', function() {
-            loadReportData();
-            addFeed('🟢 Report Center siap digunakan', 'success');
-            setInterval(loadReportData, 10000);
-            console.log('🔥 BASMI PHISING — Report Center aktif!');
+            console.log('🚀 BASMI PHISING Report Center siap!');
+
+            // Force animasi fade-in
+            const app = document.getElementById('mainApp');
+            if (app) {
+                app.style.animation = 'none';
+                app.offsetHeight;
+                app.style.animation = 'fadeIn 0.8s ease-out';
+                app.classList.add('animated');
+            }
+
+            // ============================================================
+            // 3. INIT PARTIKEL (Lebih rame dari dashboard)
+            // ============================================================
+            if (typeof tsParticles !== 'undefined') {
+                tsParticles.load({
+                    id: 'tsparticles',
+                    options: {
+                        fpsLimit: 60,
+                        particles: {
+                            number: {
+                                value: 80,
+                                density: { enable: true, value_area: 800 }
+                            },
+                            color: {
+                                value: ['#00ffff', '#a855f7', '#ffffff', '#ff8800']
+                            },
+                            shape: {
+                                type: 'circle'
+                            },
+                            opacity: {
+                                value: 0.4,
+                                random: true,
+                                anim: { enable: true, speed: 0.5, opacity_min: 0.05 }
+                            },
+                            size: {
+                                value: 3,
+                                random: true,
+                                anim: { enable: true, speed: 1, size_min: 0.5 }
+                            },
+                            move: {
+                                enable: true,
+                                speed: 1.2,
+                                direction: 'none',
+                                random: true,
+                                straight: false,
+                                outModes: { default: 'out' }
+                            }
+                        },
+                        interactivity: {
+                            events: {
+                                onHover: { enable: true, mode: 'repulse' },
+                                onClick: { enable: true, mode: 'push' }
+                            },
+                            modes: {
+                                repulse: { distance: 100, duration: 0.4 },
+                                push: { particles_nb: 3 }
+                            }
+                        },
+                        background: { color: 'transparent' }
+                    }
+                });
+            }
+
+            // ============================================================
+            // 4. EFEK API UNTUK TOMBOL
+            // ============================================================
+            const reportButtons = document.querySelectorAll('.report-actions .secondary, .report-actions .primary, .all-button');
+            reportButtons.forEach(btn => {
+                btn.addEventListener('click', function() {
+                    this.style.transform = 'scale(0.95)';
+                    setTimeout(() => {
+                        this.style.transform = '';
+                    }, 150);
+                });
+            });
+
+            // ============================================================
+            // 5. JAM DIGITAL
+            // ============================================================
+            function updateClock() {
+                const now = new Date();
+                const time = now.toLocaleTimeString('id-ID', { hour12: false });
+                document.getElementById('clockDisplay').textContent = '🕒 SISTEM AKTIF · ' + time;
+            }
+            updateClock();
+            setInterval(updateClock, 1000);
+
+            // ============================================================
+            // 6. TYPING EFFECT
+            // ============================================================
+            const messages = [
+                '> PREPARE REPORT...',
+                '> COPY URL TO CLIPBOARD',
+                '> REPORT CENTER ACTIVE',
+                '> READY TO SUBMIT',
+                '> VERIFYING TARGETS...',
+                '> 0 THREATS FOUND',
+                '> ALL SYSTEMS NOMINAL'
+            ];
+            let msgIndex = 0;
+            let charIndex = 0;
+            let isDeleting = false;
+            const typingEl = document.getElementById('typingText');
+
+            function typeEffect() {
+                const currentMsg = messages[msgIndex];
+                if (!isDeleting) {
+                    typingEl.textContent = currentMsg.substring(0, charIndex + 1);
+                    charIndex++;
+                    if (charIndex === currentMsg.length) {
+                        isDeleting = true;
+                        setTimeout(typeEffect, 2500);
+                        return;
+                    }
+                    setTimeout(typeEffect, 60 + Math.random() * 40);
+                } else {
+                    typingEl.textContent = currentMsg.substring(0, charIndex - 1);
+                    charIndex--;
+                    if (charIndex === 0) {
+                        isDeleting = false;
+                        msgIndex = (msgIndex + 1) % messages.length;
+                        setTimeout(typeEffect, 500);
+                        return;
+                    }
+                    setTimeout(typeEffect, 30 + Math.random() * 20);
+                }
+            }
+            setTimeout(typeEffect, 500);
+
+            // ============================================================
+            // 7. THREAT LEVEL
+            // ============================================================
+            function updateThreatLevel() {
+                const total = parseInt(localStorage.getItem('totalUrl') || '0');
+                const invalid = parseInt(localStorage.getItem('invalidUrl') || '0');
+                const el = document.getElementById('threatLevel');
+                
+                if (total === 0) {
+                    el.textContent = '🟢 LEVEL AMAN — Belum ada URL';
+                    el.className = 'threat-level';
+                } else if (invalid === 0) {
+                    el.textContent = '🟢 LEVEL AMAN — ' + total + ' URL terverifikasi';
+                    el.className = 'threat-level';
+                } else if (invalid <= 3) {
+                    el.textContent = '🟡 LEVEL MENENGAH — ' + invalid + ' URL mencurigakan';
+                    el.className = 'threat-level warning';
+                } else {
+                    el.textContent = '🔴 LEVEL BAHAYA — ' + invalid + ' URL terindikasi PHISHING!';
+                    el.className = 'threat-level danger';
+                }
+                
+                document.getElementById('reportCount').textContent = total + ' URL SIAP DILAPORKAN';
+            }
+
+            // ============================================================
+            // 8. PROGRESS BAR
+            // ============================================================
+            function updateProgress() {
+                const total = parseInt(localStorage.getItem('totalUrl') || '0');
+                const processed = parseInt(localStorage.getItem('processedUrl') || '0');
+                const pct = total === 0 ? 0 : Math.min(100, Math.round((processed / total) * 100));
+                
+                document.getElementById('progressFill').style.width = pct + '%';
+                document.getElementById('progressText').textContent = pct + '%';
+            }
+
+            // ============================================================
+            // 9. LIVE FEED
+            // ============================================================
+            function addFeedEntry(message, type = 'info') {
+                const feed = document.getElementById('liveFeed');
+                const time = new Date().toLocaleTimeString('id-ID', { hour12: false });
+                const colors = {
+                    info: '#6688aa',
+                    success: '#00ff88',
+                    warning: '#ffaa00',
+                    danger: '#ff4444'
+                };
+                const entry = document.createElement('div');
+                entry.className = 'entry';
+                entry.innerHTML = `<span class="time">[${time}]</span> <span style="color:${colors[type] || '#6688aa'}">${message}</span>`;
+                feed.appendChild(entry);
+                feed.scrollTop = feed.scrollHeight;
+                if (feed.children.length > 20) {
+                    feed.removeChild(feed.firstChild);
+                }
+            }
+
+            // ============================================================
+            // 10. TAB SWITCH
+            // ============================================================
+            document.getElementById('emailTab').addEventListener('click', function() {
+                document.querySelectorAll('.report-tab').forEach(t => t.classList.remove('active'));
+                this.classList.add('active');
+                document.querySelectorAll('.report-panel').forEach(p => p.classList.remove('active'));
+                document.getElementById('emailPanel').classList.add('active');
+            });
+
+            document.getElementById('netcraftTab').addEventListener('click', function() {
+                document.querySelectorAll('.report-tab').forEach(t => t.classList.remove('active'));
+                this.classList.add('active');
+                document.querySelectorAll('.report-panel').forEach(p => p.classList.remove('active'));
+                document.getElementById('netcraftPanel').classList.add('active');
+            });
+
+            // ============================================================
+            // 11. HOOK TOMBOL
+            // ============================================================
+            document.getElementById('copyEmail').addEventListener('click', function() {
+                const text = document.getElementById('emailPreview').value;
+                if (text && text.trim() !== '') {
+                    navigator.clipboard.writeText(text).then(() => {
+                        showToast('✅ Template laporan disalin!', 'success');
+                        addFeedEntry('📋 Template laporan disalin ke clipboard', 'success');
+                    }).catch(() => {
+                        showToast('❌ Gagal menyalin', 'error');
+                    });
+                } else {
+                    showToast('⚠️ Belum ada data laporan', 'warning');
+                }
+            });
+
+            document.getElementById('copyUrls').addEventListener('click', function() {
+                const urls = document.querySelectorAll('#netcraftUrls .url-item');
+                if (urls.length > 0) {
+                    const text = Array.from(urls).map(el => el.textContent).join('\n');
+                    navigator.clipboard.writeText(text).then(() => {
+                        showToast('✅ ' + urls.length + ' URL disalin!', 'success');
+                        addFeedEntry('📋 ' + urls.length + ' URL disalin ke clipboard', 'success');
+                    }).catch(() => {
+                        showToast('❌ Gagal menyalin', 'error');
+                    });
+                } else {
+                    showToast('⚠️ Belum ada URL', 'warning');
+                }
+            });
+
+            document.getElementById('openNetcraft').addEventListener('click', function() {
+                const urls = document.querySelectorAll('#netcraftUrls .url-item');
+                if (urls.length > 0) {
+                    const text = Array.from(urls).map(el => el.textContent).join('\n');
+                    navigator.clipboard.writeText(text).then(() => {
+                        showToast('✅ URL disalin! Membuka Netcraft...', 'success');
+                        addFeedEntry('📤 Membuka Netcraft dengan ' + urls.length + ' URL', 'warning');
+                        window.open('https://safebrowsing.google.com/', '_blank');
+                    }).catch(() => {
+                        showToast('❌ Gagal menyalin', 'error');
+                    });
+                } else {
+                    showToast('⚠️ Belum ada URL', 'warning');
+                }
+            });
+
+            document.getElementById('refreshReports').addEventListener('click', function() {
+                const total = parseInt(localStorage.getItem('totalUrl') || '0');
+                const invalid = parseInt(localStorage.getItem('invalidUrl') || '0');
+                const valid = parseInt(localStorage.getItem('validUrl') || '0');
+                const data = JSON.parse(localStorage.getItem('reportData') || '[]');
+                
+                const preview = document.getElementById('emailPreview');
+                const netcraftList = document.getElementById('netcraftUrls');
+                
+                if (data.length > 0) {
+                    const detail = localStorage.getItem('detailReport') || 'URL ini diduga terkait aktivitas phishing yang berpotensi menipu pengguna atau mengumpulkan informasi sensitif secara tidak sah. Mohon dilakukan pemeriksaan lebih lanjut.';
+                    preview.value = '📢 LAPORAN PHISHING\n\n' + 
+                        'Detail Laporan:\n' + detail + '\n\n' +
+                        'Daftar URL:\n' + data.map((u, i) => (i+1) + '. ' + u).join('\n') + '\n\n' +
+                        'Total URL: ' + data.length + '\n' +
+                        'Valid: ' + valid + '\n' +
+                        'Invalid: ' + invalid + '\n\n' +
+                        '— BASMI PHISING · Security Console';
+                    
+                    netcraftList.innerHTML = data.map(u => 
+                        `<div class="url-item">• ${u}</div>`
+                    ).join('');
+                    
+                    showToast('✅ Data berhasil diperbarui!', 'success');
+                    addFeedEntry('🔄 Data laporan diperbarui — ' + data.length + ' URL', 'success');
+                } else {
+                    preview.value = 'Belum ada URL. Masukkan URL di Dashboard lalu tekan PROSES URL.';
+                    netcraftList.innerHTML = '<div style="opacity:0.5;">Belum ada URL. Masukkan URL di Dashboard lalu tekan PROSES URL.</div>';
+                    showToast('⚠️ Belum ada data', 'warning');
+                }
+                
+                updateThreatLevel();
+                updateProgress();
+            });
+
+            // ============================================================
+            // 12. UPDATE OTOMATIS
+            // ============================================================
+            function autoUpdate() {
+                const data = JSON.parse(localStorage.getItem('reportData') || '[]');
+                if (data.length > 0) {
+                    document.getElementById('refreshReports').click();
+                }
+            }
+            setTimeout(autoUpdate, 1000);
+
+            // Feed awal
+            addFeedEntry('🟢 Report Center siap digunakan', 'success');
+            addFeedEntry('📡 Menunggu data dari Dashboard...', 'info');
+
+            setTimeout(() => {
+                updateThreatLevel();
+                updateProgress();
+            }, 500);
+
+            console.log('🌍 Report Center — Font Kombinasi + Anti Copy + Partikel aktif!');
+            console.log('🔥 BASMI PHISING — Perlawanan terhadap penipuan digital.');
         });
     </script>
 
