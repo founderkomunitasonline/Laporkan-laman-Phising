@@ -641,6 +641,192 @@
             font-weight: 400 !important;
         }
     </style>
+    /* ============================================================
+   FIX TAMPILAN MOBILE — BIAR BISA SCROLL
+   ============================================================ */
+
+/* Pastiin body & html bisa di-scroll */
+html, body {
+    height: auto !important;
+    min-height: 100vh !important;
+    overflow-x: hidden !important;
+    overflow-y: auto !important;
+}
+
+/* App shell harus fleksibel */
+.app-shell, .container, main {
+    height: auto !important;
+    min-height: 100vh !important;
+    overflow: visible !important;
+}
+
+/* Fix elemen yang bikin kepotong */
+#tsparticles {
+    position: fixed !important;
+    top: 0 !important;
+    left: 0 !important;
+    width: 100% !important;
+    height: 100% !important;
+    pointer-events: none !important;
+    z-index: 0 !important;
+}
+
+/* Ambient harus fixed & gak ngeblok */
+.ambient {
+    position: fixed !important;
+    pointer-events: none !important;
+    z-index: 0 !important;
+}
+
+/* Biar konten utama tetap di atas */
+.app-shell, .container, .app-shell * {
+    position: relative !important;
+    z-index: 1 !important;
+}
+
+/* Kalo pake fixed element, pastiin gak ngeblok scroll */
+#scrollTopBtn {
+    position: fixed !important;
+    z-index: 9999 !important;
+}
+
+/* HP */
+@media (max-width: 700px) {
+    html, body {
+        padding: 0 !important;
+        margin: 0 !important;
+    }
+    .app-shell, .container {
+        padding: 10px !important;
+        width: 100% !important;
+        max-width: 100% !important;
+        min-height: 100vh !important;
+    }
+    .hero {
+        padding: 8px 5px !important;
+    }
+    .stats {
+        grid-template-columns: repeat(2, 1fr) !important;
+        gap: 6px !important;
+    }
+    .stats article {
+        padding: 8px 4px !important;
+    }
+    .panel, .results {
+        padding: 10px !important;
+    }
+    textarea {
+        min-height: 80px !important;
+        font-size: 0.7rem !important;
+    }
+    .queue .item {
+        grid-template-columns: 1fr !important;
+        gap: 6px !important;
+    }
+    .item-actions {
+        display: flex !important;
+        flex-wrap: wrap !important;
+        gap: 4px !important;
+    }
+    .item-actions button {
+        flex: 1 !important;
+        min-width: 60px !important;
+        font-size: 0.6rem !important;
+        padding: 6px 8px !important;
+    }
+    .all-row {
+        flex-direction: column !important;
+        align-items: stretch !important;
+    }
+    .all-row button {
+        width: 100% !important;
+    }
+    .report-tabs {
+        flex-wrap: wrap !important;
+    }
+    .report-tab {
+        flex: 1 !important;
+        text-align: center !important;
+        padding: 6px 10px !important;
+        font-size: 0.65rem !important;
+    }
+    .report-actions {
+        flex-direction: column !important;
+    }
+    .report-actions .primary,
+    .report-actions .secondary,
+    .report-actions .all-button {
+        width: 100% !important;
+        text-align: center !important;
+        justify-content: center !important;
+    }
+    .report-preview {
+        min-height: 80px !important;
+        font-size: 0.65rem !important;
+    }
+    .live-feed {
+        max-height: 50px !important;
+        font-size: 0.55rem !important;
+    }
+    .brand-title {
+        font-size: 1.2rem !important;
+    }
+    .hero h1 {
+        font-size: 1.1rem !important;
+    }
+    .status-pill {
+        font-size: 0.55rem !important;
+        padding: 4px 12px !important;
+    }
+    .threat-level {
+        font-size: 0.55rem !important;
+        padding: 4px 12px !important;
+        max-width: 100% !important;
+    }
+    .typing-container {
+        font-size: 0.55rem !important;
+    }
+    .clock-container {
+        font-size: 0.6rem !important;
+    }
+    .glitch {
+        font-size: 0.7rem !important;
+        letter-spacing: 2px !important;
+    }
+    .himbauan-box {
+        font-size: 0.6rem !important;
+        padding: 6px 10px !important;
+    }
+    .himbauan-sub {
+        font-size: 0.55rem !important;
+        padding: 4px 10px !important;
+    }
+    .progress-container {
+        padding: 8px 10px !important;
+    }
+    .progress-label {
+        font-size: 0.55rem !important;
+    }
+    footer {
+        font-size: 0.5rem !important;
+        padding: 10px 0 !important;
+    }
+    #toast {
+        bottom: 60px !important;
+        right: 10px !important;
+        left: 10px !important;
+        font-size: 0.7rem !important;
+        padding: 8px 14px !important;
+        min-width: auto !important;
+    }
+    #scrollTopBtn {
+        bottom: 15px !important;
+        right: 15px !important;
+        width: 40px !important;
+        height: 40px !important;
+        font-size: 1rem !important;
+    }
+}
 </head>
 <body>
 
