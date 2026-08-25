@@ -10,11 +10,10 @@
     <link rel="stylesheet" href="styles.css">
     <link rel="icon" type="image/svg+xml" href="favicon.svg">
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+        /* ============================================================
+           RESET & GLOBAL
+           ============================================================ */
+        * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
             background: #0a0a0f;
             color: #d0e0ff;
@@ -35,6 +34,10 @@
             0% { opacity: 0; transform: scale(0.96) translateY(20px); }
             100% { opacity: 1; transform: scale(1) translateY(0); }
         }
+
+        /* ============================================================
+           NAVIGASI
+           ============================================================ */
         .page-nav {
             display: flex;
             gap: 20px;
@@ -52,18 +55,13 @@
             padding: 6px 16px;
             border-radius: 20px;
         }
-        .page-nav a:hover {
-            color: #00ffff;
-            text-shadow: 0 0 15px rgba(0, 255, 255, 0.3);
-        }
-        .page-nav a.active {
-            color: #00ffff;
-            background: rgba(0, 255, 255, 0.06);
-        }
-        .hero {
-            text-align: center;
-            padding: 10px 10px 5px 10px;
-        }
+        .page-nav a:hover { color: #00ffff; text-shadow: 0 0 15px rgba(0,255,255,0.3); }
+        .page-nav a.active { color: #00ffff; background: rgba(0,255,255,0.06); }
+
+        /* ============================================================
+           HERO
+           ============================================================ */
+        .hero { text-align: center; padding: 10px 10px 5px 10px; }
         .brand {
             display: flex;
             align-items: center;
@@ -143,13 +141,13 @@
             z-index: -1;
         }
         @keyframes glitch1 {
-            0%, 90%, 100% { transform: translate(0); opacity: 0; }
+            0%,90%,100% { transform: translate(0); opacity: 0; }
             92% { transform: translate(-3px, 2px); opacity: 0.8; }
             94% { transform: translate(3px, -2px); opacity: 0.8; }
             96% { transform: translate(-2px, 1px); opacity: 0.6; }
         }
         @keyframes glitch2 {
-            0%, 85%, 100% { transform: translate(0); opacity: 0; }
+            0%,85%,100% { transform: translate(0); opacity: 0; }
             87% { transform: translate(4px, -1px); opacity: 0.7; }
             89% { transform: translate(-4px, 3px); opacity: 0.7; }
             91% { transform: translate(2px, -3px); opacity: 0.5; }
@@ -177,6 +175,10 @@
             color: #00ffff;
             font-weight: 600;
         }
+
+        /* ============================================================
+           TYPING
+           ============================================================ */
         .typing-container {
             text-align: center;
             margin: 4px 0 6px 0;
@@ -195,9 +197,13 @@
             margin-left: 2px;
         }
         @keyframes blinkCursor {
-            0%, 100% { opacity: 1; }
+            0%,100% { opacity: 1; }
             50% { opacity: 0; }
         }
+
+        /* ============================================================
+           CLOCK & THREAT
+           ============================================================ */
         .clock-container {
             text-align: center;
             margin: 4px 0 6px 0;
@@ -235,6 +241,20 @@
             0% { opacity: 0.3; transform: scale(0.8); }
             100% { opacity: 1; transform: scale(1.2); }
         }
+        .threat-level.warning .dot { background: #ffaa00; animation: threatDotWarning 0.8s infinite alternate; }
+        .threat-level.danger .dot { background: #ff4444; animation: threatDotDanger 0.5s infinite alternate; }
+        @keyframes threatDotWarning {
+            0% { opacity: 0.4; transform: scale(0.8); box-shadow: 0 0 5px #ffaa00; }
+            100% { opacity: 1; transform: scale(1.3); box-shadow: 0 0 20px #ffaa00; }
+        }
+        @keyframes threatDotDanger {
+            0% { opacity: 0.5; transform: scale(0.8); box-shadow: 0 0 10px #ff4444; }
+            100% { opacity: 1; transform: scale(1.4); box-shadow: 0 0 30px #ff4444; }
+        }
+
+        /* ============================================================
+           HIMBAUAN
+           ============================================================ */
         .himbauan-box {
             display: flex;
             flex-wrap: wrap;
@@ -251,10 +271,7 @@
             text-align: center;
             color: #88ccff;
         }
-        .himbauan-box .highlight {
-            color: #ff4444;
-            font-weight: 700;
-        }
+        .himbauan-box .highlight { color: #ff4444; font-weight: 700; }
         .himbauan-sub {
             display: flex;
             flex-wrap: wrap;
@@ -268,6 +285,10 @@
             text-align: center;
             color: #6688aa;
         }
+
+        /* ============================================================
+           PROGRESS
+           ============================================================ */
         .progress-container {
             margin: 10px 0;
             padding: 10px 16px;
@@ -296,6 +317,10 @@
             border-radius: 10px;
             transition: width 0.8s ease;
         }
+
+        /* ============================================================
+           PANEL
+           ============================================================ */
         .panel {
             background: rgba(255, 255, 255, 0.01);
             border: 1px solid rgba(255, 255, 255, 0.04);
@@ -311,16 +336,12 @@
             border-bottom: 1px solid rgba(0, 255, 255, 0.05);
             margin-bottom: 12px;
         }
-        .report-info strong {
-            color: #00ffff;
-            font-size: 0.7rem;
-            letter-spacing: 1px;
-        }
-        .report-info span {
-            color: #00ff88;
-            font-weight: 700;
-            font-size: 0.75rem;
-        }
+        .report-info strong { color: #00ffff; font-size: 0.7rem; letter-spacing: 1px; }
+        .report-info span { color: #00ff88; font-weight: 700; font-size: 0.75rem; }
+
+        /* ============================================================
+           STATS & URL LIST
+           ============================================================ */
         .report-stats {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));
@@ -330,9 +351,9 @@
         .report-stats .stat {
             text-align: center;
             padding: 8px;
-            background: rgba(255, 255, 255, 0.02);
+            background: rgba(255,255,255,0.02);
             border-radius: 8px;
-            border: 1px solid rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255,255,255,0.03);
         }
         .report-stats .stat .number {
             font-size: 1.2rem;
@@ -340,12 +361,7 @@
             color: #00ffff;
             display: block;
         }
-        .report-stats .stat .label {
-            font-size: 0.5rem;
-            color: #6688aa;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-        }
+        .report-stats .stat .label { font-size: 0.5rem; color: #6688aa; text-transform: uppercase; letter-spacing: 0.5px; }
         .report-stats .stat .number.valid { color: #00ff88; }
         .report-stats .stat .number.invalid { color: #ff4444; }
         .report-stats .stat .number.opened { color: #ffaa00; }
@@ -354,13 +370,13 @@
             max-height: 200px;
             overflow-y: auto;
             margin: 8px 0;
-            background: rgba(0, 0, 0, 0.2);
+            background: rgba(0,0,0,0.2);
             border-radius: 8px;
             padding: 4px 0;
         }
         .url-list .item {
             padding: 4px 10px;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.02);
+            border-bottom: 1px solid rgba(255,255,255,0.02);
             font-size: 0.65rem;
             color: #88ccdd;
             display: flex;
@@ -373,11 +389,11 @@
             padding: 1px 8px;
             border-radius: 10px;
             font-weight: 700;
-            background: rgba(255, 170, 0, 0.12);
+            background: rgba(255,170,0,0.12);
             color: #ffaa00;
         }
         .detail-box {
-            background: rgba(0, 0, 0, 0.3);
+            background: rgba(0,0,0,0.3);
             padding: 10px;
             border-radius: 8px;
             border-left: 3px solid #00ffff;
@@ -385,6 +401,10 @@
             color: #88ccdd;
             margin: 8px 0;
         }
+
+        /* ============================================================
+           TABS
+           ============================================================ */
         .report-tabs {
             display: flex;
             gap: 6px;
@@ -394,7 +414,7 @@
             padding: 6px 16px;
             border: none;
             border-radius: 16px;
-            background: rgba(255, 255, 255, 0.04);
+            background: rgba(255,255,255,0.04);
             color: #8899bb;
             font-family: 'JetBrains Mono', monospace;
             font-weight: 600;
@@ -402,26 +422,17 @@
             cursor: pointer;
             transition: all 0.3s ease;
         }
-        .report-tab.active {
-            background: rgba(0, 255, 255, 0.1);
-            color: #00ffff;
-        }
-        .report-tab:hover {
-            background: rgba(0, 255, 255, 0.06);
-        }
-        .report-panel {
-            display: none;
-            margin-top: 6px;
-        }
-        .report-panel.active {
-            display: block;
-        }
+        .report-tab.active { background: rgba(0,255,255,0.1); color: #00ffff; }
+        .report-tab:hover { background: rgba(0,255,255,0.06); }
+        .report-panel { display: none; margin-top: 6px; }
+        .report-panel.active { display: block; }
+
         .report-preview {
             width: 100%;
             min-height: 100px;
             padding: 10px;
-            background: rgba(0, 0, 0, 0.3);
-            border: 1px solid rgba(0, 255, 255, 0.06);
+            background: rgba(0,0,0,0.3);
+            border: 1px solid rgba(0,255,255,0.06);
             border-radius: 8px;
             color: #d0e0ff;
             font-family: 'JetBrains Mono', monospace;
@@ -431,28 +442,29 @@
         .report-list {
             min-height: 50px;
             padding: 10px;
-            background: rgba(0, 0, 0, 0.3);
-            border: 1px solid rgba(0, 255, 255, 0.06);
+            background: rgba(0,0,0,0.3);
+            border: 1px solid rgba(0,255,255,0.06);
             border-radius: 8px;
             color: #d0e0ff;
             font-size: 0.65rem;
             max-height: 120px;
             overflow-y: auto;
         }
-        .report-list .url-item {
-            padding: 2px 0;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.02);
-        }
+        .report-list .url-item { padding: 2px 0; border-bottom: 1px solid rgba(255,255,255,0.02); }
         .report-list .url-item:last-child { border-bottom: none; }
         .notice {
             padding: 8px 12px;
-            background: rgba(255, 170, 0, 0.04);
-            border: 1px solid rgba(255, 170, 0, 0.08);
+            background: rgba(255,170,0,0.04);
+            border: 1px solid rgba(255,170,0,0.08);
             border-radius: 8px;
             font-size: 0.6rem;
             color: #8899bb;
             margin-top: 8px;
         }
+
+        /* ============================================================
+           BUTTONS
+           ============================================================ */
         .report-actions {
             display: flex;
             flex-wrap: wrap;
@@ -472,57 +484,42 @@
         }
         .btn-primary {
             background: linear-gradient(135deg, #00ffff, #0088ff);
-            box-shadow: 0 0 20px rgba(0, 255, 255, 0.1);
+            box-shadow: 0 0 20px rgba(0,255,255,0.1);
         }
-        .btn-primary:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 0 30px rgba(0, 255, 255, 0.25);
-        }
+        .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 0 30px rgba(0,255,255,0.25); }
         .btn-secondary {
             background: linear-gradient(135deg, #ff4500, #ff8c00);
-            box-shadow: 0 0 20px rgba(255, 69, 0, 0.1);
+            box-shadow: 0 0 20px rgba(255,69,0,0.1);
         }
-        .btn-secondary:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 0 30px rgba(255, 69, 0, 0.25);
-        }
+        .btn-secondary:hover { transform: translateY(-2px); box-shadow: 0 0 30px rgba(255,69,0,0.25); }
         .btn-danger {
-            background: rgba(255, 68, 68, 0.12);
-            border: 1px solid rgba(255, 68, 68, 0.15);
+            background: rgba(255,68,68,0.12);
+            border: 1px solid rgba(255,68,68,0.15);
             color: #ff4444;
         }
-        .btn-danger:hover {
-            background: rgba(255, 68, 68, 0.2);
-            transform: translateY(-2px);
-        }
+        .btn-danger:hover { background: rgba(255,68,68,0.2); transform: translateY(-2px); }
         .btn-copy {
             background: linear-gradient(135deg, #00ff88, #00cc77);
-            box-shadow: 0 0 20px rgba(0, 255, 136, 0.1);
+            box-shadow: 0 0 20px rgba(0,255,136,0.1);
         }
-        .btn-copy:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 0 30px rgba(0, 255, 136, 0.25);
-        }
+        .btn-copy:hover { transform: translateY(-2px); box-shadow: 0 0 30px rgba(0,255,136,0.25); }
+
+        /* ============================================================
+           EMPTY STATE
+           ============================================================ */
         .empty-state {
             text-align: center;
             padding: 30px 20px;
             color: #445566;
         }
-        .empty-state .icon {
-            font-size: 2.5rem;
-            display: block;
-            margin-bottom: 8px;
-        }
-        .empty-state .sub {
-            font-size: 0.65rem;
-            color: #6688aa;
-        }
+        .empty-state .icon { font-size: 2.5rem; display: block; margin-bottom: 8px; }
+        .empty-state .sub { font-size: 0.65rem; color: #6688aa; }
         .empty-state .btn-dashboard {
             display: inline-block;
             margin-top: 12px;
             padding: 8px 20px;
-            background: rgba(0, 255, 255, 0.08);
-            border: 1px solid rgba(0, 255, 255, 0.12);
+            background: rgba(0,255,255,0.08);
+            border: 1px solid rgba(0,255,255,0.12);
             border-radius: 8px;
             color: #00ffff;
             text-decoration: none;
@@ -530,52 +527,44 @@
             font-size: 0.7rem;
             transition: all 0.3s ease;
         }
-        .empty-state .btn-dashboard:hover {
-            background: rgba(0, 255, 255, 0.15);
-            transform: translateY(-2px);
-        }
+        .empty-state .btn-dashboard:hover { background: rgba(0,255,255,0.15); transform: translateY(-2px); }
+
+        /* ============================================================
+           LIVE FEED
+           ============================================================ */
         .live-feed {
             margin-top: 10px;
             padding: 8px 12px;
-            background: rgba(0, 0, 0, 0.2);
+            background: rgba(0,0,0,0.2);
             border-radius: 8px;
-            border: 1px solid rgba(0, 255, 255, 0.04);
+            border: 1px solid rgba(0,255,255,0.04);
             max-height: 55px;
             overflow-y: auto;
             font-size: 0.6rem;
             color: #88ccdd;
         }
-        .live-feed .entry {
-            padding: 2px 0;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.01);
-        }
-        .live-feed .entry .time {
-            color: #00ffff;
-            margin-right: 8px;
-        }
-        .live-feed::-webkit-scrollbar {
-            width: 3px;
-        }
-        .live-feed::-webkit-scrollbar-track {
-            background: transparent;
-        }
-        .live-feed::-webkit-scrollbar-thumb {
-            background: #00ffff;
-            border-radius: 10px;
-        }
+        .live-feed .entry { padding: 2px 0; border-bottom: 1px solid rgba(255,255,255,0.01); }
+        .live-feed .entry .time { color: #00ffff; margin-right: 8px; }
+        .live-feed::-webkit-scrollbar { width: 3px; }
+        .live-feed::-webkit-scrollbar-track { background: transparent; }
+        .live-feed::-webkit-scrollbar-thumb { background: #00ffff; border-radius: 10px; }
+
+        /* ============================================================
+           FOOTER & TOAST
+           ============================================================ */
         footer {
             text-align: center;
             font-size: 0.55rem;
             color: #445566;
             padding: 15px 0 5px;
-            border-top: 1px solid rgba(255, 255, 255, 0.02);
+            border-top: 1px solid rgba(255,255,255,0.02);
             margin-top: 10px;
         }
         #toast {
             position: fixed;
             bottom: 80px;
             right: 20px;
-            background: rgba(0, 255, 255, 0.1);
+            background: rgba(0,255,255,0.1);
             backdrop-filter: blur(12px);
             border: 1px solid #00ffff;
             color: #d0e0ff;
@@ -586,10 +575,14 @@
             font-family: 'JetBrains Mono', monospace;
             font-weight: 600;
             font-size: 0.8rem;
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.6);
+            box-shadow: 0 8px 32px rgba(0,0,0,0.6);
             min-width: 150px;
             text-align: center;
         }
+
+        /* ============================================================
+           PARTIKEL
+           ============================================================ */
         #tsparticles {
             position: fixed;
             top: 0;
@@ -599,10 +592,7 @@
             z-index: 0;
             pointer-events: none;
         }
-        .app-shell {
-            position: relative;
-            z-index: 1;
-        }
+        .app-shell { position: relative; z-index: 1; }
         .ambient {
             position: fixed;
             border-radius: 50%;
@@ -635,6 +625,7 @@
             0% { transform: translate(0, 0) scale(1); }
             100% { transform: translate(50px, -50px) scale(1.3); }
         }
+
         @media (max-width: 600px) {
             body { padding: 10px; }
             .brand-title { font-size: 1.4rem; }
@@ -649,16 +640,17 @@
     <div id="tsparticles"></div>
     <div class="ambient ambient-a"></div>
     <div class="ambient ambient-b"></div>
-
     <div id="toast"></div>
 
     <main class="app-shell">
 
+        <!-- NAVIGASI -->
         <nav class="page-nav">
             <a href="index.html">DASHBOARD</a>
             <a href="laporan.html" class="active">LAPORAN</a>
         </nav>
 
+        <!-- HERO -->
         <header class="hero">
             <div class="brand">
                 <div class="brand-shield">◇</div>
@@ -679,7 +671,7 @@
             <div class="typing-container">
                 <span id="typingText"></span><span class="cursor"></span>
             </div>
-            
+
             <div class="clock-container" id="clockDisplay">🕒 SISTEM AKTIF · 00:00:00</div>
 
             <div class="threat-level" id="threatLevel">
@@ -700,6 +692,7 @@
             </div>
         </header>
 
+        <!-- PROGRESS -->
         <div class="progress-container">
             <div class="progress-label">
                 <span>📊 PROGRES PELAPORAN</span>
@@ -710,21 +703,23 @@
             </div>
         </div>
 
+        <!-- MAIN PANEL -->
         <section class="panel">
             <div class="report-info">
                 <strong>📋 REPORT DESTINATION</strong>
                 <span id="reportCount">0 URL SIAP DILAPORKAN</span>
             </div>
 
-            <!-- KONTEN UTAMA DIISI JAVASCRIPT -->
+            <!-- KONTEN DINAMIS -->
             <div id="reportContent"></div>
 
-            <!-- EMAIL & NETCRAFT TABS -->
+            <!-- TABS EMAIL & NETCRAFT -->
             <div class="report-tabs" id="tabContainer" style="display:none;">
                 <button class="report-tab active" data-tab="email">📧 EMAIL</button>
                 <button class="report-tab" data-tab="netcraft">🌐 NETCRAFT</button>
             </div>
 
+            <!-- PANEL EMAIL -->
             <div id="emailPanel" class="report-panel active">
                 <div style="display:flex;justify-content:space-between;align-items:center;padding:4px 0;">
                     <label style="color:#00ffff;font-size:0.7rem;font-weight:700;">▧ TEMPLATE LAPORAN EMAIL</label>
@@ -737,6 +732,7 @@
                 </div>
             </div>
 
+            <!-- PANEL NETCRAFT -->
             <div id="netcraftPanel" class="report-panel">
                 <div style="display:flex;justify-content:space-between;align-items:center;padding:4px 0;">
                     <label style="color:#00ffff;font-size:0.7rem;font-weight:700;">▧ URL UNTUK NETCRAFT</label>
@@ -750,12 +746,13 @@
                     <button id="openNetcraft" class="btn btn-secondary">↗ BUKA NETCRAFT</button>
                 </div>
                 <div class="notice">
-                    ⚡ Saat <b>BUKA NETCRAFT</b> ditekan, daftar URL akan disalin ke clipboard terlebih dahulu. 
+                    ⚡ Saat <b>BUKA NETCRAFT</b> ditekan, daftar URL akan disalin ke clipboard terlebih dahulu.
                     Setelah halaman Netcraft terbuka, tempel daftar URL tersebut ke kolom pelaporan bulk.
                 </div>
             </div>
         </section>
 
+        <!-- LIVE FEED -->
         <div class="live-feed" id="liveFeed">
             <div class="entry"><span class="time">[SISTEM]</span> Report Center siap digunakan</div>
         </div>
@@ -770,7 +767,6 @@
     <script src="binary-rain.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/tsparticles@2.12.0/tsparticles.bundle.min.js">
     </script>
-
     <script>
         // ============================================================
         // TOAST
@@ -871,7 +867,20 @@
         }
 
         // ============================================================
-        // LOAD DATA & RENDER
+        // TAB SWITCH
+        // ============================================================
+        document.addEventListener('click', function(e) {
+            if (e.target.classList.contains('report-tab')) {
+                document.querySelectorAll('.report-tab').forEach(t => t.classList.remove('active'));
+                e.target.classList.add('active');
+                const target = e.target.dataset.tab;
+                document.querySelectorAll('.report-panel').forEach(p => p.classList.remove('active'));
+                document.getElementById(target + 'Panel').classList.add('active');
+            }
+        });
+
+        // ============================================================
+        // LOAD DATA DARI DASHBOARD
         // ============================================================
         function loadReportData() {
             const total = parseInt(localStorage.getItem('totalUrl') || '0');
@@ -881,7 +890,7 @@
             const detail = localStorage.getItem('detailReport') || '';
             const reportData = JSON.parse(localStorage.getItem('reportData') || '[]');
 
-            // Threat
+            // THREAT LEVEL
             const threatEl = document.getElementById('threatText');
             const threatLevelEl = document.getElementById('threatLevel');
             if (total === 0) {
@@ -898,13 +907,13 @@
                 threatLevelEl.className = 'threat-level danger';
             }
 
-            // Report count & progress
+            // REPORT COUNT & PROGRESS
             document.getElementById('reportCount').textContent = total + ' URL SIAP DILAPORKAN';
             const pct = total === 0 ? 0 : Math.min(100, Math.round(((valid + invalid) / total) * 100));
             document.getElementById('progressFill').style.width = pct + '%';
             document.getElementById('progressText').textContent = pct + '%';
 
-            // Content
+            // CONTENT
             const container = document.getElementById('reportContent');
             const hasData = reportData.length > 0 || total > 0;
 
@@ -919,7 +928,6 @@
                 `;
                 document.getElementById('reportStatus').textContent = 'BELUM ADA DATA';
                 document.getElementById('tabContainer').style.display = 'none';
-                // Reset preview
                 document.getElementById('emailPreview').value = '';
                 document.getElementById('netcraftUrls').innerHTML = '<div style="opacity:0.5;">Belum ada URL.</div>';
                 return;
@@ -928,7 +936,7 @@
             document.getElementById('reportStatus').textContent = 'DATA TERSEDIA DARI DASHBOARD';
             document.getElementById('tabContainer').style.display = 'flex';
 
-            // Stats
+            // STATS
             let html = `
                 <div class="report-stats">
                     <div class="stat"><span class="number">${total}</span><span class="label">Total URL</span></div>
@@ -963,7 +971,7 @@
 
             container.innerHTML = html;
 
-            // Update Email Preview
+            // UPDATE EMAIL PREVIEW & NETCRAFT LIST
             const preview = document.getElementById('emailPreview');
             const netcraftList = document.getElementById('netcraftUrls');
 
@@ -982,19 +990,6 @@
                 ).join('');
             }
         }
-
-        // ============================================================
-        // TAB SWITCH
-        // ============================================================
-        document.addEventListener('click', function(e) {
-            if (e.target.classList.contains('report-tab')) {
-                document.querySelectorAll('.report-tab').forEach(t => t.classList.remove('active'));
-                e.target.classList.add('active');
-                const target = e.target.dataset.tab;
-                document.querySelectorAll('.report-panel').forEach(p => p.classList.remove('active'));
-                document.getElementById(target + 'Panel').classList.add('active');
-            }
-        });
 
         // ============================================================
         // BUTTONS
@@ -1041,7 +1036,6 @@
         document.addEventListener('DOMContentLoaded', function() {
             loadReportData();
             addFeed('🟢 Report Center siap digunakan', 'success');
-            // Auto refresh tiap 10 detik
             setInterval(loadReportData, 10000);
             console.log('🔥 BASMI PHISING — Report Center aktif!');
         });
