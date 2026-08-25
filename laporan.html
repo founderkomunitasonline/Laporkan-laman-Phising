@@ -13,11 +13,8 @@
     <link rel="icon" type="image/svg+xml" href="favicon.svg">
 
     <style>
-        /* ============================================================
-           FONT KOMBINASI
-           ============================================================ */
         body, .app-shell, .typing-container, .clock-container, 
-        .live-feed, .status-pill, .progress-label,
+        .live-feed, .queue-item, .note, .status-pill, .progress-label,
         .field-heading, .footer-extra,
         .primary, .secondary, .all-button,
         .stats article, .counter, .hero p, .page-nav a {
@@ -36,9 +33,6 @@
             letter-spacing: 2px !important;
         }
 
-        /* ============================================================
-           ANIMASI DASAR
-           ============================================================ */
         .app-shell {
             animation: fadeIn 0.8s ease-out !important;
             opacity: 0 !important;
@@ -90,9 +84,6 @@
             text-shadow: 0 0 15px rgba(0, 255, 255, 0.6) !important;
         }
 
-        /* ============================================================
-           ANTI COPY
-           ============================================================ */
         .no-select {
             user-select: none !important;
             -webkit-user-select: none !important;
@@ -100,9 +91,6 @@
             -ms-user-select: none !important;
         }
 
-        /* ============================================================
-           PARTIKEL & AMBIENT
-           ============================================================ */
         #tsparticles {
             position: fixed;
             top: 0;
@@ -150,9 +138,6 @@
             100% { transform: translate(50px, -50px) scale(1.3); }
         }
 
-        /* ============================================================
-           LAYOUT
-           ============================================================ */
         .hero {
             text-align: center !important;
             padding: 10px 10px 5px 10px !important;
@@ -189,9 +174,6 @@
             font-weight: 400 !important;
         }
 
-        /* ============================================================
-           GLITCH TEXT
-           ============================================================ */
         .glitch-container {
             margin: 8px 0 4px 0;
             text-align: center;
@@ -245,9 +227,6 @@
             91% { transform: translate(2px, -3px); opacity: 0.5; }
         }
 
-        /* ============================================================
-           TYPING EFFECT
-           ============================================================ */
         .typing-container {
             text-align: center;
             margin: 4px 0 6px 0;
@@ -271,9 +250,6 @@
             50% { opacity: 0; }
         }
 
-        /* ============================================================
-           VISUAL
-           ============================================================ */
         .clock-container {
             text-align: center !important;
             margin: 4px 0 6px 0 !important;
@@ -344,9 +320,6 @@
             font-weight: 400 !important;
         }
 
-        /* ============================================================
-           REPORT DATA
-           ============================================================ */
         .report-stats {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
@@ -472,6 +445,23 @@
             font-size: 0.75rem;
             color: #6688aa;
         }
+        .empty-state .btn-dashboard {
+            display: inline-block;
+            margin-top: 15px;
+            padding: 10px 24px;
+            background: rgba(0,255,255,0.1);
+            border: 1px solid rgba(0,255,255,0.2);
+            border-radius: 8px;
+            color: #00ffff;
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 0.8rem;
+            transition: all 0.3s ease;
+        }
+        .empty-state .btn-dashboard:hover {
+            background: rgba(0,255,255,0.2);
+            transform: translateY(-2px);
+        }
 
         .live-feed {
             margin-top: 12px !important;
@@ -515,27 +505,40 @@
             letter-spacing: 1px !important;
             font-weight: 400 !important;
         }
+        .report-info {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 8px 4px;
+            margin-bottom: 10px;
+            border-bottom: 1px solid rgba(0, 255, 255, 0.05);
+        }
+        .report-info strong {
+            color: #00ffff;
+            font-size: 0.8rem;
+            letter-spacing: 1px;
+            font-weight: 700 !important;
+        }
+        .report-info span {
+            color: #00ff88;
+            font-weight: 700 !important;
+            font-size: 0.9rem;
+        }
     </style>
 </head>
 <body>
 
-    <!-- ===== KONTAINER PARTIKEL ===== -->
     <div id="tsparticles"></div>
-
-    <!-- ===== AMBIENT BACKGROUND ===== -->
     <div class="ambient ambient-a"></div>
     <div class="ambient ambient-b"></div>
 
-    <!-- ===== MAIN APP ===== -->
     <main class="app-shell" id="mainApp">
 
-        <!-- Navigasi -->
         <nav class="page-nav no-select">
             <a href="index.html">DASHBOARD</a>
             <a href="laporan.html" class="active">LAPORAN</a>
         </nav>
 
-        <!-- Hero / Branding -->
         <header class="hero no-select">
             <div class="brand">
                 <div class="brand-shield">◇</div>
@@ -545,7 +548,6 @@
                 </div>
             </div>
 
-            <!-- ===== GLITCH TEXT ===== -->
             <div class="glitch-container">
                 <span class="glitch" data-text="▶ REPORT CENTER">▶ REPORT CENTER</span>
             </div>
@@ -554,23 +556,17 @@
             <p>PREPARE · COPY · REPORT</p>
             <div class="status-pill"><i></i> <span id="reportStatus">LAPORAN SIAP</span></div>
 
-            <!-- ===== TYPING EFFECT ===== -->
             <div class="typing-container">
                 <span id="typingText"></span><span class="cursor"></span>
             </div>
             
-            <!-- ===== JAM DIGITAL ===== -->
             <div class="clock-container" id="clockDisplay">🕒 SISTEM AKTIF · 00:00:00</div>
 
-            <!-- ===== THREAT LEVEL ===== -->
             <div class="threat-level" id="threatLevel">
                 <span class="dot"></span>
                 <span class="threat-text" id="threatText">LEVEL AMAN — 0 URL terverifikasi</span>
             </div>
 
-            <!-- ============================================================
-                 HIMBAUAN GERAKAN
-                 ============================================================ -->
             <div style="
                 display: flex;
                 flex-wrap: wrap;
@@ -611,7 +607,6 @@
             </div>
         </header>
 
-        <!-- ===== PROGRESS BAR ===== -->
         <div class="progress-container no-select">
             <div class="progress-label">
                 <span>📊 PROGRES PELAPORAN</span>
@@ -622,21 +617,17 @@
             </div>
         </div>
 
-        <!-- ===== REPORT DATA ===== -->
-        <section class="panel" id="reportPanel">
+        <section class="panel">
             <div class="report-info no-select">
                 <strong>📋 REPORT DESTINATION</strong>
                 <span id="reportCount">0 URL SIAP DILAPORKAN</span>
             </div>
 
-            <!-- ===== DATA DARI DASHBOARD ===== -->
             <div id="reportContent">
                 <!-- Diisi oleh JavaScript -->
             </div>
-
         </section>
 
-        <!-- ===== LIVE FEED ===== -->
         <div class="live-feed no-select" id="liveFeed">
             <div class="entry"><span class="time">[SISTEM]</span> Report Center siap digunakan</div>
         </div>
@@ -648,20 +639,13 @@
 
     </main>
 
-    <!-- ===== NOTIFIKASI TOAST ===== -->
     <div id="toast" style="position:fixed;bottom:100px;right:30px;background:rgba(0,255,255,0.15);backdrop-filter:blur(12px);border:1px solid #00ffff;color:#d0e0ff;padding:14px 28px;border-radius:16px;z-index:9999;display:none;font-family:'JetBrains Mono',monospace;font-weight:600;font-size:0.95rem;box-shadow:0 8px 32px rgba(0,0,0,0.6);min-width:200px;text-align:center;"></div>
 
-    <!-- ===== SCRIPTS ===== -->
     <script src="binary-rain.js"></script>
-
-    <!-- ===== LIBRARY PARTIKEL ===== -->
     <script src="https://cdn.jsdelivr.net/npm/tsparticles@2.12.0/tsparticles.bundle.min.js">
     </script>
 
     <script>
-        // ============================================================
-        // 1. FUNGSI TOAST
-        // ============================================================
         function showToast(message, type = 'info') {
             const toast = document.getElementById('toast');
             toast.textContent = message;
@@ -679,13 +663,9 @@
             setTimeout(() => { toast.style.display = 'none'; }, 3500);
         }
 
-        // ============================================================
-        // 2. FORCE ANIMASI + SEMUA FITUR VISUAL
-        // ============================================================
         document.addEventListener('DOMContentLoaded', function() {
             console.log('🚀 BASMI PHISING Report Center siap!');
 
-            // Force animasi fade-in
             const app = document.getElementById('mainApp');
             if (app) {
                 app.style.animation = 'none';
@@ -694,9 +674,6 @@
                 app.classList.add('animated');
             }
 
-            // ============================================================
-            // 3. INIT PARTIKEL
-            // ============================================================
             if (typeof tsParticles !== 'undefined') {
                 tsParticles.load({
                     id: 'tsparticles',
@@ -747,9 +724,6 @@
                 });
             }
 
-            // ============================================================
-            // 4. JAM DIGITAL
-            // ============================================================
             function updateClock() {
                 const now = new Date();
                 const time = now.toLocaleTimeString('id-ID', { hour12: false });
@@ -758,9 +732,6 @@
             updateClock();
             setInterval(updateClock, 1000);
 
-            // ============================================================
-            // 5. TYPING EFFECT
-            // ============================================================
             const messages = [
                 '> PREPARE REPORT...',
                 '> COPY URL TO CLIPBOARD',
@@ -770,9 +741,7 @@
                 '> 0 THREATS FOUND',
                 '> ALL SYSTEMS NOMINAL'
             ];
-            let msgIndex = 0;
-            let charIndex = 0;
-            let isDeleting = false;
+            let msgIndex = 0, charIndex = 0, isDeleting = false;
             const typingEl = document.getElementById('typingText');
 
             function typeEffect() {
@@ -800,9 +769,6 @@
             }
             setTimeout(typeEffect, 500);
 
-            // ============================================================
-            // 6. LIVE FEED
-            // ============================================================
             function addFeedEntry(message, type = 'info') {
                 const feed = document.getElementById('liveFeed');
                 const time = new Date().toLocaleTimeString('id-ID', { hour12: false });
@@ -823,7 +789,7 @@
             }
 
             // ============================================================
-            // 7. LOAD DATA DARI DASHBOARD (localStorage)
+            // FUNGSI UTAMA: LOAD DATA DARI DASHBOARD
             // ============================================================
             function loadReportData() {
                 const total = parseInt(localStorage.getItem('totalUrl') || '0');
@@ -850,15 +816,12 @@
                     threatLevelEl.className = 'threat-level danger';
                 }
 
-                // Update report count
                 document.getElementById('reportCount').textContent = total + ' URL SIAP DILAPORKAN';
 
-                // Update progress
                 const pct = total === 0 ? 0 : Math.min(100, Math.round(((valid + invalid) / total) * 100));
                 document.getElementById('progressFill').style.width = pct + '%';
                 document.getElementById('progressText').textContent = pct + '%';
 
-                // Update report content
                 const container = document.getElementById('reportContent');
 
                 if (reportData.length === 0 && total === 0) {
@@ -867,7 +830,7 @@
                             <span class="icon">📭</span>
                             <p>Belum ada data laporan</p>
                             <p class="sub">Masukkan URL di Dashboard lalu tekan <b>PROSES URL</b></p>
-                            <a href="index.html" style="display:inline-block;margin-top:15px;padding:10px 24px;background:rgba(0,255,255,0.1);border:1px solid rgba(0,255,255,0.2);border-radius:8px;color:#00ffff;text-decoration:none;font-weight:700;font-size:0.8rem;">⬅ KE DASHBOARD</a>
+                            <a href="index.html" class="btn-dashboard">⬅ KE DASHBOARD</a>
                         </div>
                     `;
                     document.getElementById('reportStatus').textContent = 'BELUM ADA DATA';
@@ -878,7 +841,6 @@
 
                 let html = '';
 
-                // Stats
                 html += `
                     <div class="report-stats">
                         <div class="stat">
@@ -900,7 +862,6 @@
                     </div>
                 `;
 
-                // Detail
                 if (detail) {
                     html += `
                         <div class="detail-box">
@@ -910,7 +871,6 @@
                     `;
                 }
 
-                // URL List
                 if (reportData.length > 0) {
                     html += `
                         <div style="margin:10px 0 5px;color:#6688aa;font-size:0.65rem;text-transform:uppercase;letter-spacing:1px;">🔗 Daftar URL (${reportData.length})</div>
@@ -925,7 +885,6 @@
                     `;
                 }
 
-                // Actions
                 html += `
                     <div class="report-actions">
                         <button onclick="copyReport()" class="btn btn-copy">📋 SALIN LAPORAN</button>
@@ -937,7 +896,7 @@
             }
 
             // ============================================================
-            // 8. FUNGSI COPY & CLEAR
+            // FUNGSI COPY & CLEAR
             // ============================================================
             window.copyReport = function() {
                 const total = parseInt(localStorage.getItem('totalUrl') || '0');
@@ -989,16 +948,12 @@
             };
 
             // ============================================================
-            // 9. AUTO REFRESH
+            // LOAD DATA & AUTO REFRESH
             // ============================================================
-            // Load data awal
             loadReportData();
             addFeedEntry('🟢 Report Center siap digunakan', 'success');
-
-            // Auto refresh tiap 10 detik (kalo ada update dari dashboard)
             setInterval(loadReportData, 10000);
 
-            // Manual refresh pake tombol F5
             console.log('🌍 Report Center — Data dari localStorage aktif!');
             console.log('🔥 BASMI PHISING — Perlawanan terhadap penipuan digital.');
         });
