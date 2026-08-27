@@ -905,6 +905,49 @@
                 min-width: auto !important;
             }
         }
+
+        /* ============================================================
+           ANTI-DEV POPUP — PASTIIN DI DEPAN
+           ============================================================ */
+        #chaosPopup {
+            position: fixed !important;
+            inset: 0 !important;
+            z-index: 9999999 !important;
+            background: rgba(0,0,0,0.95) !important;
+            backdrop-filter: blur(20px) !important;
+            display: flex !important;
+            align-items: center !important;
+            justify-content: center !important;
+            animation: chaosFade 0.5s ease-out !important;
+        }
+
+        #chaosPopup > div {
+            position: relative !important;
+            z-index: 10000000 !important;
+        }
+
+        @keyframes chaosFade {
+            0% { opacity: 0; transform: scale(0.9) rotate(-2deg); }
+            100% { opacity: 1; transform: scale(1) rotate(0); }
+        }
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            20% { transform: translateX(-10px); }
+            40% { transform: translateX(10px); }
+            60% { transform: translateX(-5px); }
+            80% { transform: translateX(5px); }
+        }
+        @keyframes glitchText {
+            0%, 100% { transform: translate(0); opacity: 1; }
+            20% { transform: translate(-2px, 2px); opacity: 0.8; }
+            40% { transform: translate(2px, -2px); opacity: 0.6; }
+            60% { transform: translate(-2px, -1px); opacity: 0.8; }
+            80% { transform: translate(2px, 1px); opacity: 0.7; }
+        }
+        @keyframes blinkCountdown {
+            0% { opacity: 0.3; }
+            100% { opacity: 1; }
+        }
     </style>
 </head>
 <body>
@@ -1448,10 +1491,95 @@ reports.map((r, i) => (i + 1) + '. ' + r.url).join('\n') + '\n\n' +
             addFeedEntry('📡 Menunggu data dari Dashboard...', 'info');
             setInterval(loadReportData, 10000);
 
-            console.log('🌍 Report Center — Final + Animasi!');
+            console.log('🌍 Report Center — Final + Animasi + Anti-Dev!');
             console.log('🔥 BASMI PHISING — Perlawanan terhadap penipuan digital.');
-            console.log('✅ Floating Stats, Shimmer Progress, Netcraft link fixed!');
+            console.log('✅ Floating Stats, Shimmer Progress, Netcraft link fixed, Anti-Dev aktif!');
         });
+
+        // ============================================================
+        // 12. ANTI-DEV TOOLS — VERSI RANDOM TOTAL (SAMA KAYAK INDEX)
+        // ============================================================
+        document.addEventListener('contextmenu', function(e) {
+            e.preventDefault();
+            showChaosPopup();
+        });
+
+        document.addEventListener('keydown', function(e) {
+            const blocked = ['F12', 'I', 'i', 'U', 'u', 'J', 'j', 'C', 'c'];
+            if (e.key === 'F12' || (e.ctrlKey && e.shiftKey && blocked.includes(e.key)) || (e.ctrlKey && (e.key === 'U' || e.key === 'u'))) {
+                e.preventDefault();
+                showChaosPopup();
+                return false;
+            }
+        });
+
+        function showChaosPopup() {
+            if (document.getElementById('chaosPopup')) return;
+
+            document.body.style.animation = 'shake 0.3s ease';
+            setTimeout(() => document.body.style.animation = '', 300);
+
+            const overlay = document.createElement('div');
+            overlay.id = 'chaosPopup';
+            overlay.innerHTML = `
+                <div style="
+                    background: #0a0a0f;
+                    border: 2px solid #ff2222;
+                    padding: 35px 40px;
+                    border-radius: 12px;
+                    max-width: 550px;
+                    width: 92%;
+                    text-align: center;
+                    box-shadow: 0 0 80px rgba(255,34,34,0.12), inset 0 0 60px rgba(255,34,34,0.02);
+                    font-family: 'JetBrains Mono', monospace;
+                    max-height: 90vh;
+                    overflow-y: auto;
+                ">
+                    <div style="font-size:0.6rem;color:#ff4444;letter-spacing:5px;margin-bottom:12px;opacity:0.6;animation:glitchText 0.3s 3;">⬡ SISTEM KEAMANAN KACAU BALAU v99.9 ⬡</div>
+                    
+                    <div style="font-size:1.8rem;font-weight:900;color:#ff2222;text-shadow:0 0 30px rgba(255,34,34,0.3),0 0 60px rgba(255,34,34,0.1);letter-spacing:2px;margin-bottom:6px;animation:glitchText 0.2s 5;">WOY! KEPO BANGET SIH!</div>
+                    
+                    <div style="font-size:0.9rem;color:#ff6666;margin-bottom:4px;">Ini bukan website contek-contek!</div>
+                    <div style="font-size:0.75rem;color:#88aacc;margin-bottom:14px;opacity:0.7;">Mending lo liatin kucing, daripada usil!</div>
+                    
+                    <div style="border-top:1px solid rgba(255,68,68,0.08);margin:12px 0;"></div>
+                    
+                    <div style="font-size:0.65rem;color:#88aacc;line-height:1.9;margin-bottom:12px;letter-spacing:0.5px;text-align:left;padding:0 10px;">
+                        <div>😺 <span style="color:#ff4444;">Kucing!</span> Kucingnya gue suruh gigit lo kalo usil!</div>
+                        <div>🐕 <span style="color:#ffaa00;">Anjing!</span> Anjingnya gue lepas kejar lo!</div>
+                        <div>🐓 <span style="color:#ff8844;">Ayam!</span> Ayamnya gue suruh patuk layar lo!</div>
+                        <div>🦆 <span style="color:#88dd44;">Bebek!</span> Bebeknya gue suruh ngejar lo ke mana-mana!</div>
+                        <div>🐃 <span style="color:#ffaa44;">Kerbau!</span> Kerbaunya gue suruh nanduk lo!</div>
+                        <div>🤪 <span style="color:#cc66ff;">Random!</span> Lo gue tendang ke bulan!</div>
+                        <div style="color:#ff4444;margin-top:6px;">⚠️ Ini zona terlarang buat orang kepo!</div>
+                        <div style="color:#00ff88;">🛡️ Mata dewa udah ngeliat lo dari tadi!</div>
+                    </div>
+                    
+                    <div style="font-size:0.5rem;color:#445566;line-height:1.7;margin-bottom:14px;padding:8px 10px;background:rgba(255,255,255,0.02);border-radius:6px;border:1px solid rgba(255,255,255,0.03);">
+                        <div>🇮🇩 "Jangan usil, nanti lo dikejar ayam!"</div>
+                        <div>🇬🇧 "Don't be nosy, or the chicken will chase you!"</div>
+                        <div>🇯🇵 "余計なことをするな、鶏に追われるぞ！"</div>
+                        <div>🇨🇳 "别多管闲事，不然鸡会追你！"</div>
+                        <div>🇫🇷 "Ne sois pas curieux, sinon le poulet te poursuivra !"</div>
+                        <div>🌐 "ꦲꦗꦸꦱ꧀ ꦲꦸꦱꦶꦭ꧀, ꦏꦼꦤꦺꦁ ꦲꦪꦩ꧀!"</div>
+                    </div>
+                    
+                    <div style="font-size:0.6rem;color:#ff4444;letter-spacing:2px;animation:blinkCountdown 0.5s infinite alternate;">
+                        ⏳ 5... 4... 3... 2... 1... <span style="color:#ffaa00;">LO GUE LEPASIN AYAM!</span>
+                    </div>
+                    
+                    <button onclick="closeChaosPopup()" style="margin-top:12px;padding:8px 30px;border:1px solid rgba(255,68,68,0.25);background:rgba(255,68,68,0.05);color:#ff6666;border-radius:6px;font-family:'JetBrains Mono',monospace;font-weight:700;font-size:0.7rem;cursor:pointer;transition:all 0.3s ease;letter-spacing:1px;" onmouseover="this.style.background='rgba(255,68,68,0.12)'" onmouseout="this.style.background='rgba(255,68,68,0.05)'">
+                        ⬡ OKE, GUE MENGERTI ⬡
+                    </button>
+                </div>
+            `;
+            document.body.appendChild(overlay);
+        }
+
+        function closeChaosPopup() {
+            const popup = document.getElementById('chaosPopup');
+            if (popup) popup.remove();
+        }
     </script>
 
 </body>
