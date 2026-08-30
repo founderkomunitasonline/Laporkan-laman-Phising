@@ -921,6 +921,25 @@
             0% { opacity: 0.3; }
             100% { opacity: 1; }
         }
+
+        /* ============================================================
+           COUNTDOWN TIMER — SESSION SAFE
+           ============================================================ */
+        #sessionTimer {
+            display: inline-block;
+            font-size: 0.7rem;
+            color: #00ff88;
+            letter-spacing: 2px;
+            margin-top: 4px;
+            padding: 4px 14px;
+            border: 1px solid rgba(0,255,136,0.08);
+            border-radius: 20px;
+            background: rgba(0,255,136,0.03);
+            font-weight: 700;
+        }
+        #sessionTimer .blink {
+            animation: blinkCountdown 0.8s infinite alternate;
+        }
     </style>
 </head>
 <body>
@@ -973,6 +992,9 @@
                 <span class="dot"></span>
                 <span class="threat-text" id="threatText">LEVEL AMAN — 0 URL terverifikasi</span>
             </div>
+
+            <!-- ===== SESSION TIMER ===== -->
+            <div id="sessionTimer">🛡️ Sesi Aman: <span id="timerDisplay">23:45</span></div>
 
             <!-- ============================================================
                  HIMBAUAN GERAKAN
@@ -1138,7 +1160,59 @@
         });
 
         // ============================================================
-        // 3. FORCE ANIMASI + SEMUA FITUR VISUAL
+        // 3. SOUND EFFECT — BEEP SETIAP KLIK TOMBOL
+        // ============================================================
+        function playBeep() {
+            try {
+                const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+                const oscillator = audioCtx.createOscillator();
+                const gainNode = audioCtx.createGain();
+                oscillator.connect(gainNode);
+                gainNode.connect(audioCtx.destination);
+                oscillator.type = 'sine';
+                oscillator.frequency.value = 800;
+                gainNode.gain.value = 0.08;
+                oscillator.start();
+                setTimeout(() => {
+                    oscillator.stop();
+                    audioCtx.close();
+                }, 120);
+            } catch(e) {
+                // Browser gak support
+            }
+        }
+
+        // ============================================================
+        // 4. COUNTDOWN TIMER — SESSION SAFE
+        // ============================================================
+        let sessionMinutes = 23;
+        let sessionSeconds = 45;
+
+        function updateTimer() {
+            const display = document.getElementById('timerDisplay');
+            if (!display) return;
+            const mins = String(sessionMinutes).padStart(2, '0');
+            const secs = String(sessionSeconds).padStart(2, '0');
+            display.textContent = mins + ':' + secs;
+
+            if (sessionMinutes === 0 && sessionSeconds === 0) {
+                // Reset ke 23:45
+                sessionMinutes = 23;
+                sessionSeconds = 45;
+            } else {
+                sessionSeconds--;
+                if (sessionSeconds < 0) {
+                    sessionSeconds = 59;
+                    sessionMinutes--;
+                }
+            }
+        }
+
+        // Update timer setiap detik
+        setInterval(updateTimer, 1000);
+
+        // ============================================================
+        // 5. FORCE ANIMASI + SEMUA FITUR VISUAL
         // ============================================================
         document.addEventListener('DOMContentLoaded', function() {
             console.log('🚀 BASMI PHISING siap!');
@@ -1153,7 +1227,7 @@
             }
 
             // ============================================================
-            // 4. INIT PARTIKEL
+            // 6. INIT PARTIKEL
             // ============================================================
             if (typeof tsParticles !== 'undefined') {
                 tsParticles.load({
@@ -1206,20 +1280,14 @@
             }
 
             // ============================================================
-            // 5. EFEK API UNTUK TOMBOL
+            // 7. EFEK API UNTUK TOMBOL + SOUND
             // ============================================================
-            const reportButtons = document.querySelectorAll('.report-actions .secondary, .report-actions .primary, .all-button');
-            reportButtons.forEach(btn => {
-                btn.addEventListener('click', function() {
-                    this.style.transform = 'scale(0.95)';
-                    setTimeout(() => {
-                        this.style.transform = '';
-                    }, 150);
-                });
+            document.querySelectorAll('.primary, .secondary, .all-button, button').forEach(btn => {
+                btn.addEventListener('click', playBeep);
             });
 
             // ============================================================
-            // 6. JAM DIGITAL
+            // 8. JAM DIGITAL
             // ============================================================
             function updateClock() {
                 const now = new Date();
@@ -1230,7 +1298,7 @@
             setInterval(updateClock, 1000);
 
             // ============================================================
-            // 7. TYPING EFFECT
+            // 9. TYPING EFFECT
             // ============================================================
             const messages = [
                 '> SCANNING TARGETS...',
@@ -1272,7 +1340,7 @@
             setTimeout(typeEffect, 500);
 
             // ============================================================
-            // 8. THREAT LEVEL
+            // 10. THREAT LEVEL
             // ============================================================
             function updateThreatLevel() {
                 const total = parseInt(document.getElementById('totalUrl').textContent) || 0;
@@ -1296,7 +1364,7 @@
             }
 
             // ============================================================
-            // 9. PROGRESS BAR
+            // 11. PROGRESS BAR
             // ============================================================
             function updateProgress() {
                 const queueItems = document.querySelectorAll('.queue-item').length;
@@ -1308,7 +1376,7 @@
             }
 
             // ============================================================
-            // 10. LIVE FEED
+            // 12. LIVE FEED
             // ============================================================
             function addFeedEntry(message, type = 'info') {
                 const feed = document.getElementById('liveFeed');
@@ -1341,7 +1409,7 @@
             }
 
             // ============================================================
-            // 11. HOOK — PANTAU PERUBAHAN
+            // 13. HOOK — PANTAU PERUBAHAN
             // ============================================================
             const observer = new MutationObserver(function() {
                 updateProgress();
@@ -1365,7 +1433,7 @@
             });
 
             // ============================================================
-            // 12. TOMBOL PROSES
+            // 14. TOMBOL PROSES
             // ============================================================
             const processBtn = document.getElementById('processBtn');
             processBtn.addEventListener('click', function() {
@@ -1394,7 +1462,7 @@
             });
 
             // ============================================================
-            // 13. TOMBOL CLEAR
+            // 15. TOMBOL CLEAR
             // ============================================================
             document.getElementById('clearBtn').addEventListener('click', function() {
                 const input = document.getElementById('urlInput');
@@ -1415,7 +1483,7 @@
             });
 
             // ============================================================
-            // 14. TOMBOL BUKA SEMUA
+            // 16. TOMBOL BUKA SEMUA
             // ============================================================
             document.getElementById('openAllBtn').addEventListener('click', function() {
                 const total = parseInt(document.getElementById('totalUrl').textContent) || 0;
@@ -1428,7 +1496,7 @@
             });
 
             // ============================================================
-            // 15. FEED AWAL
+            // 17. FEED AWAL
             // ============================================================
             setTimeout(() => {
                 addFeedEntry('🟢 Sistem dalam keadaan siaga', 'success');
@@ -1436,20 +1504,20 @@
             }, 500);
 
             // ============================================================
-            // 16. UPDATE AWAL
+            // 18. UPDATE AWAL
             // ============================================================
             setTimeout(() => {
                 updateThreatLevel();
                 updateProgress();
             }, 500);
 
-            console.log('🌍 Dashboard FINAL — Animasi + Anti-Dev Tools!');
+            console.log('🌍 Dashboard FINAL — Animasi + Anti-Dev + Sound + Timer!');
             console.log('🔥 BASMI PHISING — Perlawanan terhadap penipuan digital.');
-            console.log('✅ Floating Stats, Shimmer Progress, Pulse Button, Anti-Dev aktif!');
+            console.log('✅ Floating Stats, Shimmer Progress, Pulse Button, Anti-Dev, Sound, Timer aktif!');
         });
 
         // ============================================================
-        // 17. ANTI-DEV TOOLS — VERSI HACKER (PILIHAN 1)
+        // 19. ANTI-DEV TOOLS — VERSI HACKER
         // ============================================================
         document.addEventListener('contextmenu', function(e) {
             e.preventDefault();
